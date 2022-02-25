@@ -339,8 +339,15 @@ span.label.label-info {
 <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<!-- This is data table -->
+<script src="{{ asset('public/admin/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 
 <script>
+$(document).ready(function() {
+    $('#example23').DataTable( {
+        "order": [[ 3, "desc" ]]
+    } );
+} );
 $( document ).ready(function() {
 
 $("#status").change(function() {

@@ -535,7 +535,44 @@ i.fa-brands.fa-linkedin {
                                             </div>
                                         </div>
 
-                                      
+                                        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr>
+                                           
+                                                    
+                                                    {{-- <th>Lead Name</th> --}}
+                                                    <th>Note</th>
+                                                    <th>Reminder Date</th>
+                                                    <th>Reminder For</th>
+                                                    <th>Updated On</th>
+                                                     {{-- @if(auth()->user()->is_admin == 1)
+                                                    <th>Action</th>
+                                                    @endif --}}
+                                                  
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($record['notes'] as $record)
+                                                <tr>
+                                                    <!--<td>{{ $record['created_at'] }}</td>-->
+                                                    {{-- <td>{{ $record['lead']['prospect_first_name'].' '.$record['lead']['prospect_last_name'] }}</td> --}}
+                                                    <td class="feedback_td" width="300">{{ $record['feedback'] }}</td>
+                                                    <td>{{ date('d M, Y', strtotime( $record['reminder_date'])) }}</td>
+                                                    <td class="feedback_td">{{ $record['reminder_for'] }}</td>
+                                                    <td style="text-align:center;white-space:nowrap !important">
+                                                        {{ date('d M, Y h:i A', strtotime($record['updated_at'])) }}
+                                                    </td>
+                                                    {{-- @if(auth()->user()->is_admin == 1)
+                                                    <td><a href="{{ url('/notes/' . $record['id'] . '/edit') }}"><span class="label" data-toggle="tooltip" data-placement="top" title="Edit Lead" style="color:#000;font-size: 15px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a></td>
+                                                    @endif --}}
+                                                  
+                                                </tr>
+                                                @endforeach
+                                   
+                                  
+                                            </tbody>
+                                        </table>
                                      
                                     </div>
 
@@ -544,6 +581,7 @@ i.fa-brands.fa-linkedin {
 
                     </div>
                 </div>
+
 
                
         </div>
@@ -635,6 +673,7 @@ i.fa-brands.fa-linkedin {
     {{-- </form> --}}
     </div>
 </div>
+
 
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>      
