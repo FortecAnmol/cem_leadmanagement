@@ -21,7 +21,7 @@ class NotesController extends Controller
     {
         //print_R(auth()->user()->id);die;
          $data = Lead::with('source')->with('note')->where(['status'=>'1','asign_to'=>auth()->user()->id])->get()->toArray();
-         $kasa = date('Y-m-d');
+        //  dd($data[0]['note']['feedback']);
          return view('notes.list')->with(['data'=>$data]);
     }
     public function in_progress()

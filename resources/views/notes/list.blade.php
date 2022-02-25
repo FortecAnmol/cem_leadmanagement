@@ -187,20 +187,27 @@ body{
                                                 <th>Designation</th>
                                                 <th>Phone No.</th>
                                                 <th>Date</th>
+                                                <th>Last Updated Note</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php $i = 1; @endphp
+                                            @php
+                                            use App\Models\Note; 
+                                                $i = 1; @endphp
                                             @foreach($data as $data)
                                             <tr>
                                                 <td><?php
                                                 $date_today = date('Y-m-d');
-                                                    if (isset($data['note']['reminder_date']) ==  $date_today){
-                                                        echo "<img src='http://localhost/cem_leadmanagement/public/img/new_alert.gif' width='50' height='35' title='Today is Reminder Date' alt='Today is Reminder Date' />";   
-                                                    }else{
-                                                        echo "";
-                                                    } ?>{{ $i }}</td>
+                                                    $get_dates = Note::where('lead_id',$data['id'])->get();
+                                                    foreach ($get_dates as $get_date) {
+                                                        if ($date_today == $get_date['reminder_date']){
+                                                    echo "<img src='http://localhost/cem_leadmanagement/public/img/new_alert.gif' width='50' height='35' title='Today is Reminder Date' alt='Today is Reminder Date' />";   
+                                                }else{
+                                                    echo " ";
+                                                }
+                                                     }  
+                                                    ?>{{ $i }}</td>
                                                 <?php
                                                     // dd($data['note']);
                                                     
@@ -217,7 +224,20 @@ body{
                                                 {{-- <td>{{ $data['prospect_email'] }}</td> --}}
                                                 <td>{{ $data['contact_number_1'] }}</td>
                                                 <td>{{ date('d M, Y', strtotime($data['created_at'])) }}</td>
-             
+                                                {{-- <td>{{$get_date['feedback']}}</td> --}}
+                                                <td><?php
+                                                 foreach ($get_dates as $get_date) {
+                                                   //  $string = '';
+                                                     if($get_date['feedback'] == ''){
+                                                        echo  "Null";
+                                                     }else{
+                                                       echo  $get_date['feedback'];
+                                                       // $string = 'Null';
+                                                     }  
+                                                 } 
+                                              // echo  $string ;
+                                                ?></td>
+
                                                 <td>
                                                     <a href="{{ url('/notes/add', [$data['id']]) }}">
                                                         <span class="label" data-toggle="tooltip" data-placement="top" title="Add Notes" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
@@ -256,6 +276,7 @@ body{
                                                 <th class="designation">Designation</th>
                                                 <th class="phone_no" style="visibility: hidden;">Phone No.</th>
                                                 <th>Date</th>
+                                                <th>Last Updated Note</th>
                                                 <th class="prospect_name">Action</th>
                                                 </tr>
                                          </tfoot>
@@ -319,6 +340,7 @@ body{
 </div>
 
 <script>
+
 $('.modal').on('hidden.bs.modal', function(){
     $("#reminder_for").val('');
     $("#feedback").val('');
