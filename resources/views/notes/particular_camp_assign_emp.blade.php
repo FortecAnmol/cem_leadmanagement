@@ -183,14 +183,29 @@ i.fa-brands.fa-linkedin {
                                                 <th>Time Zone</th>
                                                 <th>Designation</th>
                                                 <th>Phone No.</th>
+                                                <th>Last Updated Note</th>
+                                                <th>Duration of Last Updated Note</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php $i = 1; @endphp
+                                            @php $i = 1;
+                                            use App\Models\Note;  @endphp
                                             @foreach($data as $data)
                                             <tr>
-                                                <td>{{ $i }}</td>
+                                                <td>
+                                                    <?php
+                                                $date_today = date('Y-m-d');
+                                                    $get_dates = Note::where('lead_id',$data['id'])->groupBy('reminder_date')->get();
+                                                        $get_date['reminder_date'] ?? 'default value';
+                                                    ?>
+                                                    @foreach($get_dates as $get_date)
+                                                    @if($date_today == $get_date['reminder_date'])
+                                                    <img src="{{ asset('storage/app/images/new_alert.gif') }}"  width='50' height='35' title='Today is Reminder Date' alt='Today is Reminder Date'>
+                                                    @else
+                                                    @endif
+                                                    @endforeach
+                                                    {{ $i }}</td>
                                                 <td>{{ $data['company_name'] }}</td>
                                                 <?php
                                                     // $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
@@ -212,6 +227,26 @@ i.fa-brands.fa-linkedin {
                                                 <td>{{ $data['job_title'] }}</td>-->
                                                 {{-- <td>{{ $data['prospect_email'] }}</td> --}}
                                                 <td>{{ $data['contact_number_1'] }}</td>
+                                                <td><?php
+                                                    $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
+                                                  foreach ($sget_dates as $get_date) {
+                                                    //  $string = '';
+                                                      if($get_date['feedback'] == ''){
+                                                         echo  "Null";
+                                                      }else{
+                                                        echo  $get_date['feedback'];
+                                                      }  
+                                                  } 
+                                                 ?></td>
+                                                 <td><?php
+                                                    foreach ($sget_dates as $get_date) {
+                                                        if($get_date['created_at'] == ''){
+                                                           echo  "Null";
+                                                        }else{
+                                                          echo  $get_date['created_at'];
+                                                        }  
+                                                    } 
+                                                   ?></td>
                                                 {{-- <td>{{ date('d M, Y', strtotime($data['created_at'])) }}</td> --}}
              
                                                 <td>
@@ -247,9 +282,11 @@ i.fa-brands.fa-linkedin {
                                                 <th class="campain_name">Company Name</th>
                                                 <th  class="prospect_name" style="visibility: hidden">Prospect Name</th>
                                                 <th style="visibility: hidden">LinkedIn</th>
-                                                <th>Time Zone</th>
+                                                <th class="time_zone">Time Zone</th>
                                                 <th class="designation">Designation</th>
                                                 <th class="phone_no" style="visibility: hidden">Phone No.</th>
+                                                <th>Last Updated Note</th>
+                                                <th>Duration of Last Updated Note</th>
                                                 <th class="prospect_name" style="visibility: hidden">Action</th>
                                             </tr>
                                         </tfoot>

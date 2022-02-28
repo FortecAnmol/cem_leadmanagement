@@ -217,7 +217,7 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
                                                     <th class="company_name">Company Name</th>
                                                     <th  class="prospect_name" class="column-wrap" style="visibility: hidden;">Prospect Name</th>
                                                     <th style="visibility: hidden;">LinkedIn</th>
-                                                    <th>Time Zone</th>
+                                                    <th class="time_zone">Time Zone</th>
                                                     <th class="designation">Designation</th>
                                                     <th  class="phone_no" style="visibility: hidden;">Phone No.</th>
                                                     <th>Date</th>
@@ -244,7 +244,15 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
                                                 <td class="wraping">{{ $campaign_name }}</td>
                                                 <td class="wraping">{{ $data['company_name'] }}</td>
                                                 <td class="wraping"><a href="{{ url('/leads', [$data['id']]) }}">{{ $data['prospect_first_name'].' '.$data['prospect_last_name'] }}</a></td>
-                                                <td><a href="{{$data['linkedin_address']}}" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                <td><a href="<?php
+                                                    $var = $data['linkedin_address'];
+                                                        // $var = $data[6]['linkedin_address'];
+                                                        if(strpos($var, 'https://') !== 0) {
+                                                        echo $kasa = 'https://' . $var;
+                                                        } else {
+                                                        echo $var;
+                                                        }
+                                                    ?>" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
                                                 <td>{{$data['timezone']}}</td>
                                                 <td class="designation">{{ $data['designation'] }}</td>
                                                 <!--<td class="wraping">{{ $data['company_name'] }}</td>

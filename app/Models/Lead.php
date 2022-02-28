@@ -62,9 +62,8 @@ class Lead extends Model
 
     public function notes()
     {
-        return $this->hasMany('App\Models\Note');
+        return $this->hasMany('App\Models\Note')->orderBy('created_at' , 'DESC');
     }
-    
      public function note()
     {
         return $this->hasOne('App\Models\Note');

@@ -678,6 +678,11 @@ i.fa-brands.fa-linkedin {
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>      
         <script>
+$(document).ready(function() {
+$('#example23').dataTable( {
+"order": [ 3, 'desc' ]
+} );
+} );
 $('.modal').on('hidden.bs.modal', function(){
     $("#reminder_for").val('');
     $("#feedback").val('');

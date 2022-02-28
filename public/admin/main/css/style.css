@@ -10866,6 +10866,9 @@ th.company_name select {
 th.campain_name select {
     max-width: 210px;
 }
+th.time_zone select {
+    max-width: 70px;
+}
 /* Shubham 21_FEB */
 td.phone_no {
     max-width: 300px;
