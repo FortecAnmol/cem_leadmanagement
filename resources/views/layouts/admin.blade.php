@@ -1079,6 +1079,30 @@ a.clear {
             'copy', 'csv', 'excel', 'pdf', 'print'
         ]
     });
+    $('#example23').dataTable().fnDestroy();
+    function filterGlobal () {
+    $('#example23').DataTable().search(
+        $('#global_filter').val(),
+    ).draw();
+}
+ 
+function filterColumn ( i ) {
+    $('#example23').DataTable().column( i ).search(
+        $('#col'+i+'_filter').val(),
+    ).draw();
+}
+ 
+$(document).ready(function() {
+    $('#example23').DataTable();
+ 
+    $('input.global_filter').on( 'keyup click', function () {
+        filterGlobal();
+    } );
+ 
+    $('input.column_filter').on( 'keyup click', function () {
+        filterColumn( $(this).parents('tr').attr('data-column') );
+    } );
+} );
 $('#example23').dataTable().fnDestroy();
     $('#example23').DataTable( {
         initComplete: function () {
@@ -1105,30 +1129,7 @@ $('#example23').dataTable().fnDestroy();
     $('tfoot').each(function () {
         $(this).insertAfter($(this).siblings('thead'));
     });
-$('#example23').dataTable().fnDestroy();
-    function filterGlobal () {
-    $('#example23').DataTable().search(
-        $('#global_filter').val(),
-    ).draw();
-}
- 
-function filterColumn ( i ) {
-    $('#example23').DataTable().column( i ).search(
-        $('#col'+i+'_filter').val(),
-    ).draw();
-}
- 
-$(document).ready(function() {
-    $('#example23').DataTable();
- 
-    $('input.global_filter').on( 'keyup click', function () {
-        filterGlobal();
-    } );
- 
-    $('input.column_filter').on( 'keyup click', function () {
-        filterColumn( $(this).parents('tr').attr('data-column') );
-    } );
-} );
+
 // $('#example23').dataTable().fnDestroy();
 //     $(document).ready(function (){
 //     var table = $('#example23').DataTable({

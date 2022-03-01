@@ -91,8 +91,9 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
     {
         $data = Lead::where(['id'=>$id])->with('source')->with('notes')->with('user')->first()->toArray();
         $record = Lead::where(['id'=>$id])->with('notes')->first();
+        $lead_ID = $id;
         //dd( $record);
-        return view('leads.show')->with(['data'=>$data,'record'=>$record]);
+        return view('leads.show')->with(['data'=>$data,'record'=>$record, 'lead_ID'=>$id]);
     }
 
 

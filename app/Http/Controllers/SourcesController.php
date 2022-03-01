@@ -23,12 +23,12 @@ class SourcesController extends Controller
     {
         $admin = User::where(['is_admin'=>Null,'id'=>auth()->user()->id])->first();
         if(!empty($admin)){
-            $data = Source::select("*", DB::raw('(SELECT SUM(amount) FROM money WHERE money.source_id = sources.id) as amount'))->get()->toArray();
+            $data = Source::select("*", DB::raw('(SELECT SUM(amount) FROM money WHERE money.source_id = sources.id) as amount'))->with('closed_leads')->get()->toArray();
 
         }else{
-            $data = Source::where(['user_id'=>auth()->user()->id])->orWhere(['assign_to_manager'=>auth()->user()->id])->select("*", DB::raw('(SELECT SUM(amount) FROM money WHERE money.source_id = sources.id) as amount'))->get()->toArray();
-
+            $data = Source::where(['user_id'=>auth()->user()->id])->orWhere(['assign_to_manager'=>auth()->user()->id])->select("*", DB::raw('(SELECT SUM(amount) FROM money WHERE money.source_id = sources.id) as amount'))->with('closed_leads')->get()->toArray();
         }
+        //dd($data);
          return view('sources.list')->with(['data'=>$data]);
     }
 

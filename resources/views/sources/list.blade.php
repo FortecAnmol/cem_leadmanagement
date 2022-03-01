@@ -204,10 +204,17 @@
                                             <a href="{{ url('/lead/exportCsv/' . $data['id']). '/report_down' }}"><span
                                                    class="label" data-toggle="tooltip" data-placement="top" title="Download Excel Report" style="color:#000;font-size: 15px;">
                                                     <i class="fa fa-file-excel-o" aria-hidden="true"> </i></span></a>
+                                                @if(empty($data['closed_leads']))
+                                                <a>
+                                                    <a href="javascript:void(0)"><span
+                                                        class="label" data-toggle="tooltip" data-placement="top" title="LHS Report Creation Pending" style="color:#1a1a1a;font-size: 15px; filter: blur(0.8px);"> <i class="ti-download"> </i></span>
+                                                 </a>
+                                                </a>
+                                            @else
                                             <a href="{{ url('/lead/export/' . $data['id']). '/pdf_down' }}"><span
-                                                   class="label" data-toggle="tooltip" data-placement="top" title="Word Download" style="color:#55ce63;font-size: 15px;"> <i class="ti-download"> </i></span>
-    
-                                            </a>
+                                                class="label" data-toggle="tooltip" data-placement="top" title="Word Download" style="color:#55ce63;font-size: 15px;"> <i class="ti-download"> </i></span>
+                                         </a>
+                                            @endif
     
 
                                             </tr>

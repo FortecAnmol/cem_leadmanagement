@@ -262,6 +262,14 @@ body{
                                                     <a href="{{ url('/notes/view', [$data['id']]) }}">
                                                         <span  class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
                                                     </a>
+                                                    <?php
+                                                    $notesCount =  App\Models\Note::where(['lead_id'=>$data['id']])->count();
+                                                    $LhsReportCount =  App\Models\LhsReport::where(['lead_id'=>$data['id']])->count();
+                                                   ?>
+                                                    <input type="hidden" id="notes_count_{{ $data['id'] }}" name="notes_count" value="{{ $notesCount }}">
+                                                    <input type="hidden" id="Lhsreport_count_{{ $data['id'] }}" name="Lhsreport_count" value="{{ $LhsReportCount }}">
+
+                                                    
                                                     <span class="label label-info" onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">Add Quick note</span>
                                                     <span class="label label-info" onclick="document.getElementById('lead_id').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal">Change Status</span>
 

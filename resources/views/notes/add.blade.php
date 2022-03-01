@@ -345,10 +345,11 @@ span.label.label-info {
 <script src="{{ asset('public/admin/assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
 
 <script>
-    $(document).ready(function() {
-    $('#example23').dataTable( {
-    "order": [ 4, 'desc' ]
-} );
+$(document).ready(function() {
+    var table = $('#example23').DataTable();
+    table
+    .order( [ 4, 'asc' ] )
+    .draw();
 } );
 $( document ).ready(function() {
 
