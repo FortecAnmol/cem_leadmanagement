@@ -188,6 +188,7 @@ body{
                                                 <th>Phone No.</th>
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
+                                                <th>Duration of Last Updated Note</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -199,24 +200,31 @@ body{
                                             <tr>
                                                 <td><?php
                                                 $date_today = date('Y-m-d');
-                                                    $get_dates = Note::where('lead_id',$data['id'])->get();
-                                                    foreach ($get_dates as $get_date) {
-                                                        if ($date_today == $get_date['reminder_date']){
-                                                    echo "<img src='http://localhost/cem_leadmanagement/public/img/new_alert.gif' width='50' height='35' title='Today is Reminder Date' alt='Today is Reminder Date' />";   
-                                                }else{
-                                                    echo " ";
-                                                }
-                                                     }  
-                                                    ?>{{ $i }}</td>
+                                                    $get_dates = Note::where('lead_id',$data['id'])->groupBy('reminder_date')->get();
+                                                        $get_date['reminder_date'] ?? 'default value';
+                                                    ?>
+                                                    @foreach($get_dates as $get_date)
+                                                    @if($date_today == $get_date['reminder_date'])
+                                                    <img src="{{ asset('storage/app/images/new_alert.gif') }}"  width='50' height='35' title='Today is Reminder Date' alt='Today is Reminder Date'>
+                                                    @else
+                                                    @endif
+                                                    @endforeach
+                                                    {{ $i }}</td>
                                                 <?php
-                                                    // dd($data['note']);
-                                                    
                                                     $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
                                                     ?>
                                                     <td>{{ $sources_data->source_name }}</td>
                                                     <td>{{ $data['company_name'] }}</td>
                                                 <td class="column-wrap"><a href="{{ url('/leads', [$data['id']]) }}">{{ $data['prospect_first_name'].' '.$data['prospect_last_name'] }}</a></td>
-                                                <td><a href="{{$data['linkedin_address']}}" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                <td><a href="<?php
+                                                    $var = $data['linkedin_address'];
+                                                        // $var = $data[6]['linkedin_address'];
+                                                        if(strpos($var, 'https://') !== 0) {
+                                                        echo $kasa = 'https://' . $var;
+                                                        } else {
+                                                        echo $var;
+                                                        }
+                                                    ?>" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
                                                 <td>{{$data['timezone']}}</td>
                                                 <td class="designation">{{ $data['designation'] }}</td>
                                                 <!--<td>{{ $data['company_name'] }}</td>
@@ -226,17 +234,25 @@ body{
                                                 <td>{{ date('d M, Y', strtotime($data['created_at'])) }}</td>
                                                 {{-- <td>{{$get_date['feedback']}}</td> --}}
                                                 <td><?php
-                                                 foreach ($get_dates as $get_date) {
+                                                   $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
+                                                 foreach ($sget_dates as $get_date) {
                                                    //  $string = '';
                                                      if($get_date['feedback'] == ''){
                                                         echo  "Null";
                                                      }else{
                                                        echo  $get_date['feedback'];
-                                                       // $string = 'Null';
                                                      }  
                                                  } 
-                                              // echo  $string ;
                                                 ?></td>
+                                                <td><?php
+                                                    foreach ($sget_dates as $get_date) {
+                                                        if($get_date['created_at'] == ''){
+                                                           echo  "Null";
+                                                        }else{
+                                                          echo  $get_date['created_at'];
+                                                        }  
+                                                    } 
+                                                   ?></td>
 
                                                 <td>
                                                     <a href="{{ url('/notes/add', [$data['id']]) }}">
@@ -246,6 +262,14 @@ body{
                                                     <a href="{{ url('/notes/view', [$data['id']]) }}">
                                                         <span  class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
                                                     </a>
+                                                    <?php
+                                                    $notesCount =  App\Models\Note::where(['lead_id'=>$data['id']])->count();
+                                                    $LhsReportCount =  App\Models\LhsReport::where(['lead_id'=>$data['id']])->count();
+                                                   ?>
+                                                    <input type="hidden" id="notes_count_{{ $data['id'] }}" name="notes_count" value="{{ $notesCount }}">
+                                                    <input type="hidden" id="Lhsreport_count_{{ $data['id'] }}" name="Lhsreport_count" value="{{ $LhsReportCount }}">
+
+                                                    
                                                     <span class="label label-info" onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">Add Quick note</span>
                                                     <span class="label label-info" onclick="document.getElementById('lead_id').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal">Change Status</span>
 
@@ -272,11 +296,12 @@ body{
                                                 <th class="company_name">Company Name</th>
                                                 <th class="prospect_name">Prospect Name</th>
                                                 <th style="visibility: hidden;">LinkedIn</th>
-                                                <th>Time Zone</th>
+                                                <th class="time_zone">Time Zone</th>
                                                 <th class="designation">Designation</th>
                                                 <th class="phone_no" style="visibility: hidden;">Phone No.</th>
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
+                                                <th>Duration of Last Updated Note</th>
                                                 <th class="prospect_name">Action</th>
                                                 </tr>
                                          </tfoot>

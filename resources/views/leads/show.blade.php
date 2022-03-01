@@ -534,6 +534,12 @@ i.fa-brands.fa-linkedin {
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php
+                                            $notesCount =  App\Models\Note::where(['lead_id'=>$lead_ID])->count();
+                                            $LhsReportCount =  App\Models\LhsReport::where(['lead_id'=>$lead_ID])->count();
+                                           ?>
+                                            <input type="hidden" id="notes_count_{{ $lead_ID }}" name="notes_count" value="{{ $notesCount }}">
+                                            <input type="hidden" id="Lhsreport_count_{{ $lead_ID }}" name="Lhsreport_count" value="{{ $LhsReportCount }}">
 
                                         <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                             <thead>
@@ -678,6 +684,12 @@ i.fa-brands.fa-linkedin {
         <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
         <script src = "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>      
         <script>
+$(document).ready(function() {
+    var table = $('#example23').DataTable();
+    table
+    .order( [ 3, 'asc' ] )
+    .draw();
+} );
 $('.modal').on('hidden.bs.modal', function(){
     $("#reminder_for").val('');
     $("#feedback").val('');
@@ -717,6 +729,7 @@ $('.modal').on('hidden.bs.modal', function(){
           if($.isEmptyObject(response.error)){
               console.log(response);
               toastr.success(response.success,'Success!')
+              location.reload(true);
           }else{
                 toastr.error(response.error,'Error!');
           }

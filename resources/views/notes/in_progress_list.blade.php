@@ -177,21 +177,45 @@ span.label.label-info {
                                                 <th>Designation</th>
                                                 <th>Phone No.</th>
                                                 <th>Date</th>
+                                                <th>Last Updated Note</th>
+                                                <th>Duration of Last Updated Note</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @php $i = 1; @endphp
+                                            @php $i = 1; 
+                                            use App\Models\Note; 
+                                            @endphp
                                             @foreach($data as $data)
                                             <tr>
-                                                <td>{{ $i }}</td>
+                                                <td>
+                                                    <?php
+                                                $date_today = date('Y-m-d');
+                                                    $get_dates = Note::where('lead_id',$data['id'])->groupBy('reminder_date')->get();
+                                                        $get_date['reminder_date'] ?? 'default value';
+                                                    ?>
+                                                    @foreach($get_dates as $get_date)
+                                                    @if($date_today == $get_date['reminder_date'])
+                                                    <img src="{{ asset('storage/app/images/new_alert.gif') }}"  width='50' height='35' title='Today is Reminder Date' alt='Today is Reminder Date'>
+                                                    @else
+                                                    @endif
+                                                    @endforeach
+                                                    {{ $i }}</td>
                                                 <?php
                                                     $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
                                                     ?>
                                                     <td>{{ $sources_data->source_name }}</td>
                                                 <td>{{ $data['company_name'] }}</td>
                                                 <td><a href="{{ url('/leads', [$data['id']]) }}">{{ $data['prospect_first_name'].' '.$data['prospect_last_name'] }}</a></td>
-                                                <td><a href="{{$data['linkedin_address']}}" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                <td><a href="<?php
+                                                    $var = $data['linkedin_address'];
+                                                        // $var = $data[6]['linkedin_address'];
+                                                        if(strpos($var, 'https://') !== 0) {
+                                                        echo $kasa = 'https://' . $var;
+                                                        } else {
+                                                        echo $var;
+                                                        }
+                                                    ?>" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
                                                 <td>{{$data['timezone']}}</td>
                                                 <td class="designation">{{ $data['designation'] }}</td>
                                                 {{-- <td>{{ $data['job_title'] }}</td> --}}
@@ -199,7 +223,26 @@ span.label.label-info {
                                                 {{-- <td>{{ $data['prospect_email'] }}</td> --}}
                                                 <td>{{ $data['contact_number_1'] }}</td>
                                                 <td>{{ date('d M, Y', strtotime($data['created_at'])) }}</td>
-             
+                                                <td><?php
+                                                    $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
+                                                  foreach ($sget_dates as $get_date) {
+                                                    //  $string = '';
+                                                      if($get_date['feedback'] == ''){
+                                                         echo  "Null";
+                                                      }else{
+                                                        echo  $get_date['feedback'];
+                                                      }  
+                                                  } 
+                                                 ?></td>
+                                                 <td><?php
+                                                     foreach ($sget_dates as $get_date) {
+                                                         if($get_date['created_at'] == ''){
+                                                            echo  "Null";
+                                                         }else{
+                                                           echo  $get_date['created_at'];
+                                                         }  
+                                                     } 
+                                                    ?></td>
                                                 <td>
                                                     <a href="{{ url('/notes/add', [$data['id']]) }}">
                                                         <span class="label" data-toggle="tooltip" data-placement="top" title="Add Notes" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
@@ -234,10 +277,12 @@ span.label.label-info {
                                                     <th class="company_name">Company Name</th>
                                                     <th class="prospect_name">Prospect Name</th>
                                                     <th style="visibility: hidden;">LinkedIn</th>
-                                                    <th>Time Zone</th>
+                                                    <th class="time_zone">Time Zone</th>
                                                     <th class="designation">Designation</th>
                                                     <th class="phone_no" style="visibility: hidden;">Phone No.</th>
                                                     <th>Date</th>
+                                                    <th>Last Updated Note</th>
+                                                <th>Duration of Last Updated Note</th>
                                                     <th class="prospect_name">Action</th>
                                                     </tr>
                                              </tfoot>

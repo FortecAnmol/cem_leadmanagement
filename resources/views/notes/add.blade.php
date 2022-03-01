@@ -291,12 +291,14 @@ span.label.label-info {
                                                     <th>Updated On</th>
                                                      {{-- @if(auth()->user()->is_admin == 1)
                                                     <th>Action</th>
-                                                    @endif --}}
-                                                  
-                                                    
+                                                    @endif --}}                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @php
+                                                use App\Models\Note;
+                                                $notes_data = Note::where('lead_id',$lead_ID)->orderBy('created_at','desc')->get();
+                                                @endphp
                                                 @foreach($data['notes'] as $record)
                                                 <tr>
                                                     <!--<td>{{ $record['created_at'] }}</td>-->
@@ -344,9 +346,10 @@ span.label.label-info {
 
 <script>
 $(document).ready(function() {
-    $('#example23').DataTable( {
-        "order": [[ 3, "desc" ]]
-    } );
+    var table = $('#example23').DataTable();
+    table
+    .order( [ 4, 'asc' ] )
+    .draw();
 } );
 $( document ).ready(function() {
 
