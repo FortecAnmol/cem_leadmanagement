@@ -115,6 +115,7 @@ Route::get('/campaign/camp_assign_emp/{id}',  'NotesController@view_camp')->name
 Route::get('/sources/{id}/leadview',  'LeadsController@leadview')->name('leadview');
 Route::get('/sources/delete/{id}',  'SourcesController@delete');
 
+
 Route::get('/leads/delete/{id}',  'LeadsController@delete');
 
 Route::get('/employees/delete/{id}',  'EmployeesController@delete');
@@ -134,6 +135,9 @@ Route::post('employee/lhs_report_save',  'EmployeesController@lhs_report_save')-
 Route::get('employee/lhs_report/edit/{id}',  'EmployeesController@edit_lhs_report')->name('employee.edit_lhs_report');
 Route::post('employee/lhs_report/update',  'EmployeesController@update_lhs_report')->name('employee.update_lhs_report');
 Route::get('employee/lhs_report/view_lhs/{id}',  'EmployeesController@view_lhs')->name('employee.view_lhs');
+Route::get('/emp_daily_report',  'EmployeesController@emp_daily_report')->name('employee.view_lhs');
+
+
 Route::get('ajax-request', 'AjaxController@create');
 Route::post('ajax-request', 'AjaxController@store');
 

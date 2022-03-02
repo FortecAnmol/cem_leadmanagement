@@ -615,6 +615,7 @@ a.clear {
                                 <li><a href="{{ url('leads/failed') }}">Failed Leads</a></li>
                             </ul>
                         </li>
+                        <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/emp_daily_report') }}" aria-expanded="false"><i class="fa fa-id-card-o"></i><span class="hide-menu">Daily Report</span>  </a> 
 
                     </ul>
 

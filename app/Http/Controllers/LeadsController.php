@@ -11,7 +11,9 @@ use App\Http\Requests\LeadRequest;
 use App\Http\Requests\SearchLeadRequest;
 use App\Http\Requests\AssignLeadRequest;
 use App\Http\Requests\AssignLeadEmployeeRequest;
+use App\Models\LhsReport;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -61,16 +63,22 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
         $data = array(
             'user_id'=>auth()->user()->id,
             'source_id'=>$request->source_id,
-            /*'company_name'=>$request->company_name,*/
+            'company_name'=>$request->company_name,
             'prospect_first_name'=>$request->prospect_first_name,
             'prospect_last_name'=>$request->prospect_last_name,
-            /*'job_title'=>$request->job_title,*/
-            'prospect_email'=>$request->prospect_email,
-            'contact_number_1'=>$request->contact_number_1,
-            /*'web_address'=>$request->web_address,
-            'employee_size'=>$request->employee_size,
-            'revenue_size'=>$request->revenue_size,
             'company_industry'=>$request->company_industry,
+            'designation'=>$request->designation,
+            'designation_level'=>$request->designation_level,
+            'contact_number_1'=>$request->contact_number_1,
+            'contact_number_2'=>$request->contact_number_2,
+            'prospect_email'=>$request->prospect_email,
+            'linkedin_address'=>$request->linkedin_address,
+            'bussiness_function'=>$request->bussiness_function,
+            'location'=>$request->location,
+            'timezone'=>$request->timezone,
+            'date_shared'=>$request->date_shared,
+            /*'job_title'=>$request->job_title,*/
+            /*'web_address'=>$request->web_address,
             'physical_address'=>$request->physical_address,
             'city'=>$request->city,
             'state'=>$request->state,
@@ -99,6 +107,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
 
     public function edit($id)
     {
+        // dd($id);
         $admin = User::where(['is_admin'=>Null,'id'=>auth()->user()->id])->first();
         if(!empty($admin)){
             $sources = Source::where(['user_id'=>auth()->user()->id])->select('id','source_name')->get()->toArray();
@@ -120,7 +129,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
 
     public function update(Request $request, $id)
     {
-        //dd($request);
+        // dd($request);
         $validator = Validator::make(
             $request->all(), [
                 'source_id' => 'required',
@@ -129,7 +138,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
                 'prospect_last_name' => 'required|min:3|max:20',
                 // 'designation' => 'required|min:3|max:20',
                 // 'designation_level' => 'required|min:1|max:20',
-                'prospect_email' => 'required|email|unique:leads,email,'.$id,
+                'prospect_email' => 'required|email|unique:leads,prospect_email,'.$id,
                 'contact_number_1' => 'required|min:10|numeric|unique:leads,contact_number_1,'.$id,
                 // 'contact_number_2' => 'required|min:10|numeric|unique:leads,contact_number_2,'.$id,
                 // 'company_industry' => 'required|min:3|max:20',
@@ -558,10 +567,31 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
         return response()->json(['error'=>$validator->errors()->all()]);
 
         */
+        //dd( $request);
          $notesCount =  Note::where(['lead_id'=>$request->lead_id])->count();
+         $total_Lhsreport_count =  LhsReport::where(['lead_id'=>$request->lead_id])->count();
         if($notesCount == 0){
+            $html = '<li class="error_list"><span class="tab">Please add a notes first.</span></li>';
+           return response()->json(['error'=>'Please add a note first.','lhs_link'=>$html]);
+        }else if($total_Lhsreport_count == 0 && $request->status == 3)
+        {    
+            if($notesCount == 0){
            return response()->json(['error'=>'Please add a note first.']);
-        }else{
+            }else{
+            $html = '';
+            $hostname = Config::get('app.url');
+            $Current_url = $hostname."/employee/lhs_report/". $request->lead_id."?status=".$request->status;
+            $html = '<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'.$Current_url.'" ><span class="tab">Click here to add Lhs Report</span></a></li>';
+            return response()->json(['error'=>'Please add  LHS Report first.','lhs_link'=>$html]);
+            }
+            //$('.alert.alert-danger.print-error-msg').show();
+            //var base_url = $('meta[name="base_url"]').attr('content');
+           // var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
+          //  $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'+Current_url+'" ><span class="tab">Click here to add Lhs Report</span></a></li>');
+        
+
+        }
+        else{
             Lead::where('id', $request->lead_id)->update(['status'=>$request->status,'is_notify'=>1,'is_read'=>1]);
              $notification_count =  Lead::where('is_notify','!=', 0)->count();
              if($request->status == 2){

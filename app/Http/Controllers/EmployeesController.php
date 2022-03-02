@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Source;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 
 class EmployeesController extends Controller
@@ -437,6 +438,12 @@ class EmployeesController extends Controller
         $get_lead_report = LhsReport::where(['lead_id'=>$id])->first();
         $get_lead = Lead::where(['id'=>$id])->first();
         return view('employees.view_lhs_report')->with(['data'=>$get_lead_report,'lead_info'=> $get_lead]);
+    }
+
+    public function emp_daily_report(){
+        $campaigns =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();
+        $data = Lead::where(['asign_to'=>auth()->user()->id])->groupBy('source_id')->with('source')->get();
+        return view('employees.emp_daily_report')->with(['campaigns'=>$campaigns, 'data'=>$data]);
     }
 
 

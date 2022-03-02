@@ -408,40 +408,40 @@ $('.modal').on('hidden.bs.modal', function(){
   <script>
 $( document ).ready(function() {
   
-    $("#status").change(function() {
-   var selected_val =   $('option:selected', this).val();
-   lead_id = $("input[name=lead_id]").val(); 
-    if(selected_val == 3){
-        $("#save-data").attr("disabled", true);
-         var create_notes_count_id   =  "notes_count_"+lead_id;
-         var total_notes_count = $("#"+create_notes_count_id).val();
-         var Lhsreport_count_id   =  "Lhsreport_count_"+lead_id;
-         var total_Lhsreport_count = $("#"+Lhsreport_count_id).val();
-        // alert(total_Lhsreport_count,'lhs');
-        // alert(total_notes_count,'notes');
-         if(total_Lhsreport_count == 0){
-            $('.alert.alert-danger.print-error-msg').show();
-            var base_url = $('meta[name="base_url"]').attr('content');
-            var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
-            $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'+Current_url+'" ><span class="tab">Click here to add Lhs Report</span></a></li>');
-         }else{
-            $("#save-data").attr("disabled", false);
-         }
-         if(total_notes_count > 0){
-            var base_url = $('meta[name="base_url"]').attr('content');
-            var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
-          //  window.location.href = Current_url;
+//     $("#status").change(function() {
+//    var selected_val =   $('option:selected', this).val();
+//    lead_id = $("input[name=lead_id]").val(); 
+//     if(selected_val == 3){
+//         $("#save-data").attr("disabled", true);
+//          var create_notes_count_id   =  "notes_count_"+lead_id;
+//          var total_notes_count = $("#"+create_notes_count_id).val();
+//          var Lhsreport_count_id   =  "Lhsreport_count_"+lead_id;
+//          var total_Lhsreport_count = $("#"+Lhsreport_count_id).val();
+//         // alert(total_Lhsreport_count,'lhs');
+//         // alert(total_notes_count,'notes');
+//          if(total_Lhsreport_count == 0){
+//             $('.alert.alert-danger.print-error-msg').show();
+//             var base_url = $('meta[name="base_url"]').attr('content');
+//             var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
+//             $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'+Current_url+'" ><span class="tab">Click here to add Lhs Report</span></a></li>');
+//          }else{
+//             $("#save-data").attr("disabled", false);
+//          }
+//          if(total_notes_count > 0){
+//             var base_url = $('meta[name="base_url"]').attr('content');
+//             var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
+//           //  window.location.href = Current_url;
           
-         }else{
-             $('.alert.alert-danger.print-error-msg').show();
-             $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add a notes first.</span></li>');
-            // alert('jjdjdjj');
-        }
+//          }else{
+//              $('.alert.alert-danger.print-error-msg').show();
+//              $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add a notes first.</span></li>');
+//             // alert('jjdjdjj');
+//         }
       
-    }else{
-        $("#save-data").attr("disabled", false);
-    }
-});
+//     }else{
+//         $("#save-data").attr("disabled", false);
+//     }
+// });
     // $("#status").change(function() {  //redirect functionality to lhs report page
     //    var selected_val =   $('option:selected', this).val();
     //    lead_id = $("input[name=lead_id]").val(); 
@@ -507,7 +507,9 @@ $( document ).ready(function() {
                   }
 
             }else{
-                  toastr.error(response.error,'Error!');
+                $('.alert.alert-danger.print-error-msg').show();
+            $('ul.custom_text').html(response.lhs_link);
+            toastr.error(response.error,'Error!');
             }
 
         },

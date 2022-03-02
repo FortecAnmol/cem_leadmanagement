@@ -664,7 +664,6 @@ class HomeController extends Controller
        //dd( $nofication_count);
        if(0 < $nofication_count){
         $nofication_data = Lead::where('is_notify','!=' , 0)->orderBy('updated_at','desc')->get();
-      
         foreach($nofication_data as $n_data){
             // $user_data = User::where(['id' => $n_data->asign_to ])->first();
             $user_data = DB::table('users')->where(['id' => $n_data->asign_to ])->first();
@@ -687,7 +686,6 @@ class HomeController extends Controller
             $list =  '<li><a href="javascript:void(0);"></i> No New Notofication Found.</a></li>';
         }
        return response()->json(['notify_count'=>$get_notifi_count,'notify_list' => $list]);
-
     }
     
 }
