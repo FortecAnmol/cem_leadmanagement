@@ -106,7 +106,6 @@ class NotesController extends Controller
         return view('notes.view')->with(['data'=>$data]);
     }
     public function camp_assign_emp(){
-
         $data =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();
         return view('notes.camp_assign_emp')->with(['data'=>$data]);
     }
