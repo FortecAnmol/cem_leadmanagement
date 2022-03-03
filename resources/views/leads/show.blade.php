@@ -652,22 +652,30 @@ i.fa-brands.fa-linkedin {
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
             </div>
             <div class="modal-body">
-                    <div class="form-group" id="status" name="status">
-                        <label class="control-label">Reminder Date</label>
-                        <input type="text" class="form-control" placeholder="Reminder Date" name="reminder_date" value="{{ old('reminder_date') }}" id="min-date" data-dtp="dtp_2827e">
-                        <label class="control-label">Reminder For</label>
-                        <input type="text" class="form-control required" placeholder="Reminder For" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}">
-                        <label class="control-label">Note</label>
-                        <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{$data['id']}}">
-                        <textarea required type="text" class="form-control required" name="feedback" id="feedback" placeholder="Enter Note" style="min-height: 130px;">{{ old('note') }}</textarea>   
-                        <div class="alert alert-danger print-error-msg" style="display:none">
-                        <ul class="custom_text"></ul>
-                        </div>              
-                        @if($errors->has('status'))
-                        <div class="alert alert-danger">{{ $errors->first('status') }}</div>
-                    @endif
-                    </div>
-            </div>
+                <div class="form-group" id="status" name="status">
+                    <label class="control-label">Reminder Date</label>
+                    <input type="text" class="form-control" placeholder="Reminder Date" name="reminder_date" value="{{ old('reminder_date') }}" id="min-date" data-dtp="dtp_2827e">
+                    <label class="control-label">Reminder Time</label>
+                    <input type="time" class="form-control" id="reminder_time" name="reminder_time">                          
+                    <label class="control-label">Reminder For</label>
+                    {{-- <input type="text" class="form-control required" placeholder="Reminder For" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}"> --}}
+                    <select id="reminder_for" class="form-control required" name="reminder_for">
+                        <option value="">Choose Manager</option>
+                            <option value="Follow-up call">Follow-up call</option>
+                            <option value="Follow-up email">Follow-up email</option>
+                            <option value="Information request">Information request</option>
+                    </select>
+                    <label class="control-label">Note</label>
+                    <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{$data['id']}}">
+                    <textarea required type="text" class="form-control required" name="feedback" id="feedback" placeholder="Enter Note" style="min-height: 130px;">{{ old('note') }}</textarea>   
+                    <div class="alert alert-danger print-error-msg" style="display:none">
+                    <ul class="custom_text"></ul>
+                    </div>              
+                    @if($errors->has('status'))
+                    <div class="alert alert-danger">{{ $errors->first('status') }}</div>
+                @endif
+                </div>
+        </div>
             <div class="modal-footer">
             <input type="hidden" id="lead_id_quick_note" name="lead_id_quick_note">
                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
@@ -711,7 +719,8 @@ $('.modal').on('hidden.bs.modal', function(){
     //   $('alert.alert-success.print-error-msg').show();
     //   $('ul.custom_text').html('<li><span class="error_list">Note Added Successfully</span></li>');
     let feedback = $("[name=feedback]").val();
-    let reminder_date = $("[name=reminder_date]").val(); 
+    let reminder_date = $("[name=reminder_date]").val();
+    let reminder_time = $("[name=reminder_time]").val(); 
     let reminder_for = $("[name=reminder_for]").val(); 
     let lead_id = $("input[name=lead_id_quick_note]").val(); 
     let _token   = $('meta[name="csrf-token"]').attr('content');
@@ -720,6 +729,7 @@ $('.modal').on('hidden.bs.modal', function(){
       type:"POST",
       data:{
           reminder_date:reminder_date,
+          reminder_time:reminder_time,
           reminder_for:reminder_for,
           lead_id:lead_id,
           feedback:feedback,

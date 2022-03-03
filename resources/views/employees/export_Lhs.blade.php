@@ -411,7 +411,8 @@
                         <div class="col-md-3">
                            <div class="form-group">
                               <label class="control-label">Time 1:</label>
-                              <input type="time" class="form-control" id="appt" required name="meeting_time1">                           </div>
+                              <input type="time" class="form-control" id="appt" required name="meeting_time1">                          
+                            </div>
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">

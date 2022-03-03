@@ -70,7 +70,7 @@ date_default_timezone_set('Asia/Kolkata');
 
                             <div class="card-body">
                                 <div class="seacrh-by-dropdown-wrapper">
-                                    <label for="recipient-name" class="control-label">Select Search By: </label>
+                                    <label for="recipient-name" class="control-label">Search By: </label>
                                     <select class="form-control"  id="status_search" name="status_search">
                                     <option id="option" value="0">All</option>
                                     <option value="1">Sr. No</option>
@@ -152,6 +152,22 @@ date_default_timezone_set('Asia/Kolkata');
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
+                                        <tfoot class="custom-table-foot">
+                                            <tr>
+                                                    <th>Sr. No</th>
+                                                    <th class="campain_name">Campaign Name</th>
+                                                    <th class="company_name">Company Name</th>
+                                                    <th class="prospect_name">Prospect Name</th>
+                                                    <th style="visibility: hidden;">LinkedIn</th>
+                                                    <th class="time_zone">Time Zone</th>
+                                                    <th class="designation">Designation</th>
+                                                    <th class="phone_no" style="visibility: hidden;">Phone No.</th>
+                                                    <th>Date</th>
+                                                    <th class="phone_no" style="visibility: hidden;">Last Updated Note</th>
+                                                    <th>Duration of Last Updated Note</th>
+                                                    <th class="prospect_name">Action</th>
+                                                    </tr>
+                                             </tfoot>
                                         <tbody>
                                              @php $i = 1; 
                                             use App\Models\Note; 
@@ -176,31 +192,52 @@ date_default_timezone_set('Asia/Kolkata');
                                                     <td>{{ $sources_data->source_name }}</td>
                                                 <td class="wraping">{{ $data['company_name'] }}</td>
                                                 <td class="wraping"><a href="{{ url('/leads', [$data['id']]) }}">{{ $data['prospect_first_name'].' '.$data['prospect_last_name'] }}</a></td>
+                                                @php
+                                                $var = $data['linkedin_address'];
+                                                @endphp
+                                                @if(strpos($var, 'linkedin') == 0)
+                                                <td><a href="javascript:void(0)" ><i style="color: #000" alt="LinkedIn" title="LinkedIn Address Not Valid" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                @else
                                                 <td><a href="<?php
-                                                    $var = $data['linkedin_address'];
                                                         // $var = $data[6]['linkedin_address'];
                                                         if(strpos($var, 'https://') !== 0) {
-                                                        echo $kasa = 'https://' . $var;
+                                                            echo $kasa = 'https://' . $var;
                                                         } else {
                                                         echo $var;
                                                         }
                                                     ?>" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                @endif
                                                 <td>{{$data['timezone']}}</td>
                                                 <td class="designation">{{ $data['designation'] }}</td>
                                                 {{-- <td>{{ $data['job_title'] }}</td> --}}
                                                 {{-- <td class="wraping">{{ $data['prospect_email'] }}</td> --}}
                                                 <td>{{ $data['contact_number_1'] }}</td>
+                                                <td>
+                                                   
+                                                    {{-- {{ date('d M, Y H:i:s', strtotime($data['updated_at'])) }} --}}
+                                                    
+                                                    {{ date('d M, Y h:i A', strtotime($data['updated_at'])) }}
+                                                
+                                                </td>
                                                 <td><?php
                                                     $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
-                                                  foreach ($sget_dates as $get_date) {
-                                                    //  $string = '';
-                                                      if($get_date['feedback'] == ''){
-                                                         echo  "Null";
-                                                      }else{
-                                                        echo  $get_date['feedback'];
-                                                      }  
-                                                  } 
-                                                 ?></td>
+                                                 ?>
+                                                 @foreach($sget_dates as $get_date)
+                                                 @if($get_date['feedback'] == '')
+                                                 <p> </p>
+                                                 @else
+                                                 <p class="campain_name" data-toggle="tooltip" data-placement="top" title="{{$get_date['feedback']}}">
+                                                     @php
+                                                     $result = substr($get_date['feedback'], 0, 20);
+                                                     @endphp
+                                                     @if (strlen($get_date['feedback']) > 20)
+                                                     {{$result}}.....
+                                                     @else
+                                                     {{$get_date['feedback']}}
+                                                     @endif
+                                                   </p>
+                                                 @endif
+                                                 @endforeach</td>
                                                  <td><?php
                                                      foreach ($sget_dates as $get_date) {
                                                          if($get_date['created_at'] == ''){
@@ -210,15 +247,6 @@ date_default_timezone_set('Asia/Kolkata');
                                                          }  
                                                      } 
                                                     ?></td>
- 
-                                                 <td>
-                                                <td>
-                                                   
-                                                    {{-- {{ date('d M, Y H:i:s', strtotime($data['updated_at'])) }} --}}
-                                                    
-                                                    {{ date('d M, Y h:i A', strtotime($data['updated_at'])) }}
-                                                
-                                                </td>
                   
                                                 <td>
 
@@ -242,7 +270,7 @@ date_default_timezone_set('Asia/Kolkata');
                                                     </a>
                                                     @else
                                                     <a href="{{ url('/employee/lhs_report', [$data['id']]) }}">
-                                                        <span class="label" data-toggle="tooltip" data-placement="top" title="Add LHS Report" style="color:#000;font-size: 15px;"> <span class="material-icons">library_add</span></span>
+                                                        <span class="label" data-toggle="tooltip" style="display: none" data-placement="top" title="Add LHS Report" style="color:#000;font-size: 15px;"> <span class="material-icons">library_add</span></span>
                                                     </a>
                                                     
                                                     @endif
@@ -255,22 +283,6 @@ date_default_timezone_set('Asia/Kolkata');
                                
                               
                                         </tbody>
-                                        <tfoot    class="custom-table-foot">
-                                            <tr>
-                                                    <th>Sr. No</th>
-                                                    <th class="campain_name">Campaign Name</th>
-                                                    <th class="company_name">Company Name</th>
-                                                    <th class="prospect_name">Prospect Name</th>
-                                                    <th style="visibility: hidden;">LinkedIn</th>
-                                                    <th class="time_zone">Time Zone</th>
-                                                    <th class="designation">Designation</th>
-                                                    <th class="phone_no" style="visibility: hidden;">Phone No.</th>
-                                                    <th>Date</th>
-                                                    <th>Last Updated Note</th>
-                                                <th>Duration of Last Updated Note</th>
-                                                    <th class="prospect_name">Action</th>
-                                                    </tr>
-                                             </tfoot>
                                     </table>
                                 </div>
                             </div>
