@@ -133,7 +133,7 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
                                
                                 <div class="table-responsive m-t-40">
                                     <div class="seacrh-by-dropdown-wrapper">
-                                        <label for="recipient-name" class="control-label">Select Search By: </label>
+                                        <label for="recipient-name" class="control-label">Search By: </label>
                                         <select class="form-control"  id="status_search" name="status_search">
                                         <option id="option" value="0">All</option>
                                         <option value="1">Sr</option>
@@ -251,15 +251,21 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
                                                 <?php $data['company_name'] ?>
                                                 <td class="wraping"><a href="{{ url('/leads', [$data['id']]) }}">{{ $data['prospect_first_name'].' '.$data['prospect_last_name'] }}</a></td>
                                                 {{-- <td>{{ $data['job_title'] }}</td>--> --}}
+                                                @php
+                                                $var = $data['linkedin_address'];
+                                                @endphp
+                                                @if(strpos($var, 'linkedin') == 0)
+                                                <td><a href="javascript:void(0)" ><i style="color: #000" alt="LinkedIn" title="LinkedIn Address Not Valid" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                @else
                                                 <td><a href="<?php
-                                                    $var = $data['linkedin_address'];
                                                         // $var = $data[6]['linkedin_address'];
                                                         if(strpos($var, 'https://') !== 0) {
-                                                        echo $kasa = 'https://' . $var;
+                                                            echo $kasa = 'https://' . $var;
                                                         } else {
                                                         echo $var;
                                                         }
                                                     ?>" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                @endif
                                                 <td>{{$data['timezone']}}</td>
                                                 <td class="designation">{{ $data['designation'] }}</td>
                                                 <td class="phone_no">{{ $data['contact_number_1'] }}</td>

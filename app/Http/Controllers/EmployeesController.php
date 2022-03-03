@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Source;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 
 class EmployeesController extends Controller
@@ -442,7 +443,7 @@ class EmployeesController extends Controller
 
     public function emp_daily_report(){
         $campaigns =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();
-        $data = Lead::where(['asign_to'=>auth()->user()->id])->groupBy('source_id')->with('source')->get();
+        $data = Lead::where(['asign_to'=>auth()->user()->id])->where('status','!=','1')->groupBy(DB::raw('source_id'))->groupBy(DB::raw('DATE(updated_at)'))->orderBy('updated_at', 'desc')->with('source')->get();
         return view('employees.emp_daily_report')->with(['campaigns'=>$campaigns, 'data'=>$data]);
     }
 

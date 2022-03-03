@@ -660,6 +660,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
          $data = array(
             'user_id'=>auth()->user()->id,
             'lead_id'=>$request->lead_id,
+            'reminder_time'=>$request->reminder_time,
             'reminder_date'=>$request->reminder_date,
             'reminder_for'=>$request->reminder_for,
             'feedback'=>$request->feedback,

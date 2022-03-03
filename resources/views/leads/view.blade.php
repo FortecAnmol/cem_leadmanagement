@@ -294,7 +294,7 @@ span.assign_emp_wrapper_list{
                                     </div>
                                 </form>
                                 <div class="seacrh-by-dropdown-wrapper">
-                                    <label for="recipient-name" class="control-label">Select Search By: </label>
+                                    <label for="recipient-name" class="control-label">Search By: </label>
                                     <select class="form-control"  id="status_search" name="status_search">
                                     <option id="option" value="0">All</option>
                                     <option value="1">Sr</option>
@@ -419,15 +419,21 @@ span.assign_emp_wrapper_list{
                                                 <td class="wraping">{{ $campaign_name }}</td>
                                                 <td class="wraping">{{ $data['company_name'] }}</td>
                                                 <td class="wraping"><a href="{{ url('/leads', [$data['id']]) }}">{{ $data['prospect_first_name'].' '.$data['prospect_last_name'] }}</a></td>
+                                                @php
+                                                $var = $data['linkedin_address'];
+                                                @endphp
+                                                @if(strpos($var, 'linkedin') == 0)
+                                                <td><a href="javascript:void(0)" ><i style="color: #000" alt="LinkedIn" title="LinkedIn Address Not Valid" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                @else
                                                 <td><a href="<?php
-                                                    $var = $data['linkedin_address'];
                                                         // $var = $data[6]['linkedin_address'];
                                                         if(strpos($var, 'https://') !== 0) {
-                                                        echo $kasa = 'https://' . $var;
+                                                            echo $kasa = 'https://' . $var;
                                                         } else {
                                                         echo $var;
                                                         }
                                                     ?>" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                @endif
                                                 <td>{{$data['timezone']}}</td>
                                                 <td class="designation">{{ $data['designation'] }}</td>
                                                 

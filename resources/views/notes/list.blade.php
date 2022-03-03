@@ -65,7 +65,7 @@ body{
 
                             <div class="card-body">
                                 <div class="seacrh-by-dropdown-wrapper">
-                                    <label for="recipient-name" class="control-label">Select Search By: </label>
+                                    <label for="recipient-name" class="control-label">Search By: </label>
                                     <select class="form-control"  id="status_search" name="status_search">
                                     <option id="option" value="0">All</option>
                                     <option value="1">Sr. No</option>
@@ -216,15 +216,21 @@ body{
                                                     <td>{{ $sources_data->source_name }}</td>
                                                     <td>{{ $data['company_name'] }}</td>
                                                 <td class="column-wrap"><a href="{{ url('/leads', [$data['id']]) }}">{{ $data['prospect_first_name'].' '.$data['prospect_last_name'] }}</a></td>
+                                                @php
+                                                $var = $data['linkedin_address'];
+                                                @endphp
+                                                @if(strpos($var, 'linkedin') == 0)
+                                                <td><a href="javascript:void(0)" ><i style="color: #000" alt="LinkedIn" title="LinkedIn Address Not Valid" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                @else
                                                 <td><a href="<?php
-                                                    $var = $data['linkedin_address'];
                                                         // $var = $data[6]['linkedin_address'];
                                                         if(strpos($var, 'https://') !== 0) {
-                                                        echo $kasa = 'https://' . $var;
+                                                            echo $kasa = 'https://' . $var;
                                                         } else {
                                                         echo $var;
                                                         }
                                                     ?>" target="_blank" ><i  alt="LinkedIn" title="LinkedIn" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
+                                                @endif
                                                 <td>{{$data['timezone']}}</td>
                                                 <td class="designation">{{ $data['designation'] }}</td>
                                                 <!--<td>{{ $data['company_name'] }}</td>
@@ -235,15 +241,24 @@ body{
                                                 {{-- <td>{{$get_date['feedback']}}</td> --}}
                                                 <td><?php
                                                    $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
-                                                 foreach ($sget_dates as $get_date) {
-                                                   //  $string = '';
-                                                     if($get_date['feedback'] == ''){
-                                                        echo  "Null";
-                                                     }else{
-                                                       echo  $get_date['feedback'];
-                                                     }  
-                                                 } 
-                                                ?></td>
+                                                ?>
+                                                @foreach($sget_dates as $get_date)
+                                                @if($get_date['feedback'] == '')
+                                                <p> </p>
+                                                @else
+                                                <p class="campain_name" data-toggle="tooltip" data-placement="top" title="{{$get_date['feedback']}}">
+                                                    @php
+                                                    $result = substr($get_date['feedback'], 0, 20);
+                                                    @endphp
+                                                    @if (strlen($get_date['feedback']) > 20)
+                                                    {{$result}}.....
+                                                    @else
+                                                    {{$get_date['feedback']}}
+                                                    @endif
+                                                  </p>
+                                                @endif
+                                                @endforeach
+                                            </td>
                                                 <td><?php
                                                     foreach ($sget_dates as $get_date) {
                                                         if($get_date['created_at'] == ''){
@@ -256,7 +271,7 @@ body{
 
                                                 <td>
                                                     <a href="{{ url('/notes/add', [$data['id']]) }}">
-                                                        <span class="label" data-toggle="tooltip" data-placement="top" title="Add Notes" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
+                                                        <span class="label" data-toggle="tooltip" data-placement="top" style="display: none" title="Add Notes" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
                                                     </a>
                                                     
                                                     <a href="{{ url('/notes/view', [$data['id']]) }}">
@@ -282,7 +297,6 @@ body{
                                                ?>
                                                 <input type="hidden" id="notes_count_{{ $data['id'] }}" name="notes_count" value="{{ $notesCount }}">
                                                 <input type="hidden" id="Lhsreport_count_{{ $data['id'] }}" name="Lhsreport_count" value="{{ $LhsReportCount }}">
-
                                             </tr>
                                             @php $i = $i+1; @endphp
                                             @endforeach
@@ -300,7 +314,7 @@ body{
                                                 <th class="designation">Designation</th>
                                                 <th class="phone_no" style="visibility: hidden;">Phone No.</th>
                                                 <th>Date</th>
-                                                <th>Last Updated Note</th>
+                                                <th class="phone_no" style="visibility: hidden;">Last Updated Note</th>
                                                 <th>Duration of Last Updated Note</th>
                                                 <th class="prospect_name">Action</th>
                                                 </tr>
@@ -339,8 +353,16 @@ body{
                     <div class="form-group" id="status" name="status">
                         <label class="control-label">Reminder Date</label>
                         <input type="text" class="form-control" placeholder="Reminder Date" name="reminder_date" value="{{ old('reminder_date') }}" id="min-date" data-dtp="dtp_2827e">
+                        <label class="control-label">Reminder Time</label>
+                        <input type="time" class="form-control" id="reminder_time" name="reminder_time">                          
                         <label class="control-label">Reminder For</label>
-                        <input type="text" class="form-control required" placeholder="Reminder For" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}">
+                        {{-- <input type="text" class="form-control required" placeholder="Reminder For" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}"> --}}
+                        <select id="reminder_for" class="form-control required" name="reminder_for">
+                            <option value="">Choose Manager</option>
+                                <option value="Follow-up call">Follow-up call</option>
+                                <option value="Follow-up email">Follow-up email</option>
+                                <option value="Information request">Information request</option>
+                        </select>
                         <label class="control-label">Note</label>
                         <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{$data['id']}}">
                         <textarea required type="text" class="form-control required" name="feedback" id="feedback" placeholder="Enter Note" style="min-height: 130px;">{{ old('note') }}</textarea>   
@@ -363,7 +385,6 @@ body{
     {{-- </form> --}}
     </div>
 </div>
-
 <script>
 
 $('.modal').on('hidden.bs.modal', function(){
@@ -388,6 +409,8 @@ $('.modal').on('hidden.bs.modal', function(){
     //   $('ul.custom_text').html('<li><span class="error_list">Note Added Successfully</span></li>');
     let feedback = $("[name=feedback]").val();
     let reminder_date = $("[name=reminder_date]").val(); 
+    let reminder_time = $("[name=reminder_time]").val(); 
+    console.log(reminder_time);
     let reminder_for = $("[name=reminder_for]").val(); 
     let lead_id = $("input[name=lead_id_quick_note]").val(); 
     let _token   = $('meta[name="csrf-token"]').attr('content');
@@ -396,6 +419,7 @@ $('.modal').on('hidden.bs.modal', function(){
       type:"POST",
       data:{
           reminder_date:reminder_date,
+          reminder_time:reminder_time,
           reminder_for:reminder_for,
           lead_id:lead_id,
           feedback:feedback,

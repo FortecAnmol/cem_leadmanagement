@@ -77,7 +77,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="control-label">Date To</label>
-                                        <input type="text" class="form-control" placeholder="Date To" name="date_to" value=" " id="date_to">
+                                        <input type="text" class="form-control" placeholder="Date To" name="date_to" value="" id="date_to">
                                     </div>
                                 </div>
                                 
@@ -149,16 +149,32 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Sr. No</th>
+                                                <th>Campaign Name</th>
+                                                <th>Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </tfoot>
                                         <tbody>
                                             @php $i = 1; @endphp
                                             @foreach($data as $data)
                                             <tr>
                                                 <td>{{ $i }}</td>
                                                     <td>{{$data['source']['source_name']}}</td>
-                                                <td>{{ date("Y-m-d") }}</td>
-                                                <td>
-                                                    Action
-                                                </td>                                          
+                                                    <?php   
+                                                
+                                                $updated_date =  date('Y-m-d', strtotime($data['updated_at']));
+                                                ?>
+                                                <td>{{ $updated_date }}</td>
+
+                                                
+                                    <td>
+                                     <a href="{{ url('/employee/' . $data['source']['id']).'/'.$updated_date.'/emp_daily_report' }}"><span
+                                        class="label" data-toggle="tooltip" data-placement="top" title="Report Download" style="color:#55ce63;font-size: 15px;"> <i class="fa fa-file-excel-o" aria-hidden="true"></i></span>
+                                     </a>
+                                    </td>                                          
                                             </tr>
                                             @php $i = $i+1; @endphp
                                             @endforeach

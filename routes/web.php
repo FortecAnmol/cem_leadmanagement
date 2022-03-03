@@ -135,7 +135,12 @@ Route::post('employee/lhs_report_save',  'EmployeesController@lhs_report_save')-
 Route::get('employee/lhs_report/edit/{id}',  'EmployeesController@edit_lhs_report')->name('employee.edit_lhs_report');
 Route::post('employee/lhs_report/update',  'EmployeesController@update_lhs_report')->name('employee.update_lhs_report');
 Route::get('employee/lhs_report/view_lhs/{id}',  'EmployeesController@view_lhs')->name('employee.view_lhs');
-Route::get('/emp_daily_report',  'EmployeesController@emp_daily_report')->name('employee.view_lhs');
+/* Daily Report */
+
+Route::get('/emp_daily_report',  'EmployeesController@emp_daily_report')->name('employee.emp_daily_report');
+Route::get('employee/{id}/{date}/emp_daily_report', 'DailyReportController@daily_report')->name('daily_report');
+
+/* ****************** */ 
 
 
 Route::get('ajax-request', 'AjaxController@create');

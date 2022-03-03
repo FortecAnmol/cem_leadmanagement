@@ -54,9 +54,11 @@ class NotesController extends Controller
             'user_id'=>auth()->user()->id,
             'lead_id'=>$request->lead_id,
             'reminder_date'=>$request->reminder_date,
+            'reminder_time'=>$request->reminder_time,
             'reminder_for'=>$request->reminder_for,
             'feedback'=>$request->note,
         );
+        dd($data);
         Note::create($data);
         return Redirect::back()->with('success', 'Note Added Successfully.');
     }
@@ -84,6 +86,7 @@ class NotesController extends Controller
     {
          $data = array(
             'reminder_date'=>$request->reminder_date,
+            'reminder_time'=>$request->reminder_time,
             'reminder_for'=>$request->reminder_for,
             'feedback'=>$request->note,
         );

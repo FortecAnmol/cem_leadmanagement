@@ -77,8 +77,8 @@
                                    
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Email</label>
-                                                     <h6 class="card-subtitle">{{$data['email']}}</h6>
+                                                    <label class="control-label">Prospect Email</label>
+                                                     <h6 class="card-subtitle">{{$data['prospect_email']}}</h6>
                                                 </div>
                                             </div>
                                         </div>
