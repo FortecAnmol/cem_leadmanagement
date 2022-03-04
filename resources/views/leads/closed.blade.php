@@ -133,7 +133,7 @@ date_default_timezone_set('Asia/Kolkata');
                                 <!--<h4 class="card-title">Data Export</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>-->
                              
-                                <div class="table-responsive m-t-40">
+                                <div class="table-responsive m-t-40" style="padding-bottom: 50px;">
 
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
@@ -219,25 +219,25 @@ date_default_timezone_set('Asia/Kolkata');
                                                     {{ date('d M, Y h:i A', strtotime($data['updated_at'])) }}
                                                 
                                                 </td>
-                                                <td><?php
-                                                    $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
-                                                 ?>
-                                                 @foreach($sget_dates as $get_date)
-                                                 @if($get_date['feedback'] == '')
-                                                 <p> </p>
-                                                 @else
-                                                 <p class="campain_name" data-toggle="tooltip" data-placement="top" title="{{$get_date['feedback']}}">
-                                                     @php
-                                                     $result = substr($get_date['feedback'], 0, 20);
-                                                     @endphp
-                                                     @if (strlen($get_date['feedback']) > 20)
-                                                     {{$result}}.....
-                                                     @else
-                                                     {{$get_date['feedback']}}
-                                                     @endif
-                                                   </p>
-                                                 @endif
-                                                 @endforeach</td>
+                                                                                                <td><?php
+                                                   $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
+                                                ?>
+                                                @foreach($sget_dates as $get_date)
+                                                @if($get_date['feedback'] == '')
+                                                <p> </p>
+                                                @else
+                                                {{-- <p class="campain_name" data-toggle="tooltip" data-placement="top" title="{{$get_date['feedback']}}"> --}}
+                                                    @php
+                                                    $result = substr($get_date['feedback'], 0, 20);
+                                                    @endphp
+                                                    @if (strlen($get_date['feedback']) > 20)
+                                                    <p class="campain_name" data-toggle="tooltip" data-placement="top"><span>{{$get_date['feedback']}}</span>{{$result}}</p>
+                                                    @else
+                                                    {{$get_date['feedback']}}
+                                                    @endif
+                                                @endif
+                                                @endforeach
+                                            </td>
                                                  <td><?php
                                                      foreach ($sget_dates as $get_date) {
                                                          if($get_date['created_at'] == ''){
@@ -254,8 +254,8 @@ date_default_timezone_set('Asia/Kolkata');
                                                      <span type="button" class="label" data-toggle="tooltip" data-placement="top" title="Add Feedback" style="color:#000;font-size: 15px;"> <span class="material-icons">chat</span></span>
                                                     </a>
                                                    
-                                                    <a href="{{ url('/notes/view', [$data['id']]) }}">
-                                                    <span type="button" class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                    <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
                                                     </a>
                                                     <?php
                                                       $getlhs_report =  App\Models\LhsReport::where(['lead_id'=>$data['id']])->first();
@@ -292,8 +292,68 @@ date_default_timezone_set('Asia/Kolkata');
                 </div>
 
                
+        
         </div>
+         <!-- large modal -->
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">View Note</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-body">
+          <input type="hidden" name="view_lead_id" value=<?php $lead_id = "";?>>             
+          </div>
+      {{-- @else
+      <div> Empty data</div>
+      @endif     --}}
+      <div class="table-responsive m-t-40" id="notes_data">
+  
+      
+  
+      </div>
+      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+          <button type="button" style="display: none;" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
         <script>
+                         $(document).on("click", ".notes_id", function () {
+    event.preventDefault();
+        // $("input[name=view_lead_id]").val(lead_id);
+    // let lead_id_new = $("input[name=view_lead_id]").val();      
+    // let lead_id = $("input[name=view-note]").val();
+    let  lead_id = $(this).attr("baseUrl");
+    var url ='{{url("notes/view/")}}';
+    var full_url = url+'/'+lead_id;
+    $.ajax({
+      url: full_url,
+      type:"GET",
+      data:{
+          lead_id:lead_id
+      },
+      success:function(response){
+          if($.isEmptyObject(response.error)){
+              console.log(response.notes_data);
+              console.log(response.table);
+              $("#notes_data").html('');
+              $("#notes_data").html(response.table);
+          }else{
+                toastr.error(response.error,'Error!');
+          }
+
+      },
+     });
+
+});
 
             $("#status_search").change(function(){
                 if($(this).val() == "0") {

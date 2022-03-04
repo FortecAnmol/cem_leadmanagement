@@ -160,10 +160,7 @@
                                                 <th>Lead Name</th>
                                                 <th  width="400">Note</th>
                                                 <th>Reminder Date</th>
-                                                <th>Reminder For</th>
-                                                 {{-- @if(auth()->user()->is_admin == 1)
-                                                <th>Action</th>
-                                                @endif --}}
+                                                <th>Reminder Type</th>
                                               
                                                 
                                             </tr>

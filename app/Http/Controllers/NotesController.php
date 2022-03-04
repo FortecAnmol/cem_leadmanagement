@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Redirect;
 use App\Models\Lead;
 use App\Models\Note;
 use App\Http\Requests\NoteRequest;
+use App\Models\Source;
 use Illuminate\Support\Facades\DB;
 
 class NotesController extends Controller
@@ -20,7 +21,7 @@ class NotesController extends Controller
     public function index()
     {
         //print_R(auth()->user()->id);die;
-         $data = Lead::with('source')->with('note')->where(['status'=>'1','asign_to'=>auth()->user()->id])->get()->toArray();
+         $data = Lead::with('source')->with('note')->with('notes')->where(['status'=>'1','asign_to'=>auth()->user()->id])->get()->toArray();
         //  dd($data[0]['note']['feedback']);
          return view('notes.list')->with(['data'=>$data]);
     }
@@ -45,24 +46,7 @@ class NotesController extends Controller
     }
 
     
-    public function store(NoteRequest $request)
-    {
-        if(empty($request->reminder_date)){
-            return response()->json(['error'=>'Please add a note first.']);
-         }else{
-         $data = array(
-            'user_id'=>auth()->user()->id,
-            'lead_id'=>$request->lead_id,
-            'reminder_date'=>$request->reminder_date,
-            'reminder_time'=>$request->reminder_time,
-            'reminder_for'=>$request->reminder_for,
-            'feedback'=>$request->note,
-        );
-        dd($data);
-        Note::create($data);
-        return Redirect::back()->with('success', 'Note Added Successfully.');
-    }
-    }
+
 
     
     public function show($id)
@@ -101,12 +85,88 @@ class NotesController extends Controller
     {
         //
     }
+    // public function view($id)
+    // {
 
-    public function view($id)
+    //     $data =  Lead::where(['id'=>$id])->with('source')->with('notes')->first();
+    //     return view('notes.view')->with(['data'=>$data]);
+    // }
+
+    public function view(Request $request)
     {
-
-        $data =  Lead::where(['id'=>$id])->with('source')->with('notes')->first();
-        return view('notes.view')->with(['data'=>$data]);
+        $notes_data =  Lead::where(['id'=>$request->lead_id])->with('source')->with('notes')->first();
+        $sources_data = Source::where(['id'=>$notes_data->source_id])->first();
+        $table = '
+        <div class="row p-t-20">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label class="control-label">Campaign Name</label>
+                <h6 class="card-subtitle">'.$sources_data->source_name.'</h6>
+            </div>
+        </div>
+        <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">Lead Name</label>
+            <h6 class="card-subtitle">'.$notes_data->prospect_first_name.' '.$notes_data->prospect_last_name.'</h6>
+        </div>
+    </div>
+        <div class="col-md-2">
+        <div class="form-group">
+            <label class="control-label">Email</label>
+            <h6 class="card-subtitle">'.$notes_data->prospect_email.'</h6>
+        </div>
+    </div>
+    <div class="col-md-2">
+    <div class="form-group">
+        <label class="control-label">Phone No</label>
+        <h6 class="card-subtitle">'.$notes_data->contact_number_1.'</h6>
+    </div>
+</div>
+        <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+        <thead>
+        <tr>
+        <th>Lead Name</th>
+        <th  width="400">Note</th>
+        <th>Reminder Date</th>
+        <th>Reminder Type</th>  
+    </tr>
+        </thead>
+        <tbody>';
+         if(!empty($notes_data)){
+            foreach($notes_data['notes'] as $key=> $table_data){
+                $table .=  '<tr><td class="wraping"> '.$notes_data->prospect_first_name.' '.$notes_data->prospect_last_name.' </td>
+                <td class="wraping notes_comment" ><p style="white-space: initial; max-height: 100px; overflow-y : auto;";> '.$table_data->feedback.'</p> </td>
+                <td class="wraping"> '.$table_data->reminder_date.' </td>
+                <td class="wraping"> '.$table_data->reminder_for.' </td>
+                </tr>';
+            }
+        }else{
+            $table .=  '<tr><td class="wraping">  </td>
+            <td class="wraping">  </td>
+            <td class="wraping"> Data Not Found </td>
+            <td class="wraping">  </td>
+            <td class="wraping">  </td></tr>';  
+        }
+        return response()->json(['notes_data'=>$notes_data, 'table'=>$table]);
+        // return view('notes.view')->with(['data'=>$data]);
+    }
+        public function store(NoteRequest $request)
+    {
+        if(empty($request->reminder_date)){
+            return response()->json(['error'=>'Please add a note first.']);
+         }else{
+         $data = array(
+            'user_id'=>auth()->user()->id,
+            'lead_id'=>$request->lead_id,
+            'reminder_date'=>$request->reminder_date,
+            'reminder_time'=>$request->reminder_time,
+            'reminder_for'=>$request->reminder_for,
+            'feedback'=>$request->note,
+        );
+        dd($data);
+        Note::create($data);
+        return Redirect::back()->with('success', 'Note Added Successfully.');
+    }
     }
     public function camp_assign_emp(){
         $data =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();

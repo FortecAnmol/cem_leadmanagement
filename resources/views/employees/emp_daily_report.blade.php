@@ -12,6 +12,10 @@
  
 @section('content')
 
+@php
+    $urls = '?campaign_id='.request()->get('campaign_id').'&date_from='.request()->get('date_from').'&date_to='.request()->get('date_to');
+@endphp
+
  <div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h3 class="text-themecolor">Dashboard</h3>
@@ -58,10 +62,14 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Campaign Name</label>
-                                        <select class="form-control"  name="camp_id" id="camp_id">
+                                        <select class="form-control"  name="campaign_id" id="campaign_id">
                                             <option value="" selected>Select Campaign</option>
                                                   @foreach($campaigns as $campaigns)
-                                                          <option value="{{ $campaigns['source']['id'] }}" >{{ $campaigns['source']['source_name'] }}</option>
+                                                          @if ($campaign_id == $campaigns['source']['id'])
+                                                                      <option value="{{ $campaigns['source']['id'] }}" selected>{{ $campaigns['source']['source_name'] }}</option>
+                                                                  @else 
+                                                                      <option value="{{ $campaigns['source']['id'] }}">{{ $campaigns['source']['source_name'] }}</option>
+                                                                   @endif 
                                                   @endforeach
                                           </select>
                                     </div>
@@ -70,14 +78,14 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="control-label">Date From</label>
-                                            <input type="text" class="form-control" placeholder="Date From" name="date_from" value="" id="date_from">
+                                            <input type="text" class="form-control" placeholder="Date From" name="date_from" value="{{ $date_from }}" id="date_from">
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="control-label">Date To</label>
-                                        <input type="text" class="form-control" placeholder="Date To" name="date_to" value="" id="date_to">
+                                        <input type="text" class="form-control" placeholder="Date To" name="date_to" value="{{ $date_to }}"  id="date_to">
                                     </div>
                                 </div>
                                 
@@ -85,12 +93,18 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <br>
-                                         <button type="button" id="sub_cmap" class="btn btn-success">Search</button>
-                                          {{-- <a type="button" href="{{ url('employees/'.request()->get('emp_id').'/performace').$list_urls}}" class="btn btn-success"> Search</a> --}}
+                                        <button type="button" id="sub_cmap" class="btn btn-success">Search</button>
                                     </div>
                                 </div>
 							</div>
-							
+                                <div class="form-group" style="
+                                    display: flex;
+                                    justify-content: flex-end;
+                                    width: 100%;">
+                                    <br>
+                                    <a type="button" href="{{ url('/emp_daily_report').$urls }}" class="btn btn-success addButton"> Export Report </a>
+
+                                </div>
 							 <!-- sample modal content -->
                                 <div id="status-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
                                     <div class="modal-dialog">
@@ -111,7 +125,6 @@
                                                <ul></ul>
                                                 </div>
                                             <div class="modal-body">
-                                                
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Select Status: </label>
                                                         <select class="form-control" id="status" name="status" required>
@@ -134,6 +147,7 @@
 									</form>
                                     </div>
                                 </div>
+                                
 							
                                 <!--<h4 class="card-title">Data Export</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>-->
@@ -144,32 +158,74 @@
                                         <thead>
                                             <tr>
                                                 <th>Sr. No</th>
-                                                <th>Campaign Name</th>
-                                                <th>Date</th>
+                                                <th>Lead Name</th>
+                                                <th>Reminder Type</th>
+                                                <th>Latest Updated Note</th>
+                                                <th>Date/Time</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                        <tfoot>
-                                            <tr>
-                                                <th>Sr. No</th>
-                                                <th>Campaign Name</th>
-                                                <th>Date</th>
-                                                <th>Action</th>
-                                            </tr>
-                                        </tfoot>
                                         <tbody>
                                             @php $i = 1; @endphp
                                             @foreach($data as $data)
                                             <tr>
                                                 <td>{{ $i }}</td>
-                                                    <td>{{$data['source']['source_name']}}</td>
-                                                    <?php   
-                                                
-                                                $updated_date =  date('Y-m-d', strtotime($data['updated_at']));
-                                                ?>
-                                                <td>{{ $updated_date }}</td>
-
-                                                
+                                                    <td>{{$data['prospect_first_name'].' '.$data['prospect_last_name']}}</td>
+                                                    <td>
+                                                        <?php
+                                                        $sget_dates = App\Models\Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
+                                                     ?>
+                                                    @foreach($sget_dates as $get_date)
+                                                    @if($get_date['reminder_for'] == '')
+                                                    <p> </p>
+                                                    @else
+                                                        <p class="campain_name" data-toggle="tooltip" data-placement="top"><span>{{$get_date['reminder_for']}}</span>{{$get_date['reminder_for']}}</p>
+                                                    @endif
+                                                    @endforeach
+                                                </td>
+                                                    <td>
+                                                     @foreach($sget_dates as $get_date)
+                                                     @if($get_date['feedback'] == '')
+                                                     <p> </p>
+                                                     @else
+                                                     {{-- <p class="campain_name" data-toggle="tooltip" data-placement="top" title="{{$get_date['feedback']}}"> --}}
+                                                         @php
+                                                         $result = substr($get_date['feedback'], 0, 20);
+                                                         @endphp
+                                                         @if (strlen($get_date['feedback']) > 20)
+                                                         <p class="campain_name" data-toggle="tooltip" data-placement="top"><span>{{$get_date['feedback']}}</span>{{$result}}</p>
+                                                         @else
+                                                         {{$get_date['feedback']}}
+                                                         @endif
+                                                     @endif
+                                                     @endforeach
+                                                 </td>
+                                                 <?php   
+                                                 $updated_date =  date('Y-m-d', strtotime($data['updated_at']));
+                                                 ?>
+                                                 <td>{{ $data['updated_at'] }}</td>
+                                                 @php
+                                                //  $status = '';
+                                                //  if ($data['status'] == 1) {
+                                                //     $status =  'pending';
+                                                // } elseif ($data['status'] == 3) {
+                                                //     $status =  'closed';
+                                                // } elseif ($data['status'] == 2) {
+                                                //     $status =  'failed';
+                                                // } else{
+                                                //     $status =  'In Progress';
+                                                // }
+                                                 @endphp
+                                                 @if($data['status'] == 1)
+                                                 <span class="label" data-toggle="tooltip" data-placement="top" title="Pending" style="color:#000;font-size: 15px;"><img style="width: 20px" src="{{ asset('public/admin/assets/images/pending.png') }}" alt="pending"><span class="lead_status_sapn">1</span></span></td>
+                                                 @elseif($data['status'] == 3)
+                                                <td><span  class="label" data-toggle="tooltip" data-placement="top" title="Closed" style="color:#000;font-size: 15px;"><img style="width: 20px" src="{{ asset('public/admin/assets/images/completed.png') }}" alt="completed"><span class="lead_status_sapn">3</span></span></td>
+                                                 @elseif($data['status'] == 2)
+                                                <td><span class="label"  data-toggle="tooltip" data-placement="top" title="Failed" style="color:#000;font-size: 15px;" class="label"><img style="width: 20px" src="{{ asset('public/admin/assets/images/failed.png') }}" alt="failed"><span class="lead_status_sapn">2</span></span></td>
+                                                 @elseif($data['status'] == 4)
+                                                <td><span class="label"  data-toggle="tooltip" data-placement="top" title="In Progress" style="color:#000;font-size: 15px;" class="label"><img style="width: 20px" src="{{ asset('public/admin/assets/images/in-progress.png') }}" alt="In Progress"><span class="lead_status_sapn">4</span></span></td>
+                                                 @endif
                                     <td>
                                      <a href="{{ url('/employee/' . $data['source']['id']).'/'.$updated_date.'/emp_daily_report' }}"><span
                                         class="label" data-toggle="tooltip" data-placement="top" title="Report Download" style="color:#55ce63;font-size: 15px;"> <i class="fa fa-file-excel-o" aria-hidden="true"></i></span>
@@ -202,6 +258,26 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const camp_id = urlParams.get('camp_id');
+        const emp_id = urlParams.get('emp_id');
+        const date_from = urlParams.get('date_from');
+        const date_to = urlParams.get('date_to');
+       
+ $(document).on("click","#sub_cmap",function() {
+               var campaign_id = $('#campaign_id').val();
+               var date_from = $('#date_from').val();
+               var date_to = $('#date_to').val();
+               var base_url = $('meta[name="base_url"]').attr('content');
+               var  Current_url = base_url+"/emp_daily_report?"+"&campaign_id="+campaign_id+"&date_from="+date_from+"&date_to="+date_to;
+    
+                $(window).attr("location",Current_url);
+        });
+</script>
   <script>
 $( document ).ready(function() {
   

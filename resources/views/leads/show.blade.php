@@ -549,7 +549,7 @@ i.fa-brands.fa-linkedin {
                                                     {{-- <th>Lead Name</th> --}}
                                                     <th>Note</th>
                                                     <th>Reminder Date</th>
-                                                    <th>Reminder For</th>
+                                                    <th>Reminder Type</th>
                                                     <th>Updated On</th>
                                                      {{-- @if(auth()->user()->is_admin == 1)
                                                     <th>Action</th>
@@ -563,7 +563,7 @@ i.fa-brands.fa-linkedin {
                                                 <tr>
                                                     <!--<td>{{ $record['created_at'] }}</td>-->
                                                     {{-- <td>{{ $record['lead']['prospect_first_name'].' '.$record['lead']['prospect_last_name'] }}</td> --}}
-                                                    <td class="feedback_td" width="300">{{ $record['feedback'] }}</td>
+                                                    <td class="feedback_td" width="300"><p class="notes_comment">{{ $record['feedback'] }}</p></td>
                                                     <td>{{ date('d M, Y', strtotime( $record['reminder_date'])) }}</td>
                                                     <td class="feedback_td">{{ $record['reminder_for'] }}</td>
                                                     <td style="text-align:center;white-space:nowrap !important">
@@ -657,13 +657,14 @@ i.fa-brands.fa-linkedin {
                     <input type="text" class="form-control" placeholder="Reminder Date" name="reminder_date" value="{{ old('reminder_date') }}" id="min-date" data-dtp="dtp_2827e">
                     <label class="control-label">Reminder Time</label>
                     <input type="time" class="form-control" id="reminder_time" name="reminder_time">                          
-                    <label class="control-label">Reminder For</label>
-                    {{-- <input type="text" class="form-control required" placeholder="Reminder For" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}"> --}}
+                    <label class="control-label">Reminder Type</label>
+                    {{-- <input type="text" class="form-control required" placeholder="Reminder Type" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}"> --}}
                     <select id="reminder_for" class="form-control required" name="reminder_for">
-                        <option value="">Choose Manager</option>
+                        <option value="">Choose Reminder Type</option>
                             <option value="Follow-up call">Follow-up call</option>
                             <option value="Follow-up email">Follow-up email</option>
-                            <option value="Information request">Information request</option>
+                            <option value="Information Request Customised Deck">Information Request Customised Deck</option>
+                            <option value="Information Request Brochure">Information Request Brochure</option>
                     </select>
                     <label class="control-label">Note</label>
                     <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{$data['id']}}">
