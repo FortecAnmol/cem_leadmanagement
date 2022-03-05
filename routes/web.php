@@ -140,6 +140,11 @@ Route::get('employee/lhs_report/view_lhs/{id}',  'EmployeesController@view_lhs')
 Route::get('/emp_daily_report',  'EmployeesController@emp_daily_report')->name('employee.emp_daily_report');
 Route::get('employee/{id}/emp_daily_report', 'DailyReportController@daily_report')->name('daily_report');
 
+
+
+Route::get('/man_daily_report',  'EmployeesController@man_daily_report')->name('employee.man_daily_report');
+
+
 /* ****************** */ 
 
 

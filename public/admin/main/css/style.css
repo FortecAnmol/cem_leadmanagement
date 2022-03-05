@@ -10971,3 +10971,31 @@ table.custom-seacrh-table.search_wrapper tr {
     display: flex;
     justify-content: space-around;
 } */
+#notes_data > div {
+    justify-content: space-between;
+}
+
+#notes_data > div .card-subtitle {
+    word-break: break-all;
+}
+#notes_data table thead th,#notes_data table tbody td {
+    text-align: left;
+    padding-left: 20px !important;
+}
+
+#notes_data table {
+    white-space: pre-wrap;
+    width: 100%;
+}
+#notes_data table tbody td {
+    height: auto !important;
+    max-height: initial;
+    vertical-align: middle;
+}
+
+#notes_data table tbody td p {
+    margin-bottom: 0;
+}
+.modal-dialog div > ul {
+    margin-bottom: 0;
+}

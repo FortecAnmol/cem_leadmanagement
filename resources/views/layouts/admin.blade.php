@@ -695,6 +695,7 @@ a.clear {
                                 
                             </ul>
                         </li>
+                        <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/man_daily_report?campaign_id=&date_from=&date_to=') }}" aria-expanded="false"><i class="fa fa-id-card-o"></i><span class="hide-menu">Daily Report</span>  </a> 
 
                     </ul>
 
@@ -772,6 +773,8 @@ a.clear {
                                 
                             </ul>
                         </li>
+                        <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/man_daily_report?campaign_id=&date_from=&date_to=') }}" aria-expanded="false"><i class="fa fa-id-card-o"></i><span class="hide-menu">Daily Report</span>  </a> 
+
 
                     </ul>
 
