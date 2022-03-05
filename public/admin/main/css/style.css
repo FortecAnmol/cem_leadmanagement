@@ -10869,6 +10869,7 @@ th.campain_name select {
 th.time_zone select {
     max-width: 70px;
 }
+
 /* Shubham 21_FEB */
 td.phone_no {
     max-width: 300px;
@@ -10899,3 +10900,74 @@ table.custom-seacrh-table.search_wrapper tr {
         right: 25vw;
     }
 }
+
+
+.campain_name {
+    position: relative;
+}
+.campain_name span{
+    position: absolute;
+    content: attr(title);
+    left: 0;
+    width: 100%;
+    top: 100%;
+    word-break: break-all;
+    background: #000000e3;
+    color: #fff;
+    max-height: 120px;
+    padding: 15px;
+    white-space: initial;
+    overflow-y: auto;
+    opacity: 0;
+    display: none;
+    border-radius: 10px;
+    z-index: 100;
+}
+.campain_name span::-webkit-scrollbar{
+    width: 5px;
+    border-radius: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+    background: #000;
+    border-radius: 10px;
+  }
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #747474;
+    border-radius: 10px;
+  }
+.campain_name:hover span{
+   opacity: 1;
+   display: block;
+}
+.notes_comment
+{
+    white-space: initial;
+    max-height: 100px;
+    overflow-y: auto;
+
+}
+
+.modal-dialog {
+    background: #fff;
+    border-radius: 10px;
+}
+
+.modal-header {
+    background: #081840;
+}
+
+.modal-title {
+    color: #fff;
+}
+
+.modal-header .close {
+    color: #fff;
+    opacity: 1;
+}
+/* html body .p-t-20 {
+    display: flex;
+    justify-content: space-around;
+} */

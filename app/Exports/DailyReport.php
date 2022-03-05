@@ -21,20 +21,13 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
 {
 
     use Exportable;
-    function __construct($id,$date)
+    function __construct($id,$campaign_id, $date_from, $date_to)
     {
         $this->id = $id;
-        $this->date = $date;
-        // dd($date_from);
+        $this->campaign_id = $campaign_id;
+        $this->date_from = $date_from;
+        $this->date_to = $date_to;
     }
-    // public function prepareRows($rows)
-    // {
-    //     // $rows = Lead::where('status', 3)->get();
-    //     return $rows->transform(function ($user) {
-    //         $user->download_PDF = '';
-    //         return $user;
-    //     });
-    // }
     public function map($lead): array
     {
         $data =   Source::where("id", '=', $lead->source_id)->get();
@@ -53,10 +46,6 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
         foreach ($data4 as $datas4) {
             $lead->asign_to_manager = $datas4['name'];
         }
-        // $data5 = Note::where('lead_id', '=', 162)->get();
-        // foreach ($data5 as $datas5) {
-        // }
-        // $notes = $datas5['feedback'];
         if ($lead->status == 1) {
             $status =  'pending';
         } elseif ($lead->status == 3) {
@@ -77,38 +66,19 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             $lead->lead_data = implode(",\n", $lead_data);
             $i++;
         }
-        //                         $data6 =   LhsReport::get();
-        // foreach ($data6 as $datas6) {
-        //  if ($lead->status == 3 && $datas6['lead_id'] == $lead->id) {
-        //     //  dd('ss');
-        //         $lead->download_word =  'http://localhost/lead_updated_new/employee/export/'.$lead->id.'/pdf_single_down';
-        //     }
-        // }
         $data6 =   LhsReport::get();
         foreach ($data6 as $datas6) {
          if ($lead->status == 3 && $datas6['lead_id'] == $lead->id) {
-            //  dd('ss');
             $lead->download_word =  $lead->prospect_first_name.$lead->prospect_last_name.date("-d-m-Y").'.doc';
             }
         }
-        // dd($lead_data);
+
         $return = [
             $lead->id,
             $lead->user_id,
             $lead->company_name,
             $lead->prospect_first_name .' '. $lead->prospect_last_name,
-            // $lead->job_title,
-            // $lead->employee_size,
-            // $lead->web_address,
-            // $lead->revenue_size,
             $lead->company_industry,
-            // $lead->physical_address,
-            // $lead->city,
-            // $lead->state,
-            // $lead->zip_code,
-            // $lead->country,
-            // $lead->lead_name,
-            // $lead->lead_details,
             $lead->linkedin_address,
             $lead->source_id,
             $lead->prospect_email,
@@ -118,8 +88,6 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             $lead->asign_to_manager,
             $lead->lead_data,
             $lead->status = $status,
-            // $lead->total_amount,
-            // $lead->no_of_installment,
             $lead->location,
             $lead->timezone,
             $lead->prospect_first_name .' '. $lead->prospect_last_name,
@@ -130,7 +98,6 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             $lead->created_at,
             $lead->updated_at,
             $lead->download_word,
-            // $lead->deleted_at,
         ];
 
 
@@ -139,7 +106,21 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
     public function query()
     {
         $date = date("Y-m-d");
-        $data = Lead::where("source_id", '=', $this->id)->where('status','!=','1')->whereDate("updated_at",'=',date($this->date));
+        if($this->id && empty($this->campaign_id) && empty($this->date_from) && empty($this->date_to)){
+        $data = Lead::where("asign_to", '=', $this->id)->join('notes','notes.lead_id','=','leads.id')->orderBy('status', 'desc');
+        }
+        elseif($this->id && $this->campaign_id && empty($this->date_from) && empty($this->date_to))
+        {
+            $data = Lead::where("asign_to", '=', $this->id)->where('source_id','=',$this->campaign_id)->join('notes','notes.lead_id','=','leads.id')->orderBy('status', 'desc');
+        }
+        elseif($this->id && $this->campaign_id && $this->date_from && $this->date_to)
+        {
+            $data = Lead::where("asign_to", '=', $this->id)->where('source_id','=',$this->campaign_id)->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$this->date_from, $this->date_to])->orderBy('status', 'desc');
+        }
+        elseif($this->id && empty($this->campaign_id) && $this->date_from && $this->date_to)
+        {
+            $data = Lead::where("asign_to", '=', $this->id)->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$this->date_from, $this->date_to])->orderBy('status', 'desc');
+        }
         return $data;
     }
 

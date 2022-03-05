@@ -13,9 +13,7 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('public/admin/assets/images/favicon(32x32).png') }}">
 
     <title>Lead Management</title>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-
+   
     <!-- Jquery Min js -->
      <script src="{{ asset('public/admin/assets/plugins/jquery/jquery.min.js') }}"></script>
 
@@ -618,7 +616,7 @@ a.clear {
                                 <li><a href="{{ url('leads/failed') }}">Failed Leads</a></li>
                             </ul>
                         </li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/emp_daily_report') }}" aria-expanded="false"><i class="fa fa-id-card-o"></i><span class="hide-menu">Daily Report</span>  </a> 
+                        <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/emp_daily_report?campaign_id=&date_from=&date_to=') }}" aria-expanded="false"><i class="fa fa-id-card-o"></i><span class="hide-menu">Daily Report</span>  </a> 
 
                     </ul>
 

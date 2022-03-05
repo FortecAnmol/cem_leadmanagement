@@ -171,7 +171,7 @@ i.fa-brands.fa-linkedin {
                                 <!--<h4 class="card-title">Data Export</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>-->
                              
-                                <div class="table-responsive m-t-40">
+                                <div class="table-responsive m-t-40" style="padding-bottom: 50px;">
 
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
@@ -233,26 +233,25 @@ i.fa-brands.fa-linkedin {
                                                 <td>{{ $data['job_title'] }}</td>-->
                                                 {{-- <td>{{ $data['prospect_email'] }}</td> --}}
                                                 <td>{{ $data['contact_number_1'] }}</td>
-                                                <td><?php
-                                                    $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
-                                                 ?>
-                                                 @foreach($sget_dates as $get_date)
-                                                 @if($get_date['feedback'] == '')
-                                                 <p> </p>
-                                                 @else
-                                                 <p class="campain_name" data-toggle="tooltip" data-placement="top" title="{{$get_date['feedback']}}">
-                                                     @php
-                                                     $result = substr($get_date['feedback'], 0, 20);
-                                                     @endphp
-                                                     @if (strlen($get_date['feedback']) > 20)
-                                                     {{$result}}.....
-                                                     @else
-                                                     {{$get_date['feedback']}}
-                                                     @endif
-                                                   </p>
-                                                 @endif
-                                                 @endforeach
-                                                 </td>
+                                                                                                <td><?php
+                                                   $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
+                                                ?>
+                                                @foreach($sget_dates as $get_date)
+                                                @if($get_date['feedback'] == '')
+                                                <p> </p>
+                                                @else
+                                                {{-- <p class="campain_name" data-toggle="tooltip" data-placement="top" title="{{$get_date['feedback']}}"> --}}
+                                                    @php
+                                                    $result = substr($get_date['feedback'], 0, 20);
+                                                    @endphp
+                                                    @if (strlen($get_date['feedback']) > 20)
+                                                    <p class="campain_name" data-toggle="tooltip" data-placement="top"><span>{{$get_date['feedback']}}</span>{{$result}}</p>
+                                                    @else
+                                                    {{$get_date['feedback']}}
+                                                    @endif
+                                                @endif
+                                                @endforeach
+                                            </td>
                                                  <td><?php
                                                     foreach ($sget_dates as $get_date) {
                                                         if($get_date['created_at'] == ''){
