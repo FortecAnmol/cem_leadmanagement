@@ -102,7 +102,7 @@
                                     justify-content: flex-end;
                                     width: 100%;">
                                     <br>
-                                    <a type="button" href="{{ url('/emp_daily_report').$urls }}" class="btn btn-success addButton"> Export Report </a>
+                                    <a type="button" href="{{ url('/employee/'.auth()->user()->id.'/emp_daily_report'.$urls) }}" class="btn btn-success addButton"> Export Report </a>
 
                                 </div>
 							 <!-- sample modal content -->
@@ -163,7 +163,7 @@
                                                 <th>Latest Updated Note</th>
                                                 <th>Date/Time</th>
                                                 <th>Status</th>
-                                                <th>Action</th>
+                                                {{-- <th>Action</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -171,7 +171,7 @@
                                             @foreach($data as $data)
                                             <tr>
                                                 <td>{{ $i }}</td>
-                                                    <td>{{$data['prospect_first_name'].' '.$data['prospect_last_name']}}</td>
+                                                    <td><a href="{{ url('/leads', [$data['id']]) }}">{{$data['prospect_first_name'].' '.$data['prospect_last_name']}}</a></td>
                                                     <td>
                                                         <?php
                                                         $sget_dates = App\Models\Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
@@ -218,7 +218,7 @@
                                                 // }
                                                  @endphp
                                                  @if($data['status'] == 1)
-                                                 <span class="label" data-toggle="tooltip" data-placement="top" title="Pending" style="color:#000;font-size: 15px;"><img style="width: 20px" src="{{ asset('public/admin/assets/images/pending.png') }}" alt="pending"><span class="lead_status_sapn">1</span></span></td>
+                                                 <td> <span class="label" data-toggle="tooltip" data-placement="top" title="Pending" style="color:#000;font-size: 15px;"><img style="width: 20px" src="{{ asset('public/admin/assets/images/pending.png') }}" alt="pending"><span class="lead_status_sapn">1</span></span></td>
                                                  @elseif($data['status'] == 3)
                                                 <td><span  class="label" data-toggle="tooltip" data-placement="top" title="Closed" style="color:#000;font-size: 15px;"><img style="width: 20px" src="{{ asset('public/admin/assets/images/completed.png') }}" alt="completed"><span class="lead_status_sapn">3</span></span></td>
                                                  @elseif($data['status'] == 2)
@@ -226,11 +226,11 @@
                                                  @elseif($data['status'] == 4)
                                                 <td><span class="label"  data-toggle="tooltip" data-placement="top" title="In Progress" style="color:#000;font-size: 15px;" class="label"><img style="width: 20px" src="{{ asset('public/admin/assets/images/in-progress.png') }}" alt="In Progress"><span class="lead_status_sapn">4</span></span></td>
                                                  @endif
-                                    <td>
+                                    {{-- <td>
                                      <a href="{{ url('/employee/' . $data['source']['id']).'/'.$updated_date.'/emp_daily_report' }}"><span
                                         class="label" data-toggle="tooltip" data-placement="top" title="Report Download" style="color:#55ce63;font-size: 15px;"> <i class="fa fa-file-excel-o" aria-hidden="true"></i></span>
                                      </a>
-                                    </td>                                          
+                                    </td>                                           --}}
                                             </tr>
                                             @php $i = $i+1; @endphp
                                             @endforeach
