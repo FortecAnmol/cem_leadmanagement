@@ -99,7 +99,6 @@ class HomeController extends Controller
         )
           
       );*/
-      
           if(request()->get('employee_id')){
               $employee_id =  $_GET['employee_id']; 
           }else{

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Mockery\Matcher\Not;
 
 class LeadsController extends Controller
 {
@@ -592,6 +593,10 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
 
         }
         else{
+            Note::where('lead_id', $request->lead_id)->orderBy('updated_at', 'desc')
+            ->update([
+                'updated_at' => date('Y-m-d G:i:s')
+             ]);
             Lead::where('id', $request->lead_id)->update(['status'=>$request->status,'is_notify'=>1,'is_read'=>1]);
              $notification_count =  Lead::where('is_notify','!=', 0)->count();
              if($request->status == 2){

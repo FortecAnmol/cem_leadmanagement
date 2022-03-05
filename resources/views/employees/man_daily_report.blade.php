@@ -59,21 +59,36 @@
                             <div class="card-body">
                                 <div class="row p-t-20">
 
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label class="control-label">Campaign Name</label>
-                                        <select class="form-control"  name="campaign_id" id="campaign_id">
-                                            <option value="" selected>Select Campaign</option>
-                                                  @foreach($campaigns as $campaigns)
-                                                          @if ($campaign_id == $campaigns['source']['id'])
-                                                                      <option value="{{ $campaigns['source']['id'] }}" selected>{{ $campaigns['source']['source_name'] }}</option>
-                                                                  @else 
-                                                                      <option value="{{ $campaigns['source']['id'] }}">{{ $campaigns['source']['source_name'] }}</option>
-                                                                   @endif 
-                                                  @endforeach
-                                          </select>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Employee Name</label>
+                                             <select class="form-control"  name="employee_id" id="employee_id">
+                                              <option value="">Select Employee</option>
+                                                    @foreach($employees as $employees)
+                                                        @if ($employee_id == $employees['id'])
+                                                            <option value="{{ $employees['id'] }}" selected>{{ $employees['name'] }}</option>
+                                                        @else
+                                                            <option value="{{ $employees['id'] }}">{{ $employees['name'] }}</option>
+                                                        @endif
+                                                    @endforeach
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label class="control-label">Campaign Name</label>
+                                             <select class="form-control"  name="campaign_id" id="campaign_id">
+                                              <option value="">Select Campaign ID</option>
+                                                    @foreach($campaigns as $campaigns)
+                                                        @if ($campaign_id == $campaigns['id'])
+                                                            <option value="{{ $campaigns['id'] }}" selected>{{ $campaigns['source_name'] }}</option>
+                                                        @else
+                                                            <option value="{{ $campaigns['id'] }}">{{ $campaigns['source_name'] }}</option>
+                                                        @endif
+                                                    @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                 
                                 <div class="col-md-2">
                                     <div class="form-group">
@@ -102,7 +117,7 @@
                                     justify-content: flex-end;
                                     width: 100%;">
                                     <br>
-                                    <a type="button" href="{{ url('/employee/'.auth()->user()->id.'/emp_daily_report'.$urls) }}" class="btn btn-success addButton"> Export Report </a>
+                                    <a type="button" href="{{ url('/employee/'.auth()->user()->id.'/man_daily_report'.$urls) }}" class="btn btn-success addButton"> Export Report </a>
 
                                 </div>
 							 <!-- sample modal content -->
@@ -227,7 +242,7 @@
                                                 <td><span class="label"  data-toggle="tooltip" data-placement="top" title="In Progress" style="color:#000;font-size: 15px;" class="label"><img style="width: 20px" src="{{ asset('public/admin/assets/images/in-progress.png') }}" alt="In Progress"><span class="lead_status_sapn">4</span></span></td>
                                                  @endif
                                     {{-- <td>
-                                     <a href="{{ url('/employee/' . $data['source']['id']).'/'.$updated_date.'/emp_daily_report' }}"><span
+                                     <a href="{{ url('/employee/' . $data['source']['id']).'/'.$updated_date.'/man_daily_report' }}"><span
                                         class="label" data-toggle="tooltip" data-placement="top" title="Report Download" style="color:#55ce63;font-size: 15px;"> <i class="fa fa-file-excel-o" aria-hidden="true"></i></span>
                                      </a>
                                     </td>                                           --}}
@@ -273,7 +288,7 @@
                var date_from = $('#date_from').val();
                var date_to = $('#date_to').val();
                var base_url = $('meta[name="base_url"]').attr('content');
-               var  Current_url = base_url+"/emp_daily_report?"+"&campaign_id="+campaign_id+"&date_from="+date_from+"&date_to="+date_to;
+               var  Current_url = base_url+"/man_daily_report?"+"&campaign_id="+campaign_id+"&date_from="+date_from+"&date_to="+date_to;
     
                 $(window).attr("location",Current_url);
         });

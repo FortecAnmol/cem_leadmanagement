@@ -55,7 +55,13 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
         } else{
             $status =  'In Progress';
         }
-        $data5 = Note::where('lead_id', '=', $lead->id)->get();
+        $data6 =   LhsReport::get();
+        foreach ($data6 as $datas6) {
+         if ($lead->status == 3) {
+            $lead->download_word =  "$lead->prospect_first_name$lead->prospect_last_name".date('-d-m-Y').".doc";
+            }
+        }
+        $data5 = Note::where('lead_id', '=', $lead->lead_id)->get();
         $lead_data = array();
         $i = 1;
         foreach ($data5 as $key =>  $items) {
@@ -65,12 +71,6 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
 
             $lead->lead_data = implode(",\n", $lead_data);
             $i++;
-        }
-        $data6 =   LhsReport::get();
-        foreach ($data6 as $datas6) {
-         if ($lead->status == 3 && $datas6['lead_id'] == $lead->id) {
-            $lead->download_word =  $lead->prospect_first_name.$lead->prospect_last_name.date("-d-m-Y").'.doc';
-            }
         }
 
         $return = [
@@ -107,19 +107,19 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
     {
         $date = date("Y-m-d");
         if($this->id && empty($this->campaign_id) && empty($this->date_from) && empty($this->date_to)){
-        $data = Lead::where("asign_to", '=', $this->id)->join('notes','notes.lead_id','=','leads.id')->orderBy('status', 'desc');
+        $data = Lead::where("asign_to", '=', $this->id)->latest('notes.updated_at', 'desc')->groupBy('notes.lead_id')->join('notes','notes.lead_id','=','leads.id');
         }
         elseif($this->id && $this->campaign_id && empty($this->date_from) && empty($this->date_to))
         {
-            $data = Lead::where("asign_to", '=', $this->id)->where('source_id','=',$this->campaign_id)->join('notes','notes.lead_id','=','leads.id')->orderBy('status', 'desc');
+            $data = Lead::where("asign_to", '=', $this->id)->where('source_id','=',$this->campaign_id)->latest('notes.updated_at', 'desc')->groupBy('notes.lead_id')->join('notes','notes.lead_id','=','leads.id');
         }
         elseif($this->id && $this->campaign_id && $this->date_from && $this->date_to)
         {
-            $data = Lead::where("asign_to", '=', $this->id)->where('source_id','=',$this->campaign_id)->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$this->date_from, $this->date_to])->orderBy('status', 'desc');
+            $data = Lead::where("asign_to", '=', $this->id)->where('source_id','=',$this->campaign_id)->latest('notes.updated_at', 'desc')->groupBy('notes.lead_id')->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$this->date_from, $this->date_to]);
         }
         elseif($this->id && empty($this->campaign_id) && $this->date_from && $this->date_to)
         {
-            $data = Lead::where("asign_to", '=', $this->id)->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$this->date_from, $this->date_to])->orderBy('status', 'desc');
+            $data = Lead::where("asign_to", '=', $this->id)->latest('notes.updated_at', 'desc')->groupBy('notes.lead_id')->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$this->date_from, $this->date_to]);
         }
         return $data;
     }
