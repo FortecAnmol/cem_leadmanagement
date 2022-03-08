@@ -548,68 +548,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
     }
 
 
-    public function changeStatus(Request $request)
-    {
 
-        /*$validator = Validator::make($request->all(), [
-            'status' => 'required',
-        ]);
-
-
-        if ($validator->passes()) {
-
-            $data = array(
-                'status'=>$request->status
-            );
-            
-             //Lead::where('id', $request->lead_id)->update(['status'=>$request->status]);
-            return response()->json(['success'=>'Updated Successfully.']);
-        }
-        return response()->json(['error'=>$validator->errors()->all()]);
-
-        */
-        //dd( $request);
-         $notesCount =  Note::where(['lead_id'=>$request->lead_id])->count();
-         $total_Lhsreport_count =  LhsReport::where(['lead_id'=>$request->lead_id])->count();
-        if($notesCount == 0){
-            $html = '<li class="error_list"><span class="tab">Please add a notes first.</span></li>';
-           return response()->json(['error'=>'Please add a note first.','lhs_link'=>$html]);
-        }else if($total_Lhsreport_count == 0 && $request->status == 3)
-        {    
-            if($notesCount == 0){
-           return response()->json(['error'=>'Please add a note first.']);
-            }else{
-            $html = '';
-            $hostname = Config::get('app.url');
-            $Current_url = $hostname."/employee/lhs_report/". $request->lead_id."?status=".$request->status;
-            $html = '<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'.$Current_url.'" ><span class="tab">Click here to add Lhs Report</span></a></li>';
-            return response()->json(['error'=>'Please add  LHS Report first.','lhs_link'=>$html]);
-            }
-            //$('.alert.alert-danger.print-error-msg').show();
-            //var base_url = $('meta[name="base_url"]').attr('content');
-           // var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
-          //  $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'+Current_url+'" ><span class="tab">Click here to add Lhs Report</span></a></li>');
-        
-
-        }
-        else{
-            Note::where('lead_id', $request->lead_id)->orderBy('updated_at', 'desc')
-            ->update([
-                'updated_at' => date('Y-m-d G:i:s')
-             ]);
-            Lead::where('id', $request->lead_id)->update(['status'=>$request->status,'is_notify'=>1,'is_read'=>1]);
-             $notification_count =  Lead::where('is_notify','!=', 0)->count();
-             if($request->status == 2){
-                $status = 'failed';
-             }elseif($request->status == 3){
-                $status = 'close';
-             }else{
-                $status = 'in_progress'; 
-             }
-             //dd($notification_count);
-            return response()->json(['success'=>'Updated Successfully.','notification_count'=>$notification_count ,'status'=> $status]);
-        }       
-    }
     // assign  lead to manager by admin
     public function assignLeadsManager(AssignLeadRequest $request)
     {
@@ -665,6 +604,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
          $data = array(
             'user_id'=>auth()->user()->id,
             'lead_id'=>$request->lead_id,
+            'source_id'=>$request->source_id,
             'reminder_time'=>$request->reminder_time,
             'reminder_date'=>$request->reminder_date,
             'reminder_for'=>$request->reminder_for,
@@ -673,6 +613,82 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
         Note::create($data);
         return response()->json(['success'=>'Note Added Successfully']);
         // }
+    }
+    public function changeStatus(Request $request)
+    {
+
+        /*$validator = Validator::make($request->all(), [
+            'status' => 'required',
+        ]);
+
+
+        if ($validator->passes()) {
+
+            $data = array(
+                'status'=>$request->status
+            );
+            
+             //Lead::where('id', $request->lead_id)->update(['status'=>$request->status]);
+            return response()->json(['success'=>'Updated Successfully.']);
+        }
+        return response()->json(['error'=>$validator->errors()->all()]);
+
+        */
+        //dd( $request);
+         $notesCount =  Note::where(['lead_id'=>$request->lead_id])->count();
+         $total_Lhsreport_count =  LhsReport::where(['lead_id'=>$request->lead_id])->count();
+        if($notesCount == 0){
+            $html = '<li class="error_list"><span class="tab">Please add a notes first.</span></li>';
+           return response()->json(['error'=>'Please add a note first.','lhs_link'=>$html]);
+        }else if($total_Lhsreport_count == 0 && $request->status == 3)
+        {    
+            if($notesCount == 0){
+           return response()->json(['error'=>'Please add a note first.']);
+            }else{
+            $html = '';
+            $hostname = Config::get('app.url');
+            $Current_url = $hostname."/employee/lhs_report/". $request->lead_id."?status=".$request->status;
+            $html = '<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'.$Current_url.'" ><span class="tab">Click here to add Lhs Report</span></a></li>';
+            return response()->json(['error'=>'Please add  LHS Report first.','lhs_link'=>$html]);
+            }
+            //$('.alert.alert-danger.print-error-msg').show();
+            //var base_url = $('meta[name="base_url"]').attr('content');
+           // var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
+          //  $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'+Current_url+'" ><span class="tab">Click here to add Lhs Report</span></a></li>');
+        
+
+        }
+        else{
+            // Note::where('lead_id', $request->lead_id)->orderBy('updated_at', 'desc')
+            // ->first()
+            // ->update([
+            //     'updated_at' => date('Y-m-d G:i:s')
+            //  ]);
+            $create_note = Note::where('lead_id', $request->lead_id)->orderBy('updated_at', 'desc')
+            ->first();
+            $data = array(
+                'user_id'=>$create_note['user_id'],
+                'lead_id'=>$create_note['lead_id'],
+                'source_id'=>$create_note['source_id'],
+                'status'=>$request->status,
+                'reminder_time'=>$create_note['reminder_time'],
+                'reminder_date'=>$create_note['reminder_date'],
+                'reminder_for'=>$create_note['reminder_for'],
+                'feedback'=>$create_note['feedback'],
+            );
+            Note::create($data);
+            Lead::where('id', $request->lead_id)->update(['status'=>$request->status,'is_notify'=>1,'is_read'=>1]);
+             $notification_count =  Lead::where('is_notify','!=', 0)->count();
+             if($request->status == 2){
+                $status = 'failed';
+             }elseif($request->status == 3){
+                $status = 'close';
+             }else{
+                $status = 'in_progress'; 
+             }
+             //dd($notification_count);
+            return response()->json(['success'=>'Updated Successfully.','notification_count'=>$notification_count ,'status'=> $status]);
+        }       
     }
     public function search(Request $request)
     {  

@@ -17,16 +17,29 @@ use Illuminate\Http\Request;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize, WithMapping
+class ManDailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize, WithMapping
 {
 
     use Exportable;
-    function __construct($id,$campaign_id, $date_from, $date_to)
+    protected $camp_id;
+    protected $emp_id;
+    protected $date_from;
+    protected $date_to;
+    function __construct($camp_id, $emp_id,$date_from,$date_to)
     {
-        $this->id = $id;
-        $this->campaign_id = $campaign_id;
+        $this->camp_id = $camp_id;
+        $this->emp_id = $emp_id;
         $this->date_from = $date_from;
         $this->date_to = $date_to;
+        // dd($date_from);
+    }
+    public function prepareRows($rows)
+    {
+        // $rows = Lead::where('status', 3)->get();
+        return $rows->transform(function ($user) {
+            $user->download_PDF = '';
+            return $user;
+        });
     }
     public function map($lead): array
     {
@@ -46,6 +59,17 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
         foreach ($data4 as $datas4) {
             $lead->asign_to_manager = $datas4['name'];
         }
+        $data6 =   LhsReport::get();
+        foreach ($data6 as $datas6) {
+         if ($lead->status == 3 && $datas6['lead_id'] == $lead->id) {
+            //  dd('ss');
+            $lead->download_word =  $lead->prospect_first_name.$lead->prospect_last_name.date("-d-m-Y").'.doc';
+            }
+        }
+        // $data5 = Note::where('lead_id', '=', 162)->get();
+        // foreach ($data5 as $datas5) {
+        // }
+        // $notes = $datas5['feedback'];
         if ($lead->status == 1) {
             $status =  'pending';
         } elseif ($lead->status == 3) {
@@ -55,13 +79,7 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
         } else{
             $status =  'In Progress';
         }
-        $data6 =   LhsReport::get();
-        foreach ($data6 as $datas6) {
-         if ($lead->status == 3) {
-            $lead->download_word =  "$lead->prospect_first_name$lead->prospect_last_name".date('-d-m-Y').".doc";
-            }
-        }
-        $data5 = Note::where('lead_id', '=', $lead->lead_id)->get();
+        $data5 = Note::where('lead_id', '=', $lead->id)->get();
         $lead_data = array();
         $i = 1;
         foreach ($data5 as $key =>  $items) {
@@ -72,13 +90,24 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             $lead->lead_data = implode(",\n", $lead_data);
             $i++;
         }
-
+        // dd($lead_data);
         $return = [
             $lead->id,
             $lead->user_id,
             $lead->company_name,
-            $lead->prospect_first_name .' '. $lead->prospect_last_name,
+            $lead->prospect_first_name . $lead->prospect_last_name,
+            // $lead->job_title,
+            // $lead->employee_size,
+            // $lead->web_address,
+            // $lead->revenue_size,
             $lead->company_industry,
+            // $lead->physical_address,
+            // $lead->city,
+            // $lead->state,
+            // $lead->zip_code,
+            // $lead->country,
+            // $lead->lead_name,
+            // $lead->lead_details,
             $lead->linkedin_address,
             $lead->source_id,
             $lead->prospect_email,
@@ -88,16 +117,19 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             $lead->asign_to_manager,
             $lead->lead_data,
             $lead->status = $status,
+            // $lead->total_amount,
+            // $lead->no_of_installment,
             $lead->location,
             $lead->timezone,
-            $lead->prospect_first_name .' '. $lead->prospect_last_name,
+            $lead->prospect_first_name . $lead->prospect_last_name,
             $lead->designation,
             $lead->designation_level,
             $lead->bussiness_function,
             $lead->date_shared,
             $lead->created_at,
             $lead->updated_at,
-            $lead->download_word,
+            $lead->download_word
+            // $lead->deleted_at,
         ];
 
 
@@ -105,35 +137,40 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
     }
     public function query()
     {
-        $date = date("Y-m-d");
-        if($this->id && empty($this->campaign_id) && empty($this->date_from) && empty($this->date_to)){
-        $data = Lead::where("asign_to", '=', $this->id)->latest('notes.updated_at', 'desc')->join('notes','notes.lead_id','=','leads.id');
+        if ($this->emp_id != "" && $this->camp_id != "" &&  $this->date_from == "" && $this->date_to == "" ) {
+           return   Lead::query()
+           ->where('asign_to',$this->emp_id)->where('notes.source_id',$this->camp_id)
+           ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at');
+        } elseif ($this->emp_id != "" && $this->camp_id == "" &&  $this->date_from == "" && $this->date_to == "" )  {
+            return  
+            Lead::query()
+            ->where('asign_to',$this->emp_id)
+            ->join('notes','notes.lead_id','=','leads.id')
+            ->latest('notes.updated_at');
+        } elseif ($this->emp_id == "" && $this->camp_id != "" &&  $this->date_from == "" && $this->date_to == "" ) {
 
-
+            return   Lead::query()
+            ->where('notes.source_id','=',$this->camp_id)
+            ->join('notes','notes.lead_id','=','leads.id')
+            ->latest('notes.updated_at');
         }
-        elseif($this->id && $this->campaign_id && empty($this->date_from) && empty($this->date_to))
-        {
-            $data = Lead::where("asign_to", '=', $this->id)->where('notes.source_id','=',$this->campaign_id)
-            ->latest('notes.updated_at', 'desc')->join('notes','notes.lead_id','=','leads.id');
-
-
-        }
-        elseif($this->id && $this->campaign_id && $this->date_from && $this->date_to)
-        {
-            $data = Lead::where("asign_to", '=', $this->id)->where('notes.source_id','=',$this->campaign_id)
-            ->latest('notes.updated_at', 'desc')->join('notes','notes.lead_id','=','leads.id')
-            ->whereBetween('notes.updated_at', [$this->date_from, $this->date_to]);
-
-
-        }
-        elseif($this->id && empty($this->campaign_id) && $this->date_from && $this->date_to)
-        {
-            $data = Lead::where("asign_to", '=', $this->id)->latest('notes.updated_at', 'desc')
-            ->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$this->date_from, $this->date_to]);
-
+         elseif ($this->emp_id == "" && $this->camp_id == "" &&  $this->date_from == "" && $this->date_to == "" ) {
+            return Lead::join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at');
             
+        } elseif ($this->emp_id != "" && $this->camp_id == "" && $this->date_from != "" && $this->date_to != ""){
+            return  Lead::query()->where('asign_to',$this->emp_id)->whereBetween('notes.updated_at', [$this->date_from, $this->date_to])
+            ->join('notes','notes.lead_id','=','leads.id')
+            ->latest('notes.updated_at', 'desc');
+
+        } elseif ($this->emp_id != "" && $this->camp_id != "" && $this->date_from != "" && $this->date_to != ""){
+            return   Lead::query()
+            ->where("notes.source_id", '=', $this->camp_id)
+            ->where("asign_to", "=", $this->emp_id)
+            ->join('notes','notes.lead_id','=','leads.id')
+            ->latest('notes.updated_at', 'desc')
+            ->whereBetween('notes.updated_at', [$this->date_from, $this->date_to]);    
         }
-        return $data;
+        // return $data;
     }
 
     public function headings(): array
@@ -177,7 +214,7 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             'Created On',
             'Updated On',
             // 'deleted_at',
-            'Download Word',
+            'Download PDF',
         ];
     }
     public function registerEvents(): array

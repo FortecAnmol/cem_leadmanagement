@@ -292,6 +292,7 @@ body{
                                                     $notesCount =  App\Models\Note::where(['lead_id'=>$data['id']])->count();
                                                     $LhsReportCount =  App\Models\LhsReport::where(['lead_id'=>$data['id']])->count();
                                                    ?>
+                                                    <input type="hidden" id="notes_count_{{ $data['source_id'] }}" name="source_id" value="{{ $data['source_id'] }}">
                                                     <input type="hidden" id="notes_count_{{ $data['id'] }}" name="notes_count" value="{{ $notesCount }}">
                                                     <input type="hidden" id="Lhsreport_count_{{ $data['id'] }}" name="Lhsreport_count" value="{{ $LhsReportCount }}">
 
@@ -376,7 +377,7 @@ body{
                                 <option value="Information Request Brochure">Information Request Brochure</option>
                         </select>
                         <label class="control-label">Note</label>
-                        <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{$data['id']}}">
+                        <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{isset($data['id'])}}">
                         <textarea required type="text" class="form-control required" name="feedback" id="feedback" placeholder="Enter Note" style="min-height: 130px;">{{ old('note') }}</textarea>   
                         <div class="alert alert-danger print-error-msg" style="display:none">
                         <ul class="custom_text"></ul>
@@ -485,6 +486,7 @@ $('.modal').on('hidden.bs.modal', function(){
     let feedback = $("[name=feedback]").val();
     let reminder_date = $("[name=reminder_date]").val(); 
     let reminder_time = $("[name=reminder_time]").val(); 
+    let source_id = $("[name=source_id]").val(); 
     console.log(reminder_time);
     let reminder_for = $("[name=reminder_for]").val(); 
     let lead_id = $("input[name=lead_id_quick_note]").val(); 
@@ -493,6 +495,7 @@ $('.modal').on('hidden.bs.modal', function(){
       url: '{{route("add_note")}}',
       type:"POST",
       data:{
+        source_id:source_id,
           reminder_date:reminder_date,
           reminder_time:reminder_time,
           reminder_for:reminder_for,

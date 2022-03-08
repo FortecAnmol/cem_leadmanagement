@@ -281,6 +281,7 @@ i.fa-brands.fa-linkedin {
                                                  $LhsReportCount =  App\Models\LhsReport::where(['lead_id'=>$data['id']])->count();
 
                                                 ?>
+                                                    <input type="hidden" id="notes_count_{{ $data['source_id'] }}" name="source_id" value="{{ $data['source_id'] }}">
                                                  <input type="hidden" id="notes_count_{{ $data['id'] }}" name="notes_count" value="{{ $notesCount }}">
                                                  <input type="hidden" id="Lhsreport_count_{{ $data['id'] }}" name="Lhsreport_count" value="{{ $LhsReportCount }}">
 
@@ -396,12 +397,14 @@ $('.modal').on('hidden.bs.modal', function(){
     let reminder_date = $("[name=reminder_date]").val(); 
     let reminder_time = $("[name=reminder_time]").val(); 
     let reminder_for = $("[name=reminder_for]").val(); 
+    let source_id = $("[name=source_id]").val(); 
     let lead_id = $("input[name=lead_id_quick_note]").val(); 
     let _token   = $('meta[name="csrf-token"]').attr('content');
     $.ajax({
       url: '{{route("add_note")}}',
       type:"POST",
       data:{
+        source_id:source_id,
           reminder_date:reminder_date,
           reminder_time:reminder_time,
           reminder_for:reminder_for,
