@@ -28,7 +28,6 @@ class SourcesController extends Controller
         }else{
             $data = Source::where(['user_id'=>auth()->user()->id])->orWhere(['assign_to_manager'=>auth()->user()->id])->select("*", DB::raw('(SELECT SUM(amount) FROM money WHERE money.source_id = sources.id) as amount'))->with('closed_leads')->get()->toArray();
         }
-        //dd($data);
          return view('sources.list')->with(['data'=>$data]);
     }
 
@@ -36,6 +35,11 @@ class SourcesController extends Controller
     public function create()
     {
          return view('sources.add');
+    }
+    public function create_campaign($id)
+    {
+         $source = Source::where('id',$id)->first();
+         return view('sources.add_campaign')->with(['source'=>$source]);
     }
 
 

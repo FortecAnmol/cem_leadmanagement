@@ -340,7 +340,6 @@ class EmployeesController extends Controller
         //     //dd('dkdjkd');
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
-        
         $prev  = $request->previous_url;
         $uriSegments = explode("/", parse_url($prev, PHP_URL_PATH));
         $notesCount =  Note::where(['lead_id'=>$request->lead_id])->count();
@@ -380,9 +379,8 @@ class EmployeesController extends Controller
                 'meeting_teleconference'=>$request->meeting_teleconference,
                 'contact_decision_maker'=>$request->contact_decision_maker,
                 'influencers_decision_making_process'=>$request->influencers_decision_making_process,
-                'company_already_affiliated '=>$request->company_already_affiliated,
+                'company_already_affiliated'=>$request->company_already_affiliated,
             );
-       
             $lead_data =  Lead::where('id','=', $request->lead_id)->first();
             $source_id = $lead_data->source_id;
             LhsReport::create($data);

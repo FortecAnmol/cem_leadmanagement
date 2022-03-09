@@ -131,7 +131,7 @@ span.label.label-info {
 												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                             </div>
                                               <div class="alert alert-danger print-error-msg" style="display:none">
-                                               <ul></ul>
+                                                <ul class="custom_text"></ul>
                                                 </div>
                                             <div class="modal-body">
                                                 
@@ -265,6 +265,7 @@ span.label.label-info {
                                                     <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
                                                         <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
                                                     </a>
+                                                    <span class="label label-info" onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">Add Quick note</span>
                                                   
                                                     <span class="label label-info" onclick="document.getElementById('lead_id').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal">Change Status</span>
 
@@ -306,6 +307,58 @@ span.label.label-info {
                         </div>
 
                     </div>
+
+
+
+                    <!-- Quick Notes Add -->
+{{-- <form action="{{route('notes.store')}}" method="post"> --}}
+    {{-- @csrf --}}
+    <form id="form">
+<div id="status-modal-quicknote" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+             <meta name="csrf-token" content="{{ csrf_token() }}" />
+             <div>
+            <ul></ul>
+        </div>
+
+            <div class="modal-header">
+                <h4 class="modal-title">Add Quick Note</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group" id="status" name="status">
+                    <label class="control-label">Reminder Date</label>
+                    <input type="text" class="form-control" placeholder="Reminder Date" name="reminder_date" value="{{ old('reminder_date') }}" id="min-date" data-dtp="dtp_2827e">
+                    <label class="control-label">Reminder Time</label>
+                    <input type="time" class="form-control" id="reminder_time" name="reminder_time">                          
+                    <label class="control-label">Reminder For</label>
+                    {{-- <input type="text" class="form-control required" placeholder="Reminder For" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}"> --}}
+                    <select id="reminder_for" class="form-control required" name="reminder_for">
+                        <option value="">Choose Manager</option>
+                            <option value="Follow-up call">Follow-up call</option>
+                            <option value="Follow-up email">Follow-up email</option>
+                            <option value="Information request">Information request</option>
+                    </select>
+                    <label class="control-label">Note</label>
+                    <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{$data['id']}}">
+                    <textarea required type="text" class="form-control required" name="feedback" id="feedback" placeholder="Enter Note" style="min-height: 130px;">{{ old('note') }}</textarea>   
+                    <div class="alert alert-danger print-error-msg" style="display:none">
+                    <ul class="custom_text"></ul>
+                    </div>              
+                    @if($errors->has('status'))
+                    <div class="alert alert-danger">{{ $errors->first('status') }}</div>
+                @endif
+                </div>
+        </div>
+            <div class="modal-footer">
+            <input type="hidden" id="lead_id_quick_note" name="lead_id_quick_note">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                {{-- <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button> --}}
+                <button id="save-data-quick-note" type="button" class="btn btn-info waves-effect waves-light ">Add Note</button>
+            </div>
+        </div>
+</form>
                 </div>
 
                
@@ -346,6 +399,69 @@ span.label.label-info {
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 
+
+
+
+    <script>
+        $('.modal').on('hidden.bs.modal', function(){
+            $("#reminder_for").val('');
+            $("#feedback").val('');
+            $('.alert.alert-danger.print-error-msg').hide();
+            $('#status').prop('selectedIndex',0);
+        });
+        // $(".label-info").click(function(){
+        //   $(".form-control").toggleClass("main");
+        // });
+            $("#save-data-quick-note").click(function(event){
+            event.preventDefault();
+            let feedback = $("[name=feedback]").val();
+            if(feedback == 0){
+              $('.alert.alert-danger.print-error-msg').show();
+                  $('ul.custom_text').html('<li class="error_list"><span class="tab">Note Field Cannot Be Empty!</span></li>');
+            } else{
+            $('.alert.alert-danger.print-error-msg').hide();
+              $('ul.custom_text').html('');
+            //   $('alert.alert-success.print-error-msg').show();
+            //   $('ul.custom_text').html('<li><span class="error_list">Note Added Successfully</span></li>');
+            let feedback = $("[name=feedback]").val();
+            let reminder_date = $("[name=reminder_date]").val(); 
+            let reminder_time = $("[name=reminder_time]").val(); 
+            let reminder_for = $("[name=reminder_for]").val(); 
+            let source_id = $("[name=source_id]").val(); 
+            let lead_id = $("input[name=lead_id_quick_note]").val(); 
+            let _token   = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+              url: '{{route("add_note")}}',
+              type:"POST",
+              data:{
+                source_id:source_id,
+                  reminder_date:reminder_date,
+                  reminder_time:reminder_time,
+                  reminder_for:reminder_for,
+                  lead_id:lead_id,
+                  feedback:feedback,
+                _token: _token
+              },
+              success:function(response){
+                  if($.isEmptyObject(response.error)){
+                      console.log(response);
+                      toastr.success(response.success,'Success!')
+                  }else{
+                        toastr.error(response.error,'Error!');
+                  }
+        
+              },
+             });
+            }
+            function printErrorMsg (msg) {
+              console.log(msg);
+                  $(".print-error-msg").find("ul").html('');
+                  $(".print-error-msg").css('display','block');
+                  $(".print-error-msg").find("ul").append('<li>'+msg+'</li>');
+              }
+        });
+        </script>
+
   <script>
                    $(document).on("click", ".notes_id", function () {
     event.preventDefault();
@@ -377,37 +493,37 @@ span.label.label-info {
 });
 $( document ).ready(function() {
 
-    $("#status").change(function() {
-   var selected_val =   $('option:selected', this).val();
-   lead_id = $("input[name=lead_id]").val(); 
-    if(selected_val == 3){
-        $("#save-data").attr("disabled", true);
-         var create_notes_count_id   =  "notes_count_"+lead_id;
-         var total_notes_count = $("#"+create_notes_count_id).val();
-         var Lhsreport_count_id   =  "Lhsreport_count_"+lead_id;
-         var total_Lhsreport_count = $("#"+Lhsreport_count_id).val();
-         if(total_Lhsreport_count == 0){
-            $('.alert.alert-danger.print-error-msg').show();
-            var base_url = $('meta[name="base_url"]').attr('content');
-            var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
-            $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'+Current_url+'" ><span class="tab">Click here to add Lhs Report</span></a></li>');
-         }else{
-            $("#save-data").attr("disabled", false);
-         }
-         if(total_notes_count > 0){
-            var base_url = $('meta[name="base_url"]').attr('content');
-            var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
-          //  window.location.href = Current_url;
+//     $("#status").change(function() {
+//    var selected_val =   $('option:selected', this).val();
+//    lead_id = $("input[name=lead_id]").val(); 
+//     if(selected_val == 3){
+//         $("#save-data").attr("disabled", true);
+//          var create_notes_count_id   =  "notes_count_"+lead_id;
+//          var total_notes_count = $("#"+create_notes_count_id).val();
+//          var Lhsreport_count_id   =  "Lhsreport_count_"+lead_id;
+//          var total_Lhsreport_count = $("#"+Lhsreport_count_id).val();
+//          if(total_Lhsreport_count == 0){
+//             $('.alert.alert-danger.print-error-msg').show();
+//             var base_url = $('meta[name="base_url"]').attr('content');
+//             var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
+//             $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add  LHS Report first.</span><a href="'+Current_url+'" ><span class="tab">Click here to add Lhs Report</span></a></li>');
+//          }else{
+//             $("#save-data").attr("disabled", false);
+//          }
+//          if(total_notes_count > 0){
+//             var base_url = $('meta[name="base_url"]').attr('content');
+//             var  Current_url = base_url+"/employee/lhs_report/"+ lead_id+"?status="+selected_val;
+//           //  window.location.href = Current_url;
           
-         }else{
-             $('.alert.alert-danger.print-error-msg').show();
-             $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add a notes first.</span></li>');
-        }
+//          }else{
+//              $('.alert.alert-danger.print-error-msg').show();
+//              $('ul.custom_text').html('<li class="error_list"><span class="tab">Please add a notes first.</span></li>');
+//         }
       
-    }else{
-        $("#save-data").attr("disabled", false);
-    }
-});
+//     }else{
+//         $("#save-data").attr("disabled", false);
+//     }
+// });
   $("#save-data").click(function(event){
       event.preventDefault();
      
@@ -457,7 +573,9 @@ $( document ).ready(function() {
                 //printErrorMsg(response.error);
                 
                  //$('.error').text(response.error);
-                  toastr.error(response.error,'Error!');
+                 $('.alert.alert-danger.print-error-msg').show();
+                     $('ul.custom_text').html(response.lhs_link);
+                     toastr.error(response.error,'Error!');
                   // location.reload(true);
                // toastr.error('errors messages');
             }

@@ -382,23 +382,24 @@ i.fa-brands.fa-linkedin {
                                                     </div>
                                                     <div class="col-md-8">
                                                         <div class="form-group">
-                                                       <a class="form-control" target="_blank"  href="<?php
-                                                    $var = $data['linkedin_address'];
-                                                        // $var = $data[6]['linkedin_address'];
-                                                        if(strpos($var, 'https://') !== 0) {
-                                                        echo $kasa = 'https://' . $var;
-                                                        } else {
-                                                        echo $var;
-                                                        }
-                                                    ?>"><?php
-                                                    $var = $data['linkedin_address'];
-                                                        // $var = $data[6]['linkedin_address'];
-                                                        if(strpos($var, 'https://') !== 0) {
-                                                        echo $kasa = 'https://' . $var;
-                                                        } else {
-                                                        echo $var;
-                                                        }
-                                                    ?></a>
+                                                            <a href="<?php
+                                                            $var = $data['linkedin_address'];
+                                                                // $var = $data[6]['linkedin_address'];
+                                                                if(strpos($var, 'https://') !== 0) {
+                                                                echo $kasa = 'https://' . $var;
+                                                                } else {
+                                                                echo $var;
+                                                                }
+                                                            ?>" target="_blank">
+                                                            <input type="text" class="form-control" value="<?php
+                                                            $var = $data['linkedin_address'];
+                                                                // $var = $data[6]['linkedin_address'];
+                                                                if(strpos($var, 'https://') !== 0) {
+                                                                echo $kasa = 'https://' . $var;
+                                                                } else {
+                                                                echo $var;
+                                                                }
+                                                            ?>" readonly ></a>
                                                         </div>
                                                     </div>
 

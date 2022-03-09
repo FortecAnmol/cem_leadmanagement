@@ -340,6 +340,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
             $data = Lead::where(['source_id'=>$id])->with('source')->with('feedback')->get()->toArray();
             $sources = Source::where(['user_id'=>auth()->user()->id])->orWhere(['assign_to_manager'=>auth()->user()->id])->select('id','source_name')->get()->toArray();
         }
+
             $source_ids = $id;
             return view('leads.leadview')->with(['data'=>$data,'sources'=>$sources,'source_ids'=>$source_ids]);
     }

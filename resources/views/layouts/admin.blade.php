@@ -14,6 +14,18 @@
 
     <title>Lead Management</title>
    
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+
+
+
+
+
+
+
+
+
+
     <!-- Jquery Min js -->
      <script src="{{ asset('public/admin/assets/plugins/jquery/jquery.min.js') }}"></script>
 
@@ -161,6 +173,7 @@ a.clear {
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+  
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -1168,7 +1181,11 @@ $('#example23').dataTable().fnDestroy();
 //             } );
 //         }
 //     });
-
+ClassicEditor
+.create( document.querySelector( '#editor' ) )
+.catch( error => {
+    console.error( error );
+} );
     </script>
 
     <!-- Plugin JavaScript -->

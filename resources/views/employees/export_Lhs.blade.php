@@ -264,7 +264,7 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label class="control-label">Company Description</label>
-                              <textarea placeholder="Enter Company Description" id="company_desc" name='company_desc' class="form-control">{{ old('opt_in_status') }}</textarea>
+                              <textarea placeholder="Enter Company Description" id="editor" name='company_desc' class="form-control">{{ old('opt_in_status') }}</textarea>
                            </div>
                         </div>
                      </div>
@@ -314,7 +314,7 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label class="control-label">Call Notes:</label>
-                              <textarea placeholder="Enter Call Notes" id="call_notes" name='call_notes' required class="form-control">{{ old('call_notes') }}</textarea>
+                              <textarea placeholder="Enter Call Notes" id="editor" name='call_notes' required class="form-control">{{ old('call_notes') }}</textarea>
                            </div>
                         </div>
                      </div>

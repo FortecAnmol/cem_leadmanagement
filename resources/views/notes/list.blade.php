@@ -190,7 +190,7 @@ body{
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered display" style="width:100%" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>Sr. No</th>
+                                                <th>Action</th>
                                                 <th>Campaign Name</th>
                                                 <th>Company Name</th>
                                                 <th>Prospect Name</th>
@@ -221,7 +221,9 @@ body{
                                                     @else
                                                     @endif
                                                     @endforeach
-                                                    {{ $i }}</td>
+
+                                                    {{-- {{ $i }} --}}
+                                                </td>
                                                 <?php
                                                     $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
                                                     ?>
@@ -297,7 +299,9 @@ body{
                                                     <input type="hidden" id="Lhsreport_count_{{ $data['id'] }}" name="Lhsreport_count" value="{{ $LhsReportCount }}">
 
                                                     
-                                                    <span class="label label-info" onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">Add Quick note</span>
+                                                    <a  onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="Add Quick Note" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
+                                                        </a>
                                                     <span class="label label-info" onclick="document.getElementById('lead_id').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal">Change Status</span>
 
                                                     
