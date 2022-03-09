@@ -13,7 +13,7 @@
 @section('content')
 
 @php
-    $urls = '?campaign_id='.request()->get('campaign_id').'&date_from='.request()->get('date_from').'&date_to='.request()->get('date_to');
+    $urls = '?employee_id='.request()->get('employee_id').'&campaign_id='.request()->get('campaign_id').'&date_from='.request()->get('date_from').'&date_to='.request()->get('date_to');
 @endphp
 
  <div class="row page-titles">
@@ -117,7 +117,7 @@
                                     justify-content: flex-end;
                                     width: 100%;">
                                     <br>
-                                    <a type="button" href="{{ url('/employee/'.auth()->user()->id.'/man_daily_report'.$urls) }}" class="btn btn-success addButton"> Export Report </a>
+                                    <a type="button" href="{{ url('/employee/man_daily_report'.$urls) }}" class="btn btn-success addButton"> Export Report </a>
 
                                 </div>
 							 <!-- sample modal content -->
@@ -186,35 +186,41 @@
                                             @foreach($data as $data)
                                             <tr>
                                                 <td>{{ $i }}</td>
-                                                    <td><a href="{{ url('/leads', [$data['id']]) }}">{{$data['prospect_first_name'].' '.$data['prospect_last_name']}}</a></td>
+                                                @php
+                                                $get_ids = App\Models\Lead::where('id',$data['lead_id'])->get();
+                                                foreach ($get_ids as $get_lead_id) {
+                                                    # code...
+                                                }
+                                                @endphp
+                                                    <td><a href="{{ url('/leads', [$get_lead_id['id']]) }}">{{$data['prospect_first_name'].' '.$data['prospect_last_name']}}</a></td>
                                                     <td>
                                                         <?php
                                                         $sget_dates = App\Models\Note::where('lead_id',$data['lead_id'])->orderBy('created_at','desc')->get()->unique('lead_id');
                                                      ?>
-                                                    @foreach($sget_dates as $get_date)
-                                                    @if($get_date['reminder_for'] == '')
+                                                    {{-- @foreach($sget_dates as $get_date) --}}
+                                                    @if($data['reminder_for'] == '')
                                                     <p> </p>
                                                     @else
-                                                        <p class="campain_name" data-toggle="tooltip" data-placement="top"><span>{{$get_date['reminder_for']}}</span>{{$get_date['reminder_for']}}</p>
+                                                        <p class="campain_name" data-toggle="tooltip" data-placement="top"><span>{{$data['reminder_for']}}</span>{{$data['reminder_for']}}</p>
                                                     @endif
-                                                    @endforeach
+                                                    {{-- @endforeach --}}
                                                 </td>
                                                     <td>
-                                                     @foreach($sget_dates as $get_date)
-                                                     @if($get_date['feedback'] == '')
+                                                     {{-- @foreach($sget_dates as $get_date) --}}
+                                                     @if($data['feedback'] == '')
                                                      <p> </p>
                                                      @else
                                                      {{-- <p class="campain_name" data-toggle="tooltip" data-placement="top" title="{{$data['feedback']}}"> --}}
                                                          @php
-                                                         $result = substr($get_date['feedback'], 0, 20);
+                                                         $result = substr($data['feedback'], 0, 20);
                                                          @endphp
-                                                         @if (strlen($get_date['feedback']) > 20)
-                                                         <p class="campain_name" data-toggle="tooltip" data-placement="top"><span>{{$get_date['feedback']}}</span>{{$result}}</p>
+                                                         @if (strlen($data['feedback']) > 20)
+                                                         <p class="campain_name" data-toggle="tooltip" data-placement="top"><span>{{$data['feedback']}}</span>{{$result}}</p>
                                                          @else
-                                                         {{$get_date['feedback']}}
+                                                         {{$data['feedback']}}
                                                          @endif
                                                      @endif
-                                                     @endforeach
+                                                     {{-- @endforeach --}}
                                                  </td>
                                                  <?php   
                                                  $updated_date =  date('Y-m-d', strtotime($data['updated_at']));
@@ -285,10 +291,11 @@
        
  $(document).on("click","#sub_cmap",function() {
                var campaign_id = $('#campaign_id').val();
+               var employee_id = $('#employee_id').val();
                var date_from = $('#date_from').val();
                var date_to = $('#date_to').val();
                var base_url = $('meta[name="base_url"]').attr('content');
-               var  Current_url = base_url+"/man_daily_report?"+"&campaign_id="+campaign_id+"&date_from="+date_from+"&date_to="+date_to;
+               var  Current_url = base_url+"/man_daily_report?"+"employee_id="+employee_id+"&campaign_id="+campaign_id+"&date_from="+date_from+"&date_to="+date_to;
     
                 $(window).attr("location",Current_url);
         });

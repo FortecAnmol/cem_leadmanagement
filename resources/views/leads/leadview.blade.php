@@ -122,8 +122,17 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
                                                 </div>
                                                 
                                             </div>
+                                            
 
                                         </form>
+                                        <div class="form-group campaign_add" style="
+                                                display: flex;
+                                                justify-content: flex-end;
+                                                width: 100%;">
+                                                <br>
+                                                <a type="button" href="{{ url('/add_leads').'/'.$source_ids }}" style="display: none" class="btn btn-success addButton"> Import Leads + </a>
+
+                                            </div>
 
 
                                

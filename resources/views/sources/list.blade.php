@@ -186,7 +186,7 @@
                                                     @if(!empty($data['assign_to_manager']))
                                                     <a href="javascript:void(0);"><span class="label label-warning">Assigned</span></a>
                                                     @else
-                                                    <a href="#" class="assignToManagerBtn" campaign_id="<?php echo $data['id']; ?>"><span  data-toggle="modal" data-target="#exampleModal"  class="label label-warning">Assign to Manager</span></a>
+                                                    <a href="#" class="assignToManagerBtn" id="campaign_id_new" campaign_id_new="<?php echo $data['id']; ?>" campaign_id="<?php echo $data['id']; ?>"><span  data-toggle="modal" data-target="#exampleModal"  class="label label-warning">Assign to Manager</span></a>
                                                     @endif
                                                 @endif
                                                 <a href="{{ url('/sources/' . $data['id'] . '/leadview') }}"><span
@@ -275,9 +275,10 @@
         $("#assignToManagerPopupBtn").click(function() {
             let  baseUrl = $("#campaign_id").attr("baseUrl");
             let  campaign_id = $("#campaign_id").val();
+            let  campaign_id_new = $("#campaign_id_new").attr("campaign_id_new");
             let  managerId = $("#manager option:selected").val();
-            if((campaign_id != 0) && (managerId != 0)) {
-                window.location.replace(baseUrl+"/sources/"+campaign_id+"/camp_assign?assignedTo="+managerId);
+            if((campaign_id_new != 0) && (managerId != 0)) {
+                window.location.replace(baseUrl+"/sources/"+campaign_id_new+"/camp_assign?assignedTo="+managerId);
             } else {
                 alert("Please Choose Manager To Proceed..");
             }

@@ -14,6 +14,18 @@
 
     <title>Lead Management</title>
    
+
+    <script src="https://cdn.ckeditor.com/ckeditor5/30.0.0/classic/ckeditor.js"></script>
+
+
+
+
+
+
+
+
+
+
     <!-- Jquery Min js -->
      <script src="{{ asset('public/admin/assets/plugins/jquery/jquery.min.js') }}"></script>
 
@@ -161,6 +173,7 @@ a.clear {
 </head>
 
 <body class="fix-header fix-sidebar card-no-border">
+  
     <!-- ============================================================== -->
     <!-- Preloader - style you can find in spinners.css -->
     <!-- ============================================================== -->
@@ -695,7 +708,7 @@ a.clear {
                                 
                             </ul>
                         </li>
-                        <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/man_daily_report?campaign_id=&date_from=&date_to=') }}" aria-expanded="false"><i class="fa fa-id-card-o"></i><span class="hide-menu">Daily Report</span>  </a> 
+                        <li> <a class="has-arrow waves-effect waves-dark" href="{{ url('/man_daily_report?employee_id=&campaign_id=&date_from=&date_to=') }}" aria-expanded="false"><i class="fa fa-id-card-o"></i><span class="hide-menu">Daily Report</span>  </a> 
 
                     </ul>
 
@@ -1168,7 +1181,11 @@ $('#example23').dataTable().fnDestroy();
 //             } );
 //         }
 //     });
-
+ClassicEditor
+.create( document.querySelector( '#editor' ) )
+.catch( error => {
+    console.error( error );
+} );
     </script>
 
     <!-- Plugin JavaScript -->

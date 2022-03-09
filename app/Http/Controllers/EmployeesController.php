@@ -27,7 +27,22 @@ class EmployeesController extends Controller
     {
         $this->middleware('auth');
     }
-
+    public function notes_new()
+    {
+        $notes = Note::groupBy('lead_id')->get('lead_id');
+        foreach($notes as $data_notes){
+            $leads = Lead::select('source_id','id','status')->where('id',$data_notes->lead_id)->get();
+            foreach($leads as $data_leads){
+                Note::where('lead_id',$data_leads->id)->update(['source_id' => $data_leads->source_id,'status'=>$data_leads->status]);
+            }
+        }
+        
+        dd('updated');
+        $leads = Lead::where('id','lead_id')->get('source_id');
+        dd($leads);
+          
+        
+    }
     public function index()
     {
         $admin = User::where(['is_admin'=>Null,'id'=>auth()->user()->id])->first();
@@ -325,7 +340,6 @@ class EmployeesController extends Controller
         //     //dd('dkdjkd');
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
-        
         $prev  = $request->previous_url;
         $uriSegments = explode("/", parse_url($prev, PHP_URL_PATH));
         $notesCount =  Note::where(['lead_id'=>$request->lead_id])->count();
@@ -365,9 +379,8 @@ class EmployeesController extends Controller
                 'meeting_teleconference'=>$request->meeting_teleconference,
                 'contact_decision_maker'=>$request->contact_decision_maker,
                 'influencers_decision_making_process'=>$request->influencers_decision_making_process,
-                'company_already_affiliated '=>$request->company_already_affiliated,
+                'company_already_affiliated'=>$request->company_already_affiliated,
             );
-       
             $lead_data =  Lead::where('id','=', $request->lead_id)->first();
             $source_id = $lead_data->source_id;
             LhsReport::create($data);
@@ -461,22 +474,36 @@ class EmployeesController extends Controller
           }else{
               $date_to =  "";
           }
-          $campaigns =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();
+          $campaigns =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')
+          ->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();
+
+
           if(request()->get('campaign_id') && empty(request()->get('date_from')) && empty(request()->get('date_to'))){
-            $data = Lead::where(['asign_to'=>auth()->user()->id])->where('source_id','=',request()->get('campaign_id'))->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at', 'desc')->groupBy('notes.lead_id')->with('source')->with('note')->with('notes')->get();
+            $data = Lead::where(['asign_to'=>auth()->user()->id])
+            ->where('notes.source_id','=',request()->get('campaign_id'))
+            ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at', 'desc')
+            ->get();
+
+
           }
           elseif(empty(request()->get('campaign_id')) && empty(request()->get('date_from')) && empty(request()->get('date_to')))
           {
-          $data = Lead::where(['asign_to'=>auth()->user()->id])->groupBy('notes.lead_id')
-          ->join('notes','notes.lead_id','=','leads.id')->with('source')->with('note')->with('notes')->latest('notes.updated_at')->get();
+          $data = Lead::where(['asign_to'=>auth()->user()->id])
+          ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
           }
           elseif(request()->get('campaign_id') && request()->get('date_from') && request()->get('date_to'))
           {
-            $data = Lead::where(['asign_to'=>auth()->user()->id])->whereBetween('notes.updated_at', [$date_from, $date_to])->where('source_id','=',request()->get('campaign_id'))->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at', 'desc')->groupBy('notes.lead_id')->with('source')->with('note')->with('notes')->get();
+            $data = Lead::where(['asign_to'=>auth()->user()->id])
+            ->where('notes.source_id','=',request()->get('campaign_id'))
+            ->whereBetween('notes.updated_at', [$date_from, $date_to])->join('notes','notes.lead_id','=','leads.id')
+            ->latest('notes.updated_at', 'desc')->get();
+
+
           }
           elseif(empty(request()->get('campaign_id')) && request()->get('date_from') && request()->get('date_to'))
           {
-            $data = Lead::where(['asign_to'=>auth()->user()->id])->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$date_from, $date_to])->latest('notes.updated_at', 'desc')->groupBy('notes.lead_id')->with('source')->with('note')->with('notes')->get();
+            $data = Lead::where(['asign_to'=>auth()->user()->id])->join('notes','notes.lead_id','=','leads.id')
+            ->whereBetween('notes.updated_at', [$date_from, $date_to])->latest('notes.updated_at', 'desc')->get();
           }
         // $data = Lead::where(['asign_to'=>auth()->user()->id])->where('status','!=','1')->groupBy(DB::raw('source_id'))->groupBy(DB::raw('DATE(updated_at)'))->orderBy('updated_at', 'desc')->with('source')->get();
         return view('employees.emp_daily_report')->with(['campaigns'=>$campaigns, 'data'=>$data ,'campaign_id'=> $campaign_id,'date_from'=>$date_from,'date_to'=>$date_to]);
@@ -503,26 +530,42 @@ class EmployeesController extends Controller
         }else{
             $date_to =  "";
         }
-          $data = Lead::groupBy('notes.lead_id')
-          ->join('notes','notes.lead_id','=','leads.id')->with('source')->with('note')->with('notes')->latest('notes.updated_at')->get();
-          if(request()->get('employee_id')){
-              $data = $data->join('notes','notes.user_id','=',request()->get('employee_id'))->with('source')->with('note')->with('notes')->latest('notes.updated_at')->get();
+
+          $data = Lead::join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
+          if(request()->get('employee_id') && empty(request()->get('campaign_id')) && empty(request()->get('date_from')) && empty(request()->get('date_to'))){
+              $data = Lead::where(['asign_to'=>request()->get('employee_id')])
+              ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
           }
-          if(request()->get('campaign_id')){
-            $data = Lead::where('source_id','=',request()->get('campaign_id'))->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at', 'desc')->groupBy('notes.lead_id')->with('source')->with('note')->with('notes')->get();
+          if(request()->get('campaign_id') && empty(request()->get('employee_id')) && empty(request()->get('date_from')) && empty(request()->get('date_to')) ){
+
+            $data = Lead::where('notes.source_id','=',request()->get('campaign_id'))
+            ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at', 'desc')
+            ->get();
+          }
+          if(empty(request()->get('campaign_id')) && request()->get('employee_id') && request()->get('date_from') && request()->get('date_to') ){
+
+            $data = Lead::where(['asign_to'=>request()->get('employee_id')])
+            ->whereBetween('notes.updated_at', [$date_from, $date_to])
+            ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at', 'desc')
+            ->get();
           }
           
-          if(request()->get('campaign_id') && request()->get('employee_id')){
-              $data = $data->where('source_id', '=', $_GET['campaign_id'])->where('asign_to', '=', $_GET['employee_id']);
+          if(request()->get('campaign_id') && request()->get('employee_id') && empty(request()->get('date_from')) && empty(request()->get('date_to')) ){
+              $data = Lead::where('notes.source_id','=',request()->get('campaign_id'))->where(['asign_to'=>request()->get('employee_id')])
+              ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
           }
-          
-          if(request()->get('date_from') && request()->get('date_to')){
-             // $from = date($_GET['date_from']);
-            // $to = date($_GET['date_to']);
+          if(request()->get('date_from') && request()->get('date_to') && request()->get('campaign_id') && request()->get('employee_id')){
+            $date_from =  date('Y-m-d', strtotime($_GET['date_from']));
+            $date_to =  date('Y-m-d', strtotime($_GET['date_to']));
+            $data =  Lead::where('notes.source_id','=',request()->get('campaign_id'))
+            ->where(['asign_to'=>request()->get('employee_id')])->whereBetween('notes.updated_at', [$date_from, $date_to])
+            ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
+        }
+          if(request()->get('date_from') && request()->get('date_to') && empty(request()->get('campaign_id')) && empty(request()->get('employee_id'))){
               $date_from =  date('Y-m-d', strtotime($_GET['date_from']));
               $date_to =  date('Y-m-d', strtotime($_GET['date_to']));
-              $data = $data->whereBetween('created_at', [$date_from, $date_to]);
-           
+              $data =  Lead::whereBetween('notes.updated_at', [$date_from, $date_to])
+              ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
           }
           
           $admin = User::where(['is_admin'=>Null,'id'=>auth()->user()->id])->first();

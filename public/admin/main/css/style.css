@@ -10999,3 +10999,8 @@ table.custom-seacrh-table.search_wrapper tr {
 .modal-dialog div > ul {
     margin-bottom: 0;
 }
+.form-group.campaign_add {
+    position: absolute;
+    top: 8.5%;
+    right: 1%;
+}

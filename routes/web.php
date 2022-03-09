@@ -143,6 +143,13 @@ Route::get('employee/{id}/emp_daily_report', 'DailyReportController@daily_report
 
 
 Route::get('/man_daily_report',  'EmployeesController@man_daily_report')->name('employee.man_daily_report');
+Route::get('employee/man_daily_report',  'DailyReportController@man_daily_report')->name('employee.man_daily_report');
+
+
+/* FIXING STATUS OF ALL LEADS IN Notes Table */
+
+
+Route::get('/notes_new',  'EmployeesController@notes_new')->name('employee.notes_new');
 
 
 /* ****************** */ 
@@ -159,10 +166,14 @@ Route::post('clear/notification',  'HomeController@clear_notification')->name('c
 Route::get('export', 'ImportExportController@export')->name('export');
 Route::get('import', 'ImportExportController@importLeads');
 Route::post('import', 'ImportExportController@import')->name('import');
+/*  Import Specific Campaign  */
+Route::get('/add_leads/{id}', 'SourcesController@create_campaign')->name('create_campaign');
+Route::post('import_leads', 'ImportExportController@import_leads')->name('import_leads');
 
 
 
 
+/*  *****************************  */ 
 
 
 

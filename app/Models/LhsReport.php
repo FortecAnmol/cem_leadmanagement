@@ -20,6 +20,7 @@ class LhsReport extends Model
         'address',
         'website',
         'prospect_vertical',
+        'prospects_level',
         'opt_in_status',
         'company_desc',
         'responsibilities',

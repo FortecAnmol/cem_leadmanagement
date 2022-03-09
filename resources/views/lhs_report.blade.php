@@ -35,7 +35,7 @@
                     <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
                         Contact's Name:</th>
                     <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
-                        {{ $data->prospect_first_name.$data->prospect_last_name }}
+                        {{ $data->prospect_first_name.' '.$data->prospect_last_name }}
                     </td>
                     <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
                         Board Number:</th>
@@ -159,7 +159,7 @@
             <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
                 <tr>
                     <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
-                        {{$data['lhsreport']->company_desc}}
+                        {!!$data['lhsreport']->company_desc!!}
                     </td>
                 </tr>
             </table>
@@ -213,7 +213,7 @@
                     <th style="width:20%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
                         Call Notes:</th>
                     <td style="width:80%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
-                        {{$data['lhsreport']->call_notes}}
+                        {!!$data['lhsreport']->call_notes!!}
                     </td>
                 </tr>
             </table>
@@ -260,19 +260,19 @@
                     <th style="width:20%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
                         Time 1:(24 Hours format)</th>
                     <td style="width:30%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
-                        {{$data['lhsreport']->meeting_time1}}+{{$data['lhsreport']->timezone_1}}
+                        {{$data['lhsreport']->meeting_time1}} {{$data['lhsreport']->timezone_1}}
                     </td>
                 </tr>
                 <tr>
                     <th style="width:20%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
-                        Date 1:</th>
+                        Date 2:</th>
                     <td style="width:30%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;     background-color: #c9d8fe;">
                         {{$data['lhsreport']->meeting_date2}}
                     </td>
                     <th style="width:20%; background-color: #ebebeb; font-size: 13px; border: 1px solid black; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
-                        Time 1:(24 Hours format)</th>
+                        Time 2:(24 Hours format)</th>
                     <td style="width:30%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
-                        {{$data['lhsreport']->meeting_time2}}+{{$data['lhsreport']->timezone_2}}
+                        {{$data['lhsreport']->meeting_time2}} {{$data['lhsreport']->timezone_2}}
                     </td>
                 </tr>
             </table>

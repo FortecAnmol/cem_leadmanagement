@@ -163,7 +163,6 @@ class NotesController extends Controller
             'reminder_for'=>$request->reminder_for,
             'feedback'=>$request->note,
         );
-        dd($data);
         Note::create($data);
         return Redirect::back()->with('success', 'Note Added Successfully.');
     }
