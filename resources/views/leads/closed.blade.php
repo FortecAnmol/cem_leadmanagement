@@ -138,7 +138,7 @@ date_default_timezone_set('Asia/Kolkata');
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>Sr. No</th>
+                                                <th>Action</th>
                                                 <th>Campaign Name</th>
                                                 <th>Company Name</th>
                                                 <th>Prospect Name</th>
@@ -148,23 +148,23 @@ date_default_timezone_set('Asia/Kolkata');
                                                 <th>Phone No.</th>
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
-                                                <th>Duration of Last Updated Note</th>
+                                                <th>Updated Note Time</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tfoot class="custom-table-foot">
                                             <tr>
-                                                    <th>Sr. No</th>
+                                                    <th style="visibility: hidden">Sr. No</th>
                                                     <th class="campain_name">Campaign Name</th>
                                                     <th class="company_name">Company Name</th>
                                                     <th class="prospect_name">Prospect Name</th>
                                                     <th style="visibility: hidden;">LinkedIn</th>
                                                     <th class="time_zone">Time Zone</th>
-                                                    <th class="designation">Designation</th>
+                                                    <th style="visibility: hidden" class="designation">Designation</th>
                                                     <th class="phone_no" style="visibility: hidden;">Phone No.</th>
                                                     <th>Date</th>
                                                     <th class="phone_no" style="visibility: hidden;">Last Updated Note</th>
-                                                    <th>Duration of Last Updated Note</th>
+                                                    <th style="visibility: hidden">Duration of Last Updated Note</th>
                                                     <th class="prospect_name">Action</th>
                                                     </tr>
                                              </tfoot>
@@ -185,7 +185,15 @@ date_default_timezone_set('Asia/Kolkata');
                                                     <img src="{{ asset('storage/app/images/new_alert.gif') }}"  width='50' height='35' title='Today is Reminder Date' alt='Today is Reminder Date'>
                                                     @else
                                                     @endif
-                                                    @endforeach{{ $i }}</td>
+                                                    @endforeach
+                                                    <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                    </a>
+                                                    <a  onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="Add Quick Note" style="color:#000;font-size: 15px;"><i class="fa fa-comment" aria-hidden="true"></i></span>
+                                                        </a>
+                                                    {{-- {{ $i }} --}}
+                                                </td>
                                                 <?php
                                                     $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
                                                     ?>
@@ -243,20 +251,21 @@ date_default_timezone_set('Asia/Kolkata');
                                                          if($get_date['created_at'] == ''){
                                                             echo  "Null";
                                                          }else{
-                                                           echo  $get_date['created_at'];
+                                                           echo  $get_date['created_at']->format('Y/d/m'.' | '.'H:i');
                                                          }  
                                                      } 
                                                     ?></td>
+                                                    <input type="hidden" id="notes_count_{{ $data['source_id'] }}" name="source_id" value="{{ $data['source_id'] }}">
                   
                                                 <td>
 
-                                                     <a href="{{ url('/feedbacks/add', [$data['id']]) }}">
+                                                     {{-- <a href="{{ url('/feedbacks/add', [$data['id']]) }}">
                                                      <span type="button" class="label" data-toggle="tooltip" data-placement="top" title="Add Feedback" style="color:#000;font-size: 15px;"> <span class="material-icons">chat</span></span>
                                                     </a>
                                                    
                                                     <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
                                                         <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                                                    </a>
+                                                    </a> --}}
                                                     <?php
                                                       $getlhs_report =  App\Models\LhsReport::where(['lead_id'=>$data['id']])->first();
                                                   
@@ -287,7 +296,56 @@ date_default_timezone_set('Asia/Kolkata');
                                 </div>
                             </div>
                         </div>
+<!-- Quick Notes Add -->
+{{-- <form action="{{route('notes.store')}}" method="post"> --}}
+    {{-- @csrf --}}
+    <form id="form">
+<div id="status-modal-quicknote" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+             <meta name="csrf-token" content="{{ csrf_token() }}" />
+             <div>
+            <ul></ul>
+        </div>
 
+            <div class="modal-header">
+                <h4 class="modal-title">Add Quick Note</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group" id="status" name="status">
+                        <label class="control-label">Reminder Date</label>
+                        <input type="text" class="form-control" placeholder="Reminder Date" name="reminder_date" value="{{ old('reminder_date') }}" id="min-date" data-dtp="dtp_2827e">
+                        <label class="control-label">Reminder Time</label>
+                        <input type="time" class="form-control" id="reminder_time" name="reminder_time">                          
+                        <label class="control-label">Reminder Type</label>
+                        {{-- <input type="text" class="form-control required" placeholder="Reminder Type" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}"> --}}
+                        <select id="reminder_for" class="form-control required" name="reminder_for">
+                            <option value="">Choose Reminder Type</option>
+                                <option value="Follow-up call">Follow-up call</option>
+                                <option value="Follow-up email">Follow-up email</option>
+                                <option value="Information Request Customised Deck">Information Request Customised Deck</option>
+                                <option value="Information Request Brochure">Information Request Brochure</option>
+                        </select>
+                        <label class="control-label">Note</label>
+                        <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{isset($data['id'])}}">
+                        <textarea required type="text" class="form-control required" name="feedback" id="feedback" placeholder="Enter Note" style="min-height: 130px;">{{ old('note') }}</textarea>   
+                        <div class="alert alert-danger print-error-msg" style="display:none">
+                        <ul class="custom_text"></ul>
+                        </div>              
+                        @if($errors->has('status'))
+                        <div class="alert alert-danger">{{ $errors->first('status') }}</div>
+                    @endif
+                    </div>
+            </div>
+            <div class="modal-footer">
+            <input type="hidden" id="lead_id_quick_note" name="lead_id_quick_note">
+                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                {{-- <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> Save</button> --}}
+                <button id="save-data-quick-note" type="button" class="btn btn-info waves-effect waves-light ">Add Note</button>
+            </div>
+        </div>
+</form>
                     </div>
                 </div>
 
@@ -326,6 +384,56 @@ date_default_timezone_set('Asia/Kolkata');
     </div>
   </div>
         <script>
+            /* ============================ */
+    $("#save-data-quick-note").click(function(event){
+    event.preventDefault();
+    let feedback = $("[name=feedback]").val();
+    if(feedback == 0){
+      $('.alert.alert-danger.print-error-msg').show();
+          $('ul.custom_text').html('<li class="error_list"><span class="tab">Note Field Cannot Be Empty!</span></li>');
+    } else{
+    $('.alert.alert-danger.print-error-msg').hide();
+      $('ul.custom_text').html('');
+    //   $('alert.alert-success.print-error-msg').show();
+    //   $('ul.custom_text').html('<li><span class="error_list">Note Added Successfully</span></li>');
+    let feedback = $("[name=feedback]").val();
+    let reminder_date = $("[name=reminder_date]").val(); 
+    let reminder_time = $("[name=reminder_time]").val(); 
+    let source_id = $("[name=source_id]").val(); 
+    console.log(reminder_time);
+    let reminder_for = $("[name=reminder_for]").val(); 
+    let lead_id = $("input[name=lead_id_quick_note]").val(); 
+    let _token   = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+      url: '{{route("add_note")}}',
+      type:"POST",
+      data:{
+        source_id:source_id,
+          reminder_date:reminder_date,
+          reminder_time:reminder_time,
+          reminder_for:reminder_for,
+          lead_id:lead_id,
+          feedback:feedback,
+        _token: _token
+      },
+      success:function(response){
+          if($.isEmptyObject(response.error)){
+              console.log(response);
+              toastr.success(response.success,'Success!')
+          }else{
+                toastr.error(response.error,'Error!');
+          }
+
+      },
+     });
+    }
+    function printErrorMsg (msg) {
+      console.log(msg);
+          $(".print-error-msg").find("ul").html('');
+          $(".print-error-msg").css('display','block');
+          $(".print-error-msg").find("ul").append('<li>'+msg+'</li>');
+      }
+});
                          $(document).on("click", ".notes_id", function () {
     event.preventDefault();
         // $("input[name=view_lead_id]").val(lead_id);

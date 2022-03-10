@@ -157,12 +157,12 @@
 
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
-                                            <tr>
+                                            <tr class="Latest_Updated">
                                                 <th>Sr. No</th>
                                                 <th>Lead Name</th>
                                                 <th>Reminder Type</th>
                                                 <th>Latest Updated Note</th>
-                                                <th>Date/Time</th>
+                                                <th>Updated Note Time</th>
                                                 <th>Status</th>
                                                 {{-- <th>Action</th> --}}
                                             </tr>
@@ -192,7 +192,7 @@
                                                     @endif
                                                     {{-- @endforeach --}}
                                                 </td>
-                                                    <td>
+                                                    <td >
                                                      {{-- @foreach($sget_dates as $get_date) --}}
                                                      @if($data['feedback'] == '')
                                                      <p> </p>
@@ -210,9 +210,10 @@
                                                      {{-- @endforeach --}}
                                                  </td>
                                                  <?php   
-                                                 $updated_date =  date('Y-m-d', strtotime($data['updated_at']));
+                                                 $updated_date =  $data['updated_at'];
+                                                 //$new_updated_date = $updated_date->format('Y/d/m'.' | '.'H:i');
                                                  ?>
-                                                 <td>{{ $data['updated_at'] }}</td>
+                                                 <td><?php  echo explode(":",$updated_date)[0].":".explode(":",$updated_date)[1] ?></td>
                                                  @php
                                                 //  $status = '';
                                                 //  if ($data['status'] == 1) {

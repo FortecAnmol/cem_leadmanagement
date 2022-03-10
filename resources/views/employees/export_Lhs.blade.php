@@ -64,7 +64,7 @@
                                <input type="hidden" id="previous_url" name='previous_url'class="form-control" placeholder="NA" value="{{ URL::previous() }}">
                                
                               <label class="control-label read-only-label">Contact's Name:</label>
-                              <input type="text" id="prospect_first_name" name='prospect_first_name'class="form-control" readonly placeholder="Enter Contact Name" value="{{ $data->prospect_first_name .' '. $data->prospect_last_name}}" >
+                              <input type="text" id="prospect_first_name"  name='prospect_first_name'class="form-control" readonly placeholder="Enter Contact Name" value="{{ $data->prospect_first_name .' '. $data->prospect_last_name}}" >
                               @if($errors->has('prospect_first_name'))
                               <div class="alert alert-danger">{{ $errors->first('prospect_first_name') }}</div>
                               @endif
@@ -264,7 +264,10 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label class="control-label">Company Description</label>
-                              <textarea placeholder="Enter Company Description" id="editor" name='company_desc' class="form-control">{{ old('opt_in_status') }}</textarea>
+                              <textarea placeholder="Enter Company Description" id="editor" name='company_desc' class="form-control company_desc">{{ old('opt_in_status') }}</textarea>
+                              @if($errors->has('company_desc'))
+                              <div class="alert alert-danger">{{ $errors->first('company_desc') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -273,12 +276,18 @@
                            <div class="form-group">
                               <label class="control-label">Responsibilities:</label>
                               <textarea placeholder="Enter Responsibilities" id="responsibilities" name='responsibilities' class="form-control">{{ old('responsibilities') }}</textarea>
+                              @if($errors->has('responsibilities'))
+                              <div class="alert alert-danger">{{ $errors->first('responsibilities') }}</div>
+                              @endif
                            </div>
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label">Team Size:</label>
                               <textarea placeholder="Enter Team Size" id="team_size" name='team_size' class="form-control">{{ old('team_size') }}</textarea>
+                              @if($errors->has('team_size'))
+                              <div class="alert alert-danger">{{ $errors->first('team_size') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -287,12 +296,18 @@
                            <div class="form-group">
                               <label class="control-label">Pain Areas:</label>
                               <textarea placeholder="Enter Pain Areas" id="pain_areas" name='pain_areas' class="form-control">{{ old('pain_areas') }}</textarea>
+                              @if($errors->has('pain_areas'))
+                              <div class="alert alert-danger">{{ $errors->first('pain_areas') }}</div>
+                              @endif
                            </div>
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label">Interest/New Initiatives:</label>
                               <textarea placeholder="Enter Interest/New Initiatives" id="interest_new_initiatives" name='interest_new_initiatives' class="form-control">{{ old('interest_new_initiatives') }}</textarea>
+                              @if($errors->has('interest_new_initiatives'))
+                              <div class="alert alert-danger">{{ $errors->first('interest_new_initiatives') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -301,12 +316,18 @@
                            <div class="form-group">
                               <label class="control-label">Budget:</label>
                               <textarea placeholder="Enter Budget" id="budget" name='budget' class="form-control">{{ old('budget') }}</textarea>
+                              @if($errors->has('budget'))
+                              <div class="alert alert-danger">{{ $errors->first('budget') }}</div>
+                              @endif
                            </div>
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label">Defined Agenda:</label>
                               <textarea placeholder="Enter Defined Agenda" id="defined_agenda" name='defined_agenda' class="form-control">{{ old('defined_agenda') }}</textarea>
+                              @if($errors->has('defined_agenda'))
+                              <div class="alert alert-danger">{{ $errors->first('defined_agenda') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -314,7 +335,10 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label class="control-label">Call Notes:</label>
-                              <textarea placeholder="Enter Call Notes" id="editor" name='call_notes' required class="form-control">{{ old('call_notes') }}</textarea>
+                              <textarea placeholder="Enter Call Notes" id="editor" name='call_notes'  class="form-control editor">{{ old('call_notes') }}</textarea>
+                              @if($errors->has('call_notes'))
+                              <div class="alert alert-danger">{{ $errors->first('call_notes') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -328,13 +352,15 @@
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label"></label>
-                              <select id="meeting_teleconference" required name='meeting_teleconference'class="form-control">
+                              <select id="meeting_teleconference"  name='meeting_teleconference'class="form-control">
                                  <option vlaue="">Select Any Option</option> 
                                  <option vlaue="Face to Face meeting">  Face to Face meeting </option> 
                                  <option vlaue="Teleconference">  Teleconference </option> 
                               </select>
-                             
                            </div>
+                           @if($errors->has('meeting_teleconference'))
+                           <div class="alert alert-danger">{{ $errors->first('meeting_teleconference') }}</div>
+                           @endif 
                         </div>
                      </div>
                      <div class="row">
@@ -357,6 +383,9 @@
                                  <option vlaue="No">No</option> 
                               </select>
                            </div>
+                           @if($errors->has('contact_decision_maker'))
+                           <div class="alert alert-danger">{{ $errors->first('contact_decision_maker') }}</div>
+                           @endif 
                         </div>
                      </div>
                      <div class="row">
@@ -405,14 +434,20 @@
                         <div class="col-md-3">
                            <div class="form-group">
                               <label class="control-label">Date 1:</label>
-                              <input type="date" class="form-control date" required placeholder="23-Dec-21" name="meeting_date1" value="{{ old('meeting_date1') }}" >
+                              <input type="date"  class="form-control date"  placeholder="23-Dec-21" name="meeting_date1" value="{{ old('meeting_date1') }}" >
                            </div>
+                           @if($errors->has('meeting_date1'))
+                           <div class="alert alert-danger">{{ $errors->first('meeting_date1') }}</div>
+                           @endif
                         </div>
                         <div class="col-md-3">
                            <div class="form-group">
                               <label class="control-label">Time 1:</label>
-                              <input type="time" class="form-control" id="appt" required name="meeting_time1">                          
+                              <input type="time" class="form-control" id="appt"  name="meeting_time1">                          
                             </div>
+                            @if($errors->has('meeting_time1'))
+                           <div class="alert alert-danger">{{ $errors->first('meeting_time1') }}</div>
+                           @endif
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
@@ -420,7 +455,7 @@
                               <?php $tzlist = DateTimeZone::listAbbreviations();
                               $tzzlistrr = array_keys($tzlist);
                               ?>
-                              <select id="time_zone" name='timezone_1' class="form-control" required>
+                              <select id="time_zone" required name='timezone_1' class="form-control" >
                                  <option vlaue="">Select An Timezone</option> 
                                  <?php $i=0; ?>
                                  @foreach ($tzzlistrr as $tzzlistrrrr)
@@ -431,6 +466,9 @@
                                  @endforeach
                               </select>
                            </div>
+                           @if($errors->has('timezone_1'))
+                        <div class="alert alert-danger">{{ $errors->first('timezone_1') }}</div>
+                        @endif
                         </div>
                    
                      
@@ -442,11 +480,18 @@
                               <label class="control-label">Date 2:</label>
                               <input type="date" class="form-control date" placeholder="23-Dec-21" name="meeting_date2" value="{{ old('meeting_date2') }}" >
                            </div>
+                           @if($errors->has('meeting_date2'))
+                           <div class="alert alert-danger">{{ $errors->first('meeting_date2') }}</div>
+                           @endif
                         </div>
                         <div class="col-md-3">
                            <div class="form-group">
                               <label class="control-label">Time 2:</label>
-                              <input type="time" class="form-control" id="appt" name="meeting_time2">                           </div>
+                              <input type="time" class="form-control" id="appt" name="meeting_time2">                           
+                              @if($errors->has('meeting_time2'))
+                              <div class="alert alert-danger">{{ $errors->first('meeting_time2') }}</div>
+                              @endif
+                           </div>
                         </div>
                      <div class="col-md-6">
                         <div class="form-group">
@@ -454,7 +499,7 @@
                            <?php $tzlist = DateTimeZone::listAbbreviations();
                            $tzzlistrr = array_keys($tzlist);
                            ?>
-                           <select id="time_zone" name='timezone_2'class="form-control">
+                           <select id="time_zone" required name='timezone_2'class="form-control">
                               <option vlaue="">Select An Timezone</option> 
                               <?php $i=0; ?>
                               @foreach ($tzzlistrr as $tzzlistrrrr)
@@ -465,6 +510,9 @@
                               @endforeach
                            </select>
                         </div>
+                        @if($errors->has('timezone_2'))
+                        <div class="alert alert-danger">{{ $errors->first('timezone_2') }}</div>
+                        @endif
                      </div>
                      
                   

@@ -172,7 +172,7 @@
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>Sr. No</th>
+                                                <th class="Latest_Updated">Sr. No</th>
                                                 <th>Lead Name</th>
                                                 <th>Reminder Type</th>
                                                 <th>Latest Updated Note</th>
@@ -225,7 +225,7 @@
                                                  <?php   
                                                  $updated_date =  date('Y-m-d', strtotime($data['updated_at']));
                                                  ?>
-                                                 <td>{{ $data['updated_at'] }}</td>
+                                                 <td>{{ $data['updated_at']->format('Y/d/m'.' | '.'H:i') }}</td>
                                                  @php
                                                 //  $status = '';
                                                 //  if ($data['status'] == 1) {

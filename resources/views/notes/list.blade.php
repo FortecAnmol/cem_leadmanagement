@@ -200,7 +200,7 @@ body{
                                                 <th>Phone No.</th>
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
-                                                <th>Duration of Last Updated Note</th>
+                                                <th>Updated Note Time</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -221,7 +221,12 @@ body{
                                                     @else
                                                     @endif
                                                     @endforeach
-
+                                                    <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                    </a>
+                                                    <a  onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="Add Quick Note" style="color:#000;font-size: 15px;"><i class="fa fa-comment" aria-hidden="true"></i></span>
+                                                        </a>
                                                     {{-- {{ $i }} --}}
                                                 </td>
                                                 <?php
@@ -277,7 +282,7 @@ body{
                                                         if($get_date['created_at'] == ''){
                                                            echo  "Null";
                                                         }else{
-                                                          echo  $get_date['created_at'];
+                                                          echo  $get_date['created_at']->format('Y/d/m'.' | '.'H:i');
                                                         }  
                                                     } 
                                                    ?></td>
@@ -287,9 +292,7 @@ body{
                                                         <span class="label" data-toggle="tooltip" data-placement="top" style="display: none" title="Add Notes" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
                                                     </a>
                                                     
-                                                    <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
-                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                                                    </a>
+                                            
                                                     <?php
                                                     $notesCount =  App\Models\Note::where(['lead_id'=>$data['id']])->count();
                                                     $LhsReportCount =  App\Models\LhsReport::where(['lead_id'=>$data['id']])->count();
@@ -299,9 +302,7 @@ body{
                                                     <input type="hidden" id="Lhsreport_count_{{ $data['id'] }}" name="Lhsreport_count" value="{{ $LhsReportCount }}">
 
                                                     
-                                                    <a  onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">
-                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="Add Quick Note" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                                        </a>
+                                                    
                                                     <span class="label label-info" onclick="document.getElementById('lead_id').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal">Change Status</span>
 
                                                     
@@ -321,17 +322,17 @@ body{
                                         </tbody>
                                         <tfoot class="custom-table-foot">
                                         <tr>
-                                                <th>Sr. No</th>
+                                                <th style="visibility: hidden">Sr. No</th>
                                                 <th class="campain_name">Campaign Name</th>
                                                 <th class="company_name">Company Name</th>
                                                 <th class="prospect_name">Prospect Name</th>
                                                 <th style="visibility: hidden;">LinkedIn</th>
                                                 <th class="time_zone">Time Zone</th>
-                                                <th class="designation">Designation</th>
+                                                <th style="visibility: hidden" class="designation">Designation</th>
                                                 <th class="phone_no" style="visibility: hidden;">Phone No.</th>
                                                 <th>Date</th>
                                                 <th class="phone_no" style="visibility: hidden;">Last Updated Note</th>
-                                                <th>Duration of Last Updated Note</th>
+                                                <th style="visibility: hidden">Duration of Last Updated Note</th>
                                                 <th class="prospect_name">Action</th>
                                                 </tr>
                                          </tfoot>

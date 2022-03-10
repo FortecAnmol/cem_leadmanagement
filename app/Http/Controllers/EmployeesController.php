@@ -340,6 +340,7 @@ class EmployeesController extends Controller
         //     //dd('dkdjkd');
         //     return redirect()->back()->withErrors($validator)->withInput();
         // }
+        
         $prev  = $request->previous_url;
         $uriSegments = explode("/", parse_url($prev, PHP_URL_PATH));
         $notesCount =  Note::where(['lead_id'=>$request->lead_id])->count();
@@ -381,6 +382,39 @@ class EmployeesController extends Controller
                 'influencers_decision_making_process'=>$request->influencers_decision_making_process,
                 'company_already_affiliated'=>$request->company_already_affiliated,
             );
+            $request->validate([
+                'board_no'=>                    'required|numeric',
+                'direct_no'=>                   'required|numeric',
+                'employees_strength'=>          'required',
+                'revenue'=>                     'required',
+                'address'=>                     'required',
+                'website'=>                     'required',
+                'prospect_vertical'=>           'required',
+                'prospects_level'=>             'required',
+                'company_desc'=>                'required',
+                'responsibilities'=>            'required',
+                'team_size'=>                   'required',
+                'opt_in_status'=>               'required',
+                'pain_areas'=>                  'required',
+                'interest_new_initiatives'=>    'required',         
+                'budget'=>                      'required',
+                'defined_agenda'=>              'required',
+                'call_notes'=>                  'required',
+                'meeting_date1'=>               'required',
+                'meeting_date2'=>               'required',
+                'meeting_time1'=>               'required',
+                'meeting_time2'=>               'required',
+                'timezone_1'=>                  'required',
+                'timezone_2'=>                  'required',
+                'ext_if_any'=>                  'required',
+                'ea_name'=>                     'required',
+                'ea_email'=>                    'required|email',
+                'ea_phone_no'=>                 'required|numeric',
+                'meeting_teleconference'=>      'required|in:Face to Face meeting,Teleconference',
+                'contact_decision_maker'=>      'required|in:Yes,No',
+                'influencers_decision_making_process'=>        'required',
+                'company_already_affiliated'=>                 'required',
+            ]);
             $lead_data =  Lead::where('id','=', $request->lead_id)->first();
             $source_id = $lead_data->source_id;
             LhsReport::create($data);
@@ -392,6 +426,7 @@ class EmployeesController extends Controller
             {       
                  return redirect('notes/add/'.$request->lead_id)->with('success', 'LHS Report Added Successfully.');
             }
+            return redirect('notes/add/'.$request->lead_id)->with('success', 'LHS Report Added Successfully.');
             //return redirect('leads/closed')->with('success', 'LHS Report Added Successfully.');
             
         }
@@ -408,7 +443,39 @@ class EmployeesController extends Controller
         $input = $request->all(); 
 
         // dd($input);
-
+        $request->validate([
+            'board_no'=>                    'required|numeric',
+            'direct_no'=>                   'required|numeric',
+            'employees_strength'=>          'required',
+            'revenue'=>                     'required',
+            'address'=>                     'required',
+            'website'=>                     'required',
+            'prospect_vertical'=>           'required',
+            'prospects_level'=>             'required',
+            'company_desc'=>                'required',
+            'responsibilities'=>            'required',
+            'team_size'=>                   'required',
+            'pain_areas'=>                  'required',
+            'opt_in_status'=>               'required',
+            'interest_new_initiatives'=>    'required',         
+            'budget'=>                      'required',
+            'defined_agenda'=>              'required',
+            'call_notes'=>                  'required',
+            'meeting_date1'=>               'required',
+            'meeting_date2'=>               'required',
+            'meeting_time1'=>               'required',
+            'meeting_time2'=>               'required',
+            'timezone_1'=>                  'required',
+            'timezone_2'=>                  'required',
+            'ext_if_any'=>                  'required',
+            'ea_name'=>                     'required',
+            'ea_email'=>                    'required|email',
+            'ea_phone_no'=>                 'required|numeric',
+            'meeting_teleconference'=>      'required|in:Face to Face meeting,Teleconference',
+            'contact_decision_maker'=>      'required|in:Yes,No',
+            'influencers_decision_making_process'=>        'required',
+            'company_already_affiliated'=>                 'required',
+        ]);
          
         $data = LhsReport::find($request->lead_lhs_id);
         $data->lead_id = $input['lead_id'];

@@ -32,12 +32,14 @@ class ImportExportController extends Controller
     public function import(ImportRequest $request) 
     {
         // dd($request);
+
         $validator = Validator::make($request->all(), [
             'source_name' => 'required',
             'description' => 'required',
             'start_date' => 'required',
             'end_date' => 'required',
         ]);
+
         if ($validator->passes()) {
             $data = array(
                 'user_id'=>auth()->user()->id,

@@ -168,7 +168,7 @@ span.label.label-info {
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>Sr. No</th>
+                                                <th>Action</th>
                                                 <th>Campaign Name</th>
                                                 <th>Company Name</th>
                                                 <th>Prospect Name</th>
@@ -178,7 +178,7 @@ span.label.label-info {
                                                 <th>Phone No.</th>
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
-                                                <th>Duration of Last Updated Note</th>
+                                                <th>Updated Note Time</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -200,7 +200,14 @@ span.label.label-info {
                                                     @else
                                                     @endif
                                                     @endforeach
-                                                    {{ $i }}</td>
+                                                    <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                    </a>
+                                                    <a  onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="Add Quick Note" style="color:#000;font-size: 15px;"><i class="fa fa-comment" aria-hidden="true"></i></span>
+                                                        </a>
+                                                    {{-- {{ $i }} --}}
+                                                </td>
                                                 <?php
                                                     $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
                                                     ?>
@@ -253,19 +260,19 @@ span.label.label-info {
                                                          if($get_date['created_at'] == ''){
                                                             echo  "Null";
                                                          }else{
-                                                           echo  $get_date['created_at'];
+                                                           echo  $get_date['created_at']->format('Y/d/m'.' | '.'H:i');
                                                          }  
                                                      } 
                                                     ?></td>
                                                 <td>
-                                                    <a href="{{ url('/notes/add', [$data['id']]) }}">
+                                                    {{-- <a href="{{ url('/notes/add', [$data['id']]) }}">
                                                         <span class="label" data-toggle="tooltip" style="display: none" data-placement="top" title="Add Notes" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>
-                                                    </a>
+                                                    </a> --}}
                                                     
-                                                    <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
+                                                    {{-- <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
                                                         <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
-                                                    </a>
-                                                    <span class="label label-info" onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">Add Quick note</span>
+                                                    </a> --}}
+                                                    {{-- <span class="label label-info" onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">Add Quick note</span> --}}
                                                   
                                                     <span class="label label-info" onclick="document.getElementById('lead_id').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal">Change Status</span>
 
@@ -287,17 +294,17 @@ span.label.label-info {
                                         </tbody>
                                         <tfoot class="custom-table-foot">
                                             <tr>
-                                                    <th>Sr. No</th>
+                                                    <th style="visibility: hidden">Sr. No</th>
                                                     <th class="campain_name">Campaign Name</th>
                                                     <th class="company_name">Company Name</th>
                                                     <th class="prospect_name">Prospect Name</th>
                                                     <th style="visibility: hidden;">LinkedIn</th>
                                                     <th class="time_zone">Time Zone</th>
-                                                    <th class="designation">Designation</th>
+                                                    <th style="visibility: hidden" class="designation">Designation</th>
                                                     <th class="phone_no" style="visibility: hidden;">Phone No.</th>
                                                     <th>Date</th>
-                                                    <th class="phone_no" style="visibility: hidden;">Last Updated Note</th>
-                                                <th>Duration of Last Updated Note</th>
+                                                    <th  class="phone_no" style="visibility: hidden;">Last Updated Note</th>
+                                                <th style="visibility: hidden">Duration of Last Updated Note</th>
                                                     <th class="prospect_name">Action</th>
                                                     </tr>
                                              </tfoot>
@@ -341,7 +348,7 @@ span.label.label-info {
                             <option value="Information request">Information request</option>
                     </select>
                     <label class="control-label">Note</label>
-                    <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{$data['id']}}">
+                    <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{isset($data['id'])}}">
                     <textarea required type="text" class="form-control required" name="feedback" id="feedback" placeholder="Enter Note" style="min-height: 130px;">{{ old('note') }}</textarea>   
                     <div class="alert alert-danger print-error-msg" style="display:none">
                     <ul class="custom_text"></ul>
@@ -463,11 +470,12 @@ span.label.label-info {
         </script>
 
   <script>
-                   $(document).on("click", ".notes_id", function () {
+$(document).on("click", ".notes_id", function () {
     event.preventDefault();
         // $("input[name=view_lead_id]").val(lead_id);
     // let lead_id_new = $("input[name=view_lead_id]").val();      
     // let lead_id = $("input[name=view-note]").val();
+   
     let  lead_id = $(this).attr("baseUrl");
     var url ='{{url("notes/view/")}}';
     var full_url = url+'/'+lead_id;

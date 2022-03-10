@@ -97,31 +97,6 @@ class NotesController extends Controller
         $notes_data =  Lead::where(['id'=>$request->lead_id])->with('source')->with('notes')->first();
         $sources_data = Source::where(['id'=>$notes_data->source_id])->first();
         $table = '
-        <div class="row p-t-20">
-        <div class="col-md-2">
-            <div class="form-group">
-                <label class="control-label">Campaign Name</label>
-                <h6 class="card-subtitle">'.$sources_data->source_name.'</h6>
-            </div>
-        </div>
-        <div class="col-md-2">
-        <div class="form-group">
-            <label class="control-label">Lead Name</label>
-            <h6 class="card-subtitle">'.$notes_data->prospect_first_name.' '.$notes_data->prospect_last_name.'</h6>
-        </div>
-    </div>
-        <div class="col-md-2">
-        <div class="form-group">
-            <label class="control-label">Email</label>
-            <h6 class="card-subtitle">'.$notes_data->prospect_email.'</h6>
-        </div>
-    </div>
-    <div class="col-md-2">
-    <div class="form-group">
-        <label class="control-label">Phone No</label>
-        <h6 class="card-subtitle">'.$notes_data->contact_number_1.'</h6>
-    </div>
-</div>
         <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
         <thead>
         <tr>

@@ -262,7 +262,10 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label class="control-label">Company Description</label>
-                              <textarea placeholder="Enter Company Description" id="editor" name='company_desc' class="form-control">{{ $data->company_desc }}</textarea>
+                              <textarea placeholder="Enter Company Description" id="company_desc" name='company_desc' class="form-control company_desc">{{ $data->company_desc }}</textarea>
+                              @if($errors->has('company_desc'))
+                              <div class="alert alert-danger">{{ $errors->first('company_desc') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -271,12 +274,18 @@
                            <div class="form-group">
                               <label class="control-label">Responsibilities:</label>
                               <textarea placeholder="Enter Responsibilities" id="responsibilities" name='responsibilities' class="form-control">{{ $data->responsibilities }}</textarea>
+                              @if($errors->has('responsibilities'))
+                              <div class="alert alert-danger">{{ $errors->first('responsibilities') }}</div>
+                              @endif
                            </div>
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label">Team Size:</label>
                               <textarea placeholder="Enter Team Size" id="team_size" name='team_size' class="form-control">{{ $data->team_size }}</textarea>
+                              @if($errors->has('team_size'))
+                              <div class="alert alert-danger">{{ $errors->first('team_size') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -285,12 +294,18 @@
                            <div class="form-group">
                               <label class="control-label">Pain Areas:</label>
                               <textarea placeholder="Enter Pain Areas" id="pain_areas" name='pain_areas' class="form-control">{{ $data->pain_areas }}</textarea>
+                              @if($errors->has('pain_areas'))
+                              <div class="alert alert-danger">{{ $errors->first('pain_areas') }}</div>
+                              @endif
                            </div>
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label">Interest/New Initiatives:</label>
                               <textarea placeholder="Enter Interest/New Initiatives" id="interest_new_initiatives" name='interest_new_initiatives' class="form-control">{{ $data->interest_new_initiatives }}</textarea>
+                              @if($errors->has('interest_new_initiatives'))
+                              <div class="alert alert-danger">{{ $errors->first('interest_new_initiatives') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -299,12 +314,18 @@
                            <div class="form-group">
                               <label class="control-label">Budget:</label>
                               <textarea placeholder="Enter Budget" id="budget" name='budget' class="form-control">{{ $data->budget }}</textarea>
+                              @if($errors->has('budget'))
+                              <div class="alert alert-danger">{{ $errors->first('budget') }}</div>
+                              @endif
                            </div>
                         </div>
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label">Defined Agenda:</label>
                               <textarea placeholder="Enter Defined Agenda" id="defined_agenda" name='defined_agenda' class="form-control">{{ $data->defined_agenda }}</textarea>
+                              @if($errors->has('defined_agenda'))
+                              <div class="alert alert-danger">{{ $errors->first('defined_agenda') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -312,7 +333,10 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label class="control-label">Call Notes:</label>
-                              <textarea placeholder="Enter Call Notes" id="editor" name='call_notes' class="form-control">{{ $data->call_notes }}</textarea>
+                              <textarea placeholder="Enter Call Notes" id="call_notes" name='call_notes' class="form-control editor">{{ $data->call_notes }}</textarea>
+                              @if($errors->has('call_notes'))
+                              <div class="alert alert-danger">{{ $errors->first('call_notes') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -335,6 +359,9 @@
                                  <option vlaue="Face to Face meeting"{{ $data->meeting_teleconference == 'Face to Face meeting' ? 'selected="selected"' : '' }}>  Face to Face meeting </option> 
                                  <option vlaue="Teleconference"{{ $data->meeting_teleconference == 'Teleconference' ? 'selected="selected"' : '' }}>  Teleconference </option> 
                               </select>
+                              @if($errors->has('meeting_teleconference'))
+                              <div class="alert alert-danger">{{ $errors->first('meeting_teleconference') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -362,6 +389,9 @@
                               @if($errors->has('contact_decision_maker'))
                               <div class="alert alert-danger">{{ $errors->first('contact_decision_maker') }}</div>
                               @endif --}}
+                              @if($errors->has('contact_decision_maker'))
+                              <div class="alert alert-danger">{{ $errors->first('contact_decision_maker') }}</div>
+                              @endif
                            </div>
                         </div>
                      </div>
@@ -426,13 +456,19 @@
                            <div class="form-group">
                               <label class="control-label">Date 1:</label>
                               <input type="date" class="form-control date" placeholder="23-Dec-21" name="meeting_date1" value="{{ $data->meeting_date1 }}" >
+                              @if($errors->has('meeting_date1'))
+                              <div class="alert alert-danger">{{ $errors->first('meeting_date1') }}</div>
+                              @endif
                            </div>
                         </div>
                         <div class="col-md-3">
                            <div class="form-group">
                               <label class="control-label">Time 1:</label>
                               <input type="time" class="form-control" id="appt" name="meeting_time1" value="{{ $data->meeting_time1 }}">                           </div>
-                        </div>
+                              @if($errors->has('meeting_time1'))
+                              <div class="alert alert-danger">{{ $errors->first('meeting_time1') }}</div>
+                              @endif
+                           </div>
                         <div class="col-md-6">
                            <div class="form-group">
                               <label class="control-label"> TimeZone 1:</label>
@@ -449,6 +485,9 @@
                                  <?php $i++;?>
                                  @endforeach
                               </select>
+                              @if($errors->has('timezone_1'))
+                              <div class="alert alert-danger">{{ $errors->first('timezone_1') }}</div>
+                              @endif
                            </div>
                         </div>
                    
@@ -459,13 +498,19 @@
                            <div class="form-group">
                               <label class="control-label">Date 2:</label>
                               <input type="date" class="form-control date" placeholder="23-Dec-21" name="meeting_date2" value="{{ $data->meeting_date2 }}" >
+                              @if($errors->has('meeting_date2'))
+                              <div class="alert alert-danger">{{ $errors->first('meeting_date2') }}</div>
+                              @endif
                            </div>
                         </div>
                         <div class="col-md-3">
                            <div class="form-group">
                               <label class="control-label">Time 1:</label>
                               <input type="time" class="form-control" id="appt" name="meeting_time2" value="{{ $data->meeting_time2 }}">                           </div>
-                        </div>
+                              @if($errors->has('meeting_time2'))
+                              <div class="alert alert-danger">{{ $errors->first('meeting_time2') }}</div>
+                              @endif
+                           </div>
                      <div class="col-md-6">
                         <div class="form-group">
                            <label class="control-label">TimeZone 2:</label>
@@ -482,6 +527,9 @@
                               <?php $i++;?>
                               @endforeach
                            </select>
+                           @if($errors->has('opt_in_status'))
+                           <div class="alert alert-danger">{{ $errors->first('opt_in_status') }}</div>
+                           @endif
                         </div>
                      </div>
                      
