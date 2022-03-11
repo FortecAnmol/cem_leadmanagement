@@ -211,9 +211,10 @@
                                                  </td>
                                                  <?php   
                                                  $updated_date =  $data['updated_at'];
-                                                 //$new_updated_date = $updated_date->format('Y/d/m'.' | '.'H:i');
+                                                 $new_updated_date = optional($updated_date)->format('Y/d/m'.' | '.'H:i');
+                                                //  echo explode(":",$updated_date)[0].":".explode(":",$updated_date)[1]
                                                  ?>
-                                                 <td><?php  echo explode(":",$updated_date)[0].":".explode(":",$updated_date)[1] ?></td>
+                                                 <td><?php echo $new_updated_date;   ?></td>
                                                  @php
                                                 //  $status = '';
                                                 //  if ($data['status'] == 1) {

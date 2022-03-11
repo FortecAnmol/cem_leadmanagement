@@ -148,7 +148,7 @@
                                             <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Another Contact No</label>
+                                                    <label class="control-label">Second Contact No</label>
                                                     <input type="text" id="contact_number_2" name="contact_number_2" class="form-control form-control-danger" placeholder="Enter Another No" value="{{ $data->contact_number_2 }}">
                                                     @if($errors->has('contact_number_2'))
                                                         <div class="alert alert-danger">{{ $errors->first('contact_number_2') }}</div>
@@ -163,7 +163,7 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                 <label class="control-label">Prospect Name</label>
-                                                    <input type="text" id="prospect_name" name="prospect_name" class="form-control" placeholder="Enter Prospect Name" value="{{ $data->prospect_name }}">
+                                                    <input type="text" id="prospect_name" name="prospect_name" class="form-control" placeholder="Enter Prospect Name" value="{{ $data->prospect_first_name }} {{ $data->prospect_last_name }}">
                                                     @if($errors->has('prospect_name'))
                                                         <div class="alert alert-danger">{{ $errors->first('prospect_name') }}</div>
                                                     @endif

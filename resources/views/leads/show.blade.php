@@ -348,7 +348,7 @@ i.fa-brands.fa-linkedin {
                                                     <div class="col-md-8">
                                                         <div class="form-group">
                                                        
-                                                        <input class="form-control" type="text" name="prospect_name" value="{{$data['prospect_name']}}" readonly>
+                                                        <input class="form-control" type="text" name="prospect_name" value="{{$data['prospect_first_name']}} {{$data['prospect_last_name']}}" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -370,7 +370,7 @@ i.fa-brands.fa-linkedin {
                                                 </div>
                                             </div>             
                                         </div>
-                
+                                        
 
                                         <div class="row p-t-20">
                                             <div class="col-md-6 show_lead">
@@ -385,7 +385,7 @@ i.fa-brands.fa-linkedin {
                                                             <a href="<?php
                                                             $var = $data['linkedin_address'];
                                                                 // $var = $data[6]['linkedin_address'];
-                                                                if(strpos($var, 'https://') !== 0) {
+                                                                if(strpos($var, 'http://') !== 0  && strpos($var, 'https://') !== 0) {
                                                                 echo $kasa = 'https://' . $var;
                                                                 } else {
                                                                 echo $var;
@@ -394,7 +394,7 @@ i.fa-brands.fa-linkedin {
                                                             <input type="text" class="form-control" value="<?php
                                                             $var = $data['linkedin_address'];
                                                                 // $var = $data[6]['linkedin_address'];
-                                                                if(strpos($var, 'https://') !== 0) {
+                                                                if(strpos($var, 'http://') !== 0  && strpos($var, 'https://') !== 0) {
                                                                 echo $kasa = 'https://' . $var;
                                                                 } else {
                                                                 echo $var;

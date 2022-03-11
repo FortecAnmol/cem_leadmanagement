@@ -223,9 +223,11 @@
                                                      {{-- @endforeach --}}
                                                  </td>
                                                  <?php   
-                                                 $updated_date =  date('Y-m-d', strtotime($data['updated_at']));
+                                                //  $updated_date =  date('Y-m-d', strtotime($data['updated_at']));
+                                                 $updated_date =  $data['updated_at'];
+                                                 $new_updated_date = optional($updated_date)->format('Y/d/m'.' | '.'H:i');
                                                  ?>
-                                                 <td>{{ $data['updated_at']->format('Y/d/m'.' | '.'H:i') }}</td>
+                                                 <td>{{ $new_updated_date }}</td>
                                                  @php
                                                 //  $status = '';
                                                 //  if ($data['status'] == 1) {

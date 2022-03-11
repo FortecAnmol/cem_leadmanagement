@@ -121,7 +121,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
 
         }
     
-       // dd($sources);
+    //    dd($sources);
         
         $data = Lead::where(['id'=>$id])->first();
         return view('leads.edit')->with(['data'=>$data,'sources'=>$sources]);

@@ -222,7 +222,7 @@ date_default_timezone_set('Asia/Kolkata');
                                                 @else
                                                 <td><a href="<?php
                                                         // $var = $data[6]['linkedin_address'];
-                                                        if(strpos($var, 'https://') !== 0) {
+                                                        if(strpos($var, 'http://') !== 0  && strpos($var, 'https://') !== 0) {
                                                             echo $kasa = 'https://' . $var;
                                                         } else {
                                                         echo $var;
