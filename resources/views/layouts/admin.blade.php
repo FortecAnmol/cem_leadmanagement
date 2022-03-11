@@ -1182,7 +1182,12 @@ $('#example23').dataTable().fnDestroy();
 //         }
 //     });
 ClassicEditor
-.create( document.querySelector( '#editor' ) )
+.create(document.querySelector('.editor'))
+.catch( error => {
+    console.error( error );
+} );
+ClassicEditor
+.create(document.querySelector('.company_desc'))
 .catch( error => {
     console.error( error );
 } );

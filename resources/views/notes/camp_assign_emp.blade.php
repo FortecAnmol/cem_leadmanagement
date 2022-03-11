@@ -108,7 +108,7 @@
                                                 <th>Campaign Name</th>
                                                 <th>Total Assigned Leads</th>
                                                 <th>Campiagn Start Date</th>
-                                                <th>Campiagn Start Date</th>
+                                                <th>Campiagn End Date</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>

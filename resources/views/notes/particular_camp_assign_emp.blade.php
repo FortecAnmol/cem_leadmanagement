@@ -176,7 +176,7 @@ i.fa-brands.fa-linkedin {
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
-                                                <th>Sr. No</th>
+                                                <th>Action</th>
                                                 <th>Company Name</th>
                                                 <th>Prospect Name</th>
                                                 <th>LinkedIn</th>
@@ -184,7 +184,7 @@ i.fa-brands.fa-linkedin {
                                                 <th>Designation</th>
                                                 <th>Phone No.</th>
                                                 <th>Last Updated Note</th>
-                                                <th>Duration of Last Updated Note</th>
+                                                <th>Updated Note Time</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -205,7 +205,15 @@ i.fa-brands.fa-linkedin {
                                                     @else
                                                     @endif
                                                     @endforeach
-                                                    {{ $i }}</td>
+                                                    {{-- {{ $i }} --}}
+                                                    <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
+                                                    </a>   
+                                                    <a  onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">
+                                                        <span    class="label" data-toggle="tooltip" data-placement="top" title="Add Quick Note" style="color:#000;font-size: 15px;"><i class="fa fa-comment" aria-hidden="true"></i></span>
+                                                        </a>
+
+                                                </td>
                                                 <td>{{ $data['company_name'] }}</td>
                                                 <?php
                                                     // $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
@@ -220,7 +228,7 @@ i.fa-brands.fa-linkedin {
                                                 @else
                                                 <td><a href="<?php
                                                         // $var = $data[6]['linkedin_address'];
-                                                        if(strpos($var, 'https://') !== 0) {
+                                                        if(strpos($var, 'http://') !== 0 && strpos($var, 'https://') !== 0) {
                                                             echo $kasa = 'https://' . $var;
                                                         } else {
                                                         echo $var;
@@ -233,7 +241,7 @@ i.fa-brands.fa-linkedin {
                                                 <td>{{ $data['job_title'] }}</td>-->
                                                 {{-- <td>{{ $data['prospect_email'] }}</td> --}}
                                                 <td>{{ $data['contact_number_1'] }}</td>
-                                                                                                <td><?php
+                                                <td><?php
                                                    $sget_dates = Note::where('lead_id',$data['id'])->orderBy('created_at','desc')->get()->unique('lead_id');
                                                 ?>
                                                 @foreach($sget_dates as $get_date)
@@ -257,23 +265,27 @@ i.fa-brands.fa-linkedin {
                                                         if($get_date['created_at'] == ''){
                                                            echo  "Null";
                                                         }else{
-                                                          echo  $get_date['created_at'];
+                                                          echo  $get_date['created_at']->format('Y/d/m'.' | '.'H:i');
                                                         }  
                                                     } 
                                                    ?></td>
                                                 {{-- <td>{{ date('d M, Y', strtotime($data['created_at'])) }}</td> --}}
              
                                                 <td>
-                                                    <a href="{{ url('/leads', [$data['id']]) }}"><span class="label" data-toggle="tooltip" data-placement="top" title="View" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span></a>   
                                                     <a href="{{ url('/leads/' . $data['id'] . '/edit') }}"><span class="label" data-toggle="tooltip" data-placement="top" title="Edit Lead" style="color:#000;font-size: 15px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
                                                     <a href="{{ url('/notes/add', [$data['id']]) }}">
                                                     <span class="label" data-toggle="tooltip" data-placement="top" style="display: none" title="Add Notes" style="color:#000;font-size: 15px;"> <span class="material-icons">library_add</span></span>
                                                     </a>
-                                                    
-                                                    <a href="{{ url('/notes/view', [$data['id']]) }}">
-                                                        <span  class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"> <span class="material-icons">preview</span></span>
+                                                    <a href="{{ url('/leads', [$data['id']]) }}">
+                                                        <span class="label" data-toggle="tooltip" data-placement="top" title="View Lead" style="color:#000;font-size: 15px;">
+                                                            <span class="material-icons">preview</span>
+                                                        </span>
                                                     </a>
-                                                    <span class="label label-info" onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">Add Quick note</span>
+                                                    {{-- <a href="{{ url('/notes/view', [$data['id']]) }}">
+                                                        <span  class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"> 
+                                                            <span class="material-icons">preview</span>
+                                                        </span>
+                                                    </a> --}}
                                                     <span class="label label-info" onclick="document.getElementById('lead_id').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal">Change Status</span>
                                                 </td>
                                                 <?php
@@ -293,15 +305,15 @@ i.fa-brands.fa-linkedin {
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th>Sr. No</th>
+                                                <th style="visibility: hidden">Sr. No</th>
                                                 <th class="campain_name">Company Name</th>
-                                                <th  class="prospect_name" style="visibility: hidden">Prospect Name</th>
+                                                <th class="prospect_name" style="visibility: hidden">Prospect Name</th>
                                                 <th style="visibility: hidden">LinkedIn</th>
                                                 <th class="time_zone">Time Zone</th>
-                                                <th class="designation">Designation</th>
+                                                <th style="visibility: hidden" class="designation">Designation</th>
                                                 <th class="phone_no" style="visibility: hidden">Phone No.</th>
                                                 <th class="phone_no" style="visibility: hidden;">Last Updated Note</th>
-                                                <th>Duration of Last Updated Note</th>
+                                                <th style="visibility: hidden">Duration of Last Updated Note</th>
                                                 <th class="prospect_name" style="visibility: hidden">Action</th>
                                             </tr>
                                         </tfoot>
@@ -367,6 +379,37 @@ i.fa-brands.fa-linkedin {
     {{-- </form> --}}
     </div>
 </div>
+   <!-- large modal -->
+   <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">View Note</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-body">
+          <input type="hidden" name="view_lead_id" value=<?php $lead_id = "";?>>             
+          </div>
+      {{-- @else
+      <div> Empty data</div>
+      @endif     --}}
+      <div class="table-responsive m-t-40" id="notes_data">
+  
+      
+  
+      </div>
+      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+          <button type="button" style="display: none;" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
   
     <!--<script type = "text/javascript" src = "//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js" ></script>-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" rel="stylesheet">
@@ -491,7 +534,35 @@ $( document ).ready(function() {
     //         $("#save-data").attr("disabled", false);
     //     }
     // });
+    $(document).on("click", ".notes_id", function () {
+    event.preventDefault();
+        // $("input[name=view_lead_id]").val(lead_id);
+    // let lead_id_new = $("input[name=view_lead_id]").val();      
+    // let lead_id = $("input[name=view-note]").val();
+   
+    let  lead_id = $(this).attr("baseUrl");
+    var url ='{{url("notes/view/")}}';
+    var full_url = url+'/'+lead_id;
+    $.ajax({
+      url: full_url,
+      type:"GET",
+      data:{
+          lead_id:lead_id
+      },
+      success:function(response){
+          if($.isEmptyObject(response.error)){
+              console.log(response.notes_data);
+              console.log(response.table);
+              $("#notes_data").html('');
+              $("#notes_data").html(response.table);
+          }else{
+                toastr.error(response.error,'Error!');
+          }
 
+      },
+     });
+
+});
   $("#save-data").click(function(event){
       event.preventDefault();
      

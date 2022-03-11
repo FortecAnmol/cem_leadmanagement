@@ -121,7 +121,7 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
 
         }
     
-       // dd($sources);
+    //    dd($sources);
         
         $data = Lead::where(['id'=>$id])->first();
         return view('leads.edit')->with(['data'=>$data,'sources'=>$sources]);
@@ -602,10 +602,12 @@ $data = Lead::with('source')->with('feedback')->get()->toArray();
     /*     ANMOL         */ 
     public function add_note(Request $request)
     {
+        $status = Lead::where('id',$request->lead_id)->first();
          $data = array(
             'user_id'=>auth()->user()->id,
             'lead_id'=>$request->lead_id,
             'source_id'=>$request->source_id,
+            'status'=>$status['status'],
             'reminder_time'=>$request->reminder_time,
             'reminder_date'=>$request->reminder_date,
             'reminder_for'=>$request->reminder_for,
