@@ -192,7 +192,9 @@ date_default_timezone_set('Asia/Kolkata');
                                                     <a  onclick="document.getElementById('lead_id_quick_note').value={{ $data['id'] }}" data-toggle="modal" data-target="#status-modal-quicknote">
                                                         <span    class="label" data-toggle="tooltip" data-placement="top" title="Add Quick Note" style="color:#000;font-size: 15px;"><i class="fa fa-comment" aria-hidden="true"></i></span>
                                                         </a>
-                                                    {{-- {{ $i }} --}}
+                                                    <div style="visibility: hidden">
+                                                            {{ $i }}
+                                                                </div>
                                                 </td>
                                                 <?php
                                                     $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
@@ -434,7 +436,7 @@ date_default_timezone_set('Asia/Kolkata');
           $(".print-error-msg").find("ul").append('<li>'+msg+'</li>');
       }
 });
-                         $(document).on("click", ".notes_id", function () {
+$(document).on("click", ".notes_id", function () {
     event.preventDefault();
         // $("input[name=view_lead_id]").val(lead_id);
     // let lead_id_new = $("input[name=view_lead_id]").val();      

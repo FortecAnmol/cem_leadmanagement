@@ -111,6 +111,34 @@
                                                 </div>
                                             </div>
                                             @endif
+                                            @if(auth()->user()->is_admin == 2)
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label">Password</label>
+                                                        <input type="text" id="orignal_password" name='orignal_password' class="form-control" placeholder="Enter New Password" value="{{old('orignal_password', $data->orignal_password)}}">
+                                                        @if($errors->has('orignal_password'))
+                                                            <div class="alert alert-danger">{{ $errors->first('orignal_password') }}</div>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            @endif
+
+
+                                            <!--/span-->
+                                        </div>
+                                        
+                                        <div class="row">
+                                            @if(auth()->user()->is_admin == 0)
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">Password</label>
+                                                    <input type="text" id="orignal_password" name='orignal_password' class="form-control" placeholder="Enter New Password" value="{{old('orignal_password', $data->orignal_password)}}">
+                                                    @if($errors->has('orignal_password'))
+                                                        <div class="alert alert-danger">{{ $errors->first('orignal_password') }}</div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                            @endif
 
                                             <!--/span-->
                                         </div>

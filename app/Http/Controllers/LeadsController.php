@@ -29,21 +29,29 @@ class LeadsController extends Controller
 
     public function index()
     {
+        if(request()->get('status')){
+            $status =  $_GET['status']; 
+        }else{
+            $status =  "";
+        }
+        // if($status)
+        // {
+        //     $data = Lead::where(['status'=>$status])->with('source')->with('feedback')->get()->toArray();
+        // }
         $admin = User::where(['is_admin'=>Null,'id'=>auth()->user()->id])->first();
         if(!empty($admin)){
             if (!isset($_GET['status'])) {
-$data = Lead::with('source')->with('feedback')->get()->toArray();
+            $data = Lead::with('source')->with('feedback')->get()->toArray();  
                 // $data = Lead::where(['user_id'=>auth()->user()->id])->with('source')->with('feedback')->get()->toArray();
            } else{
-                $data = Lead::where(['user_id'=>auth()->user()->id,'status'=>$_GET['status']])->with('source')->with('feedback')->get()->toArray();
+            $data = Lead::where(['status'=>$_GET['status']])->with('source')->with('feedback')->get()->toArray();
            }
            $sources = Source::select('id','source_name')->get()->toArray();
         }else{
             if (!isset($_GET['status'])) {
-
-                $data = Lead::where(['user_id'=>auth()->user()->id])->orWhere(['asign_to_manager'=>auth()->user()->id])->with('source')->with('feedback')->get()->toArray();
+            $data = Lead::Where(['asign_to_manager'=>auth()->user()->id])->with('source')->with('feedback')->get()->toArray();
            } else{
-                $data = Lead::where(['user_id'=>auth()->user()->id,'status'=>$_GET['status']])->with('source')->with('feedback')->get()->toArray();
+            $data = Lead::where(['status'=>$_GET['status']])->with('source')->with('feedback')->get()->toArray();
            }
            $sources = Source::where(['user_id'=>auth()->user()->id])->orWhere(['assign_to_manager'=>auth()->user()->id ])->select('id','source_name')->get()->toArray();
         }
