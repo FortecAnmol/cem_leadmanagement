@@ -285,7 +285,7 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
 
 
                                                 <td><!--<a href="{{ url('/feedbacks/add', [$data['id']]) }}"><span class="label label-info">Add Feedback</span></a>--->
-                                                    <a href="{{ url('/notes/view', [$data['id']]) }}">
+                                                    <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
                                                         <span class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-list" aria-hidden="true"></i></span></a></span>
                                                     </a>
                                                  <a href="{{ url('/leads', [$data['id']]) }}"><span class="label" data-toggle="tooltip" data-placement="top" title="View" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span></a></span></a>   
@@ -320,7 +320,66 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
 
                
         </div>
+                <!-- large modal -->
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel">View Note</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-body">
+          <input type="hidden" name="view_lead_id" value=<?php $lead_id = "";?>>             
+          </div>
+      {{-- @else
+      <div> Empty data</div>
+      @endif     --}}
+      <div class="table-responsive m-t-40" id="notes_data">
+  
+      
+  
+      </div>
+      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+          <button type="button" style="display: none;" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
         <script>
+            $(document).on("click", ".notes_id", function () {
+    event.preventDefault();
+        // $("input[name=view_lead_id]").val(lead_id);
+    // let lead_id_new = $("input[name=view_lead_id]").val();      
+    // let lead_id = $("input[name=view-note]").val();
+    let  lead_id = $(this).attr("baseUrl");
+    var url ='{{url("notes/view/")}}';
+    var full_url = url+'/'+lead_id;
+    $.ajax({
+      url: full_url,
+      type:"GET",
+      data:{
+          lead_id:lead_id
+      },
+      success:function(response){
+          if($.isEmptyObject(response.error)){
+              console.log(response.notes_data);
+              console.log(response.table);
+              $("#notes_data").html('');
+              $("#notes_data").html(response.table);
+          }else{
+                toastr.error(response.error,'Error!');
+          }
+
+      },
+     });
+
+});
             $("#status_search").change(function(){
                 if($(this).val() == "0") {
                   $('.filter_call').removeClass('show');

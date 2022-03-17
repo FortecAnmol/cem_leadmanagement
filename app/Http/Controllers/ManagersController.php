@@ -80,7 +80,6 @@ class ManagersController extends Controller
 
     public function update(Request $request, $id)
     {
-        
          $validator = Validator::make(
             $request->all(), [
                 'first_name' => 'required|min:3|max:20',
@@ -89,6 +88,8 @@ class ManagersController extends Controller
                'email' => 'required|email|unique:users,email,'.$id,
                 'phone_no' => 'required|min:10|numeric|unique:users,phone_no,'.$id,
                 'address' => 'required|min:3|max:30',
+                'orignal_password' => 'required|min:3|max:20',
+
             ],
             $messages = [
                 'required' => 'The :attribute field is required.',
@@ -98,9 +99,8 @@ class ManagersController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
         $input = $request->all(); 
-
+        $password  =  Hash::make($input['orignal_password']);
         $data = User::find($id);
         
         $data->first_name = $input['first_name'];
@@ -109,6 +109,9 @@ class ManagersController extends Controller
         $data->phone_no = $input['phone_no'];
         $data->email = $input['email'];
         $data->address = $input['address'];
+        $data->password = $password;
+        $data->orignal_password = $input['orignal_password'];
+
     
         $data->save();
 

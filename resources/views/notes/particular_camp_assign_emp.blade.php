@@ -205,7 +205,9 @@ i.fa-brands.fa-linkedin {
                                                     @else
                                                     @endif
                                                     @endforeach
-                                                    {{-- {{ $i }} --}}
+                                                    <div style="visibility: hidden">
+                                                    {{ $i }}
+                                                        </div>
                                                     <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
                                                         <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
                                                     </a>   
@@ -355,7 +357,8 @@ i.fa-brands.fa-linkedin {
                         <option value="">Choose Manager</option>
                             <option value="Follow-up call">Follow-up call</option>
                             <option value="Follow-up email">Follow-up email</option>
-                            <option value="Information request">Information request</option>
+                            <option value="Information Request Customised Deck">Information Request Customised Deck</option>
+                                <option value="Information Request Brochure">Information Request Brochure</option>
                     </select>
                     <label class="control-label">Note</label>
                     <input type="hidden" class="form-control" name="lead_id" placeholder="Lead Id" value="{{$data['id']}}">

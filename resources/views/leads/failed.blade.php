@@ -200,7 +200,9 @@ date_default_timezone_set('Asia/Kolkata');
                                                         @else
                                                         @endif
                                                         @endforeach
-                                                        {{-- {{ $i }} --}}
+                                                        <div style="visibility: hidden">
+                                                            {{ $i }}
+                                                                </div>
                                                         <a onclick="document.getElementById('lead_id').value={{ $data['id'] }}" class="notes_id" baseUrl="{{ $data['id'] }}" id="view-note" name="view-note"   data-toggle="modal" data-target="#largeModal">
                                                             <span    class="label" data-toggle="tooltip" data-placement="top" title="View All Notes" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span>
                                                         </a>

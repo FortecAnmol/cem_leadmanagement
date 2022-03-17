@@ -162,6 +162,11 @@ i.fa-brands.fa-linkedin {
                                 <h4 class="m-b-0 text-white">View Leads</h4>
                             </div>
 
+                 <div class="button_edit">
+                        <a class="button_edit_anchor" href="{{ url('/leads/'.$lead_ID.'/edit') }}">
+                            <span class="label label-success">Edit Lead</span>
+                        </a>
+                 </div>
                             <div class="card-body">
                                 <!--<h4 class="card-title">Data Export</h4>
                                 <h6 class="card-subtitle">Export data to Copy, CSV, Excel, PDF & Print</h6>-->

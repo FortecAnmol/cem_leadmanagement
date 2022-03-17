@@ -18,7 +18,6 @@ class DailyReportController extends Controller
 {
     public function daily_report(Request $request, $id)
     {
-
         if (request()->get('campaign_id')) {
             $campaign_id =  $_GET['campaign_id'];
         } else {
