@@ -131,8 +131,8 @@ class DailyReportController extends Controller
             return Excel::download(new ManDailyReport($camp_id, $emp_id,$date_from,$date_to), ($camp_name['source_name'] . date("-d-m-Y") . ".xlsx"));
         }
          elseif ($camp_id == "" && $emp_id == "" &&$date_from == "" && $date_to == "") {
-            $storeExcel =  Excel::store(new ManDailyReport($camp_id, $emp_id,$date_from,$date_to), "public/Excel".date("-d-m-Y")."/" . 'leadclosed' . date("-d-m-Y") . '.xlsx');
-            return Excel::download(new ManDailyReport($camp_id, $emp_id,$date_from,$date_to), ("leadclosed" . date("-d-m-Y") . ".xlsx"));
+            $storeExcel =  Excel::store(new ManDailyReport($camp_id, $emp_id,$date_from,$date_to), "public/Excel".date("-d-m-Y")."/" . 'Daily_Report' . date("-d-m-Y") . '.xlsx');
+            return Excel::download(new ManDailyReport($camp_id, $emp_id,$date_from,$date_to), ("Daily_Report" . date("-d-m-Y") . ".xlsx"));
         } 
         elseif ($camp_id == "" && $emp_id != "" && $date_from != "" && $date_to != ""){
             $employee = User::where('id', '=', $emp_id)->first();

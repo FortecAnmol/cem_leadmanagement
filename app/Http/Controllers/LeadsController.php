@@ -51,7 +51,7 @@ class LeadsController extends Controller
             if (!isset($_GET['status'])) {
             $data = Lead::Where(['asign_to_manager'=>auth()->user()->id])->with('source')->with('feedback')->get()->toArray();
            } else{
-            $data = Lead::where(['status'=>$_GET['status']])->with('source')->with('feedback')->get()->toArray();
+            $data = Lead::where(['asign_to_manager'=>auth()->user()->id,'status'=>$_GET['status']])->with('source')->with('feedback')->get()->toArray();
            }
            $sources = Source::where(['user_id'=>auth()->user()->id])->orWhere(['assign_to_manager'=>auth()->user()->id ])->select('id','source_name')->get()->toArray();
         }

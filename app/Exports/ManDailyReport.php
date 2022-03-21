@@ -115,7 +115,7 @@ class ManDailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoS
             $lead->contact_number_2,
             $lead->asign_to,
             $lead->asign_to_manager,
-            $lead->lead_data,
+            $lead->feedback,
             $lead->status = $status,
             // $lead->total_amount,
             // $lead->no_of_installment,

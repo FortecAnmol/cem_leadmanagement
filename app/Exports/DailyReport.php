@@ -86,7 +86,7 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             $lead->contact_number_2,
             $lead->asign_to,
             $lead->asign_to_manager,
-            $lead->lead_data,
+            $lead->feedback,
             $lead->status = $status,
             $lead->location,
             $lead->timezone,

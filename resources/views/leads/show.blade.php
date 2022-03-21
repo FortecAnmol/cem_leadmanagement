@@ -162,9 +162,9 @@ i.fa-brands.fa-linkedin {
                                 <h4 class="m-b-0 text-white">View Leads</h4>
                             </div>
 
-                 <div class="button_edit">
+                 <div class="button_edit edit_leads">
                         <a class="button_edit_anchor" href="{{ url('/leads/'.$lead_ID.'/edit') }}">
-                            <span class="label label-success">Edit Lead</span>
+                            <span class="label label-success edit_leads">Edit Lead</span>
                         </a>
                  </div>
                             <div class="card-body">
