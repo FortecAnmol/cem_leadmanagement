@@ -11007,3 +11007,12 @@ table.custom-seacrh-table.search_wrapper tr {
 tr.Latest_Updated th:nth-of-type(3) {
     width: 160px !important;
 }
+.button_edit.edit_leads {
+    display: flex !important;
+    justify-content: end !important;
+}
+.edit_leads .label {
+    display: inline-block;
+    padding: 6px;
+    margin: 5px 11px;
+}

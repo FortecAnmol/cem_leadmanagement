@@ -23,7 +23,7 @@
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('home') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Campaign Assign Leads </li>
+                        <li class="breadcrumb-item active">Daily Report </li>
                     </ol>
                 </div>
                 <div>
@@ -162,7 +162,8 @@
                                                 <th>Lead Name</th>
                                                 <th>Reminder Type</th>
                                                 <th>Latest Updated Note</th>
-                                                <th>Updated Note Time</th>
+                                                <th>Updated Note Date</th>
+                                                <th>Time</th>
                                                 <th>Status</th>
                                                 {{-- <th>Action</th> --}}
                                             </tr>
@@ -211,10 +212,12 @@
                                                  </td>
                                                  <?php   
                                                  $updated_date =  $data['updated_at'];
-                                                 $new_updated_date = optional($updated_date)->format('Y/d/m'.' | '.'H:i');
+                                                 $time = optional($updated_date)->format('h:i a',strtotime($updated_date));
+                                                 $new_updated_date = optional($updated_date)->format('Y/d/m');
                                                 //  echo explode(":",$updated_date)[0].":".explode(":",$updated_date)[1]
                                                  ?>
                                                  <td><?php echo $new_updated_date;   ?></td>
+                                                 <td><?php echo $time;   ?></td>
                                                  @php
                                                 //  $status = '';
                                                 //  if ($data['status'] == 1) {
