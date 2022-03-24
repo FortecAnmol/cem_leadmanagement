@@ -200,7 +200,8 @@ body{
                                                 <th>Phone No.</th>
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
-                                                <th>Updated Note Time</th>
+                                                <th>Updated Note Date</th>
+                                                <th>Time</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -284,10 +285,16 @@ body{
                                                         if($get_date['created_at'] == ''){
                                                            echo  "Null";
                                                         }else{
-                                                          echo  $get_date['created_at']->format('Y/d/m'.' | '.'H:i');
-                                                        }  
-                                                    } 
-                                                   ?></td>
+                                                          echo  $get_date['created_at']->format('Y/d/m');
+                                                           $time = $get_date['created_at']->format('h:i a');
+                                                         }  
+                                                     } 
+                                                    ?></td>
+                                                    <td>@php 
+                                                    foreach ($sget_dates as $get_date) {
+                                                          echo  $get_date['created_at']->format('h:i a');  
+                                                        } 
+                                                        @endphp</td>
 
                                                 <td>
                                                     <a href="{{ url('/notes/add', [$data['id']]) }}">

@@ -2,6 +2,8 @@
 <html lang="en">
 
 <head>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -1213,6 +1215,13 @@ ClassicEditor
      $('#min-date').bootstrapMaterialDatePicker({ time: false });
     $('#date_from').bootstrapMaterialDatePicker({ maxDate: new Date(), time: false });
      $('#date_to').bootstrapMaterialDatePicker({ maxDate: new Date(), time: false });
+/* ANMOL VERMA */
+
+$('#date_from_time').bootstrapMaterialDatePicker({ maxDate: new Date(), format: 'YYYY-MM-DD HH:mm:ss' });
+$('#date_to_time').bootstrapMaterialDatePicker({ maxDate: new Date(), format: 'YYYY-MM-DD HH:mm:ss' });
+
+
+
     </script>
 
     <script>
