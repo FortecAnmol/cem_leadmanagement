@@ -105,6 +105,8 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
     }
     public function query()
     {
+        $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($this->date_from) );
+            $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($this->date_to) );
         $date = date("Y-m-d");
         if($this->id && empty($this->campaign_id) && empty($this->date_from) && empty($this->date_to)){
         $data = Lead::where("asign_to", '=', $this->id)->latest('notes.updated_at', 'desc')->join('notes','notes.lead_id','=','leads.id');
@@ -118,13 +120,13 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
         {
             $data = Lead::where("asign_to", '=', $this->id)->where('notes.source_id','=',$this->campaign_id)
             ->latest('notes.updated_at', 'desc')->join('notes','notes.lead_id','=','leads.id')
-            ->whereBetween('notes.updated_at', [$this->date_from, $this->date_to]);
+            ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new]);
         }
         elseif($this->id && empty($this->campaign_id) && $this->date_from && $this->date_to)
         {
             $data = Lead::where("asign_to", '=', $this->id)->latest('notes.updated_at', 'desc')
-            ->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$this->date_from, $this->date_to]);
-        }
+            ->join('notes','notes.lead_id','=','leads.id')->whereBetween('notes.updated_at', [$date_from_new, $date_to_new]);
+        } 
         return $data;
     }
 

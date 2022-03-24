@@ -37,9 +37,7 @@ class EmployeesController extends Controller
             }
         }
         
-        dd('updated');
         $leads = Lead::where('id','lead_id')->get('source_id');
-        dd($leads);
           
         
     }
@@ -564,17 +562,21 @@ class EmployeesController extends Controller
           }
           elseif(request()->get('campaign_id') && request()->get('date_from') && request()->get('date_to'))
           {
+            $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($date_from) );
+            $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($date_to) );
             $data = Lead::where(['asign_to'=>auth()->user()->id])
             ->where('notes.source_id','=',request()->get('campaign_id'))
-            ->whereBetween('notes.updated_at', [$date_from, $date_to])->join('notes','notes.lead_id','=','leads.id')
+            ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new])->join('notes','notes.lead_id','=','leads.id')
             ->latest('notes.updated_at', 'desc')->get();
 
 
           }
           elseif(empty(request()->get('campaign_id')) && request()->get('date_from') && request()->get('date_to'))
           {
+            $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($date_from) );
+            $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($date_to) );
             $data = Lead::where(['asign_to'=>auth()->user()->id])->join('notes','notes.lead_id','=','leads.id')
-            ->whereBetween('notes.updated_at', [$date_from, $date_to])->latest('notes.updated_at', 'desc')->get();
+            ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new])->latest('notes.updated_at', 'desc')->get();
           }
         // $data = Lead::where(['asign_to'=>auth()->user()->id])->where('status','!=','1')->groupBy(DB::raw('source_id'))->groupBy(DB::raw('DATE(updated_at)'))->orderBy('updated_at', 'desc')->with('source')->get();
         return view('employees.emp_daily_report')->with(['campaigns'=>$campaigns, 'data'=>$data ,'campaign_id'=> $campaign_id,'date_from'=>$date_from,'date_to'=>$date_to]);
@@ -601,7 +603,8 @@ class EmployeesController extends Controller
         }else{
             $date_to =  "";
         }
-
+        $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($date_from) );
+        $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($date_to) );
           $data = Lead::join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
           if(request()->get('employee_id') && empty(request()->get('campaign_id')) && empty(request()->get('date_from')) && empty(request()->get('date_to'))){
               $data = Lead::where(['asign_to'=>request()->get('employee_id')])
@@ -614,11 +617,17 @@ class EmployeesController extends Controller
             ->get();
           }
           if(empty(request()->get('campaign_id')) && request()->get('employee_id') && request()->get('date_from') && request()->get('date_to') ){
-
+            
             $data = Lead::where(['asign_to'=>request()->get('employee_id')])
-            ->whereBetween('notes.updated_at', [$date_from, $date_to])
-            ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at', 'desc')
+            ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new])
+            ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')
             ->get();
+          }
+          if(request()->get('campaign_id') && empty(request()->get('employee_id')) && request()->get('date_from') && request()->get('date_to') ){
+            $data = Lead::where('notes.source_id','=',request()->get('campaign_id'))
+            ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new])
+            ->join('notes','notes.lead_id','=','leads.id')
+            ->latest('notes.updated_at', 'desc')->get();
           }
           
           if(request()->get('campaign_id') && request()->get('employee_id') && empty(request()->get('date_from')) && empty(request()->get('date_to')) ){
@@ -629,13 +638,13 @@ class EmployeesController extends Controller
             $date_from =  date('Y-m-d', strtotime($_GET['date_from']));
             $date_to =  date('Y-m-d', strtotime($_GET['date_to']));
             $data =  Lead::where('notes.source_id','=',request()->get('campaign_id'))
-            ->where(['asign_to'=>request()->get('employee_id')])->whereBetween('notes.updated_at', [$date_from, $date_to])
+            ->where(['asign_to'=>request()->get('employee_id')])->whereBetween('notes.updated_at', [$date_from_new, $date_to_new])
             ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
         }
           if(request()->get('date_from') && request()->get('date_to') && empty(request()->get('campaign_id')) && empty(request()->get('employee_id'))){
               $date_from =  date('Y-m-d', strtotime($_GET['date_from']));
               $date_to =  date('Y-m-d', strtotime($_GET['date_to']));
-              $data =  Lead::whereBetween('notes.updated_at', [$date_from, $date_to])
+              $data =  Lead::whereBetween('notes.updated_at', [$date_from_new, $date_to_new])
               ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at')->get();
           }
           

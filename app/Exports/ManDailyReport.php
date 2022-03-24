@@ -137,6 +137,8 @@ class ManDailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoS
     }
     public function query()
     {
+        $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($this->date_from) );
+        $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($this->date_to) );
         if ($this->emp_id != "" && $this->camp_id != "" &&  $this->date_from == "" && $this->date_to == "" ) {
            return   Lead::query()
            ->where('asign_to',$this->emp_id)->where('notes.source_id',$this->camp_id)
@@ -158,7 +160,7 @@ class ManDailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoS
             return Lead::join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at');
             
         } elseif ($this->emp_id != "" && $this->camp_id == "" && $this->date_from != "" && $this->date_to != ""){
-            return  Lead::query()->where('asign_to',$this->emp_id)->whereBetween('notes.updated_at', [$this->date_from, $this->date_to])
+            return  Lead::query()->where('asign_to',$this->emp_id)->whereBetween('notes.updated_at', [$date_from_new, $date_to_new])
             ->join('notes','notes.lead_id','=','leads.id')
             ->latest('notes.updated_at', 'desc');
 
@@ -168,7 +170,12 @@ class ManDailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoS
             ->where("asign_to", "=", $this->emp_id)
             ->join('notes','notes.lead_id','=','leads.id')
             ->latest('notes.updated_at', 'desc')
-            ->whereBetween('notes.updated_at', [$this->date_from, $this->date_to]);    
+            ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new]);    
+        } elseif ( $this->date_from && $this->date_to){
+            return   Lead::query()
+            ->join('notes','notes.lead_id','=','leads.id')
+            ->latest('notes.updated_at', 'desc')
+            ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new]);    
         }
         // return $data;
     }

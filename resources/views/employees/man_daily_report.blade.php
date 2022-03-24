@@ -93,14 +93,14 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="control-label">Date From</label>
-                                            <input type="text" class="form-control" placeholder="Date From" name="date_from" value="{{ $date_from }}" id="date_from">
+                                            <input type="text" class="form-control" placeholder="Date From" name="date_from" value="{{ $date_from }}" id="date_from_time">
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="control-label">Date To</label>
-                                        <input type="text" class="form-control" placeholder="Date To" name="date_to" value="{{ $date_to }}"  id="date_to">
+                                        <input type="text" class="form-control" placeholder="Date To" name="date_to" value="{{ $date_to }}"  id="date_to_time">
                                     </div>
                                 </div>
                                 
@@ -176,7 +176,8 @@
                                                 <th>Lead Name</th>
                                                 <th>Reminder Type</th>
                                                 <th>Latest Updated Note</th>
-                                                <th>Date/Time</th>
+                                                <th>Updated Note Date</th>
+                                                <th>Time</th>
                                                 <th>Status</th>
                                                 {{-- <th>Action</th> --}}
                                             </tr>
@@ -296,8 +297,8 @@
  $(document).on("click","#sub_cmap",function() {
                var campaign_id = $('#campaign_id').val();
                var employee_id = $('#employee_id').val();
-               var date_from = $('#date_from').val();
-               var date_to = $('#date_to').val();
+               var date_from = $('#date_from_time').val();
+               var date_to = $('#date_to_time').val();
                var base_url = $('meta[name="base_url"]').attr('content');
                var  Current_url = base_url+"/man_daily_report?"+"employee_id="+employee_id+"&campaign_id="+campaign_id+"&date_from="+date_from+"&date_to="+date_to;
     
