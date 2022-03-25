@@ -74,7 +74,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Campaign</label>
-                                                    <input type="text" id="source_name1" name='source_name' readonly class="form-control" placeholder="Enter Campaign" value="{{$source['source_name']}}">
+                                                    <input type="text" id="source" name='source' readonly class="form-control" placeholder="Enter Campaign" value="{{$source['source_name']}}">
+                                                    <input type="hidden" id="source_name1" name='source_name' readonly class="form-control" placeholder="Enter Campaign" value="{{$source['id']}}">
                                                     @if($errors->has('source_name'))
                                                         <div class="alert alert-danger">{{ $errors->first('source_name') }}</div>
                                                     @endif

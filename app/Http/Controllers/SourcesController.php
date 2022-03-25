@@ -133,7 +133,7 @@ class SourcesController extends Controller
             }
         }
         $data->save();
-        return redirect('sources')->with('success', 'Campaign Assigned status Changed');
+        return redirect('sources')->with('success', 'Campaign Assigned Successfully');
     }
 
     public function destroy($id)

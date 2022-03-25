@@ -361,7 +361,7 @@ i.fa-brands.fa-linkedin {
                     <label class="control-label">Reminder For</label>
                     {{-- <input type="text" class="form-control required" placeholder="Reminder For" id="reminder_for" name="reminder_for" value="{{ old('reminder_for') }}"> --}}
                     <select id="reminder_for" class="form-control required" name="reminder_for">
-                        <option value="">Choose Manager</option>
+                        <option value="">Choose Reminder Type</option>
                             <option value="Follow-up call">Follow-up call</option>
                             <option value="Follow-up email">Follow-up email</option>
                             <option value="Information Request Customised Deck">Information Request Customised Deck</option>

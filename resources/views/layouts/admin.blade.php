@@ -1217,9 +1217,38 @@ ClassicEditor
      $('#date_to').bootstrapMaterialDatePicker({ maxDate: new Date(), time: false });
 /* ANMOL VERMA */
 
-$('#date_from_time').bootstrapMaterialDatePicker({ maxDate: new Date(), format: 'YYYY-MM-DD HH:mm:ss' });
-$('#date_to_time').bootstrapMaterialDatePicker({ maxDate: new Date(), format: 'YYYY-MM-DD HH:mm:ss' });
-
+{{-- $('#date_from_time').bootstrapMaterialDatePicker({ 
+    maxDate: new Date(),
+    format: 'YYYY-MM-DD HH:mm:ss',
+    cancelText: 'Back',
+    clearText: 'Limpar',
+    shortTime: true,
+    lang: 'pt-br'
+ });
+$('#date_to_time').bootstrapMaterialDatePicker({ 
+    maxDate: new Date(), 
+    format: 'YYYY-MM-DD HH:mm:ss',
+    cancelText: 'Back',
+    clearText: 'Limpar',
+    shortTime: true,
+    lang: 'pt-br'
+ }); --}}
+ $('#date_from_time').bootstrapMaterialDatePicker({ 
+    maxDate: new Date(),
+    format: 'YYYY-MM-DD hh:mm a',
+    cancelText: 'Back',
+    clearText: 'Limpar',
+    shortTime: true,
+    lang: 'pt-br'
+ });
+$('#date_to_time').bootstrapMaterialDatePicker({ 
+    maxDate: new Date(), 
+    format: 'YYYY-MM-DD hh:mm a',
+    cancelText: 'Back',
+    clearText: 'Limpar',
+    shortTime: true,
+    lang: 'pt-br'
+ });
 
 
     </script>

@@ -31,7 +31,6 @@ class ImportExportController extends Controller
     
     public function import(ImportRequest $request) 
     {
-        // dd($request);
 
         $validator = Validator::make($request->all(), [
             'source_name' => 'required',
@@ -129,10 +128,11 @@ class ImportExportController extends Controller
         //return back()->with('success', 'Campaign Imported Successfully.');
         return redirect('sources')->with('success', 'Campaign Imported Successfully.');
     }
-    public function import_leads(ImportRequest $request,$id) 
+    public function import_leads(Request $request) 
     {
-        dd($id);
-            $file = request()->file('file');
+        $source_id =   $request->source_name;
+        //$data = Source::where('id')->first();
+        $file = request()->file('file');
         $headings = (new HeadingRowImport())->toArray($file);
         // dd($headings);
         if($headings[0][0][0] != "company_name"){
@@ -197,11 +197,12 @@ class ImportExportController extends Controller
         //     return Redirect::back()->with('error', "'date_shared' hearder name is incorrect please check your CSV file");
 
         // }
+        Excel::import(new CampaignImport($source_id), $file);
 
-        {
-            $import = new CampaignImport;
-            $import->import($file);
-        }
+        // {
+        //     $import = new CampaignImport;
+        //     $import->import($file,$source_id);
+        // }
             // Excel::import(new BulkImport,request()->file('file'));
             // (new BulkImport)->import($file);
         //    Excel::import(new BulkImport,request()->file('file'));

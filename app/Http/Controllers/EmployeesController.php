@@ -543,6 +543,8 @@ class EmployeesController extends Controller
           }else{
               $date_to =  "";
           }
+          $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($date_from) );
+          $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($date_to) );
           $campaigns =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')
           ->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();
 
@@ -562,8 +564,6 @@ class EmployeesController extends Controller
           }
           elseif(request()->get('campaign_id') && request()->get('date_from') && request()->get('date_to'))
           {
-            $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($date_from) );
-            $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($date_to) );
             $data = Lead::where(['asign_to'=>auth()->user()->id])
             ->where('notes.source_id','=',request()->get('campaign_id'))
             ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new])->join('notes','notes.lead_id','=','leads.id')
@@ -573,8 +573,6 @@ class EmployeesController extends Controller
           }
           elseif(empty(request()->get('campaign_id')) && request()->get('date_from') && request()->get('date_to'))
           {
-            $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($date_from) );
-            $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($date_to) );
             $data = Lead::where(['asign_to'=>auth()->user()->id])->join('notes','notes.lead_id','=','leads.id')
             ->whereBetween('notes.updated_at', [$date_from_new, $date_to_new])->latest('notes.updated_at', 'desc')->get();
           }

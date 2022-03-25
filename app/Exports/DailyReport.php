@@ -72,32 +72,35 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             $lead->lead_data = implode(",\n", $lead_data);
             $i++;
         }
+        $date = date ( 'd/m/Y' , strtotime($lead->created_at) );
+        $time = date ( 'h:i a' , strtotime($lead->created_at) );
 
         $return = [
-            $lead->id,
-            $lead->user_id,
-            $lead->company_name,
+            $lead->source_id,
             $lead->prospect_first_name .' '. $lead->prospect_last_name,
+            $lead->designation,
+            $lead->bussiness_function,
+            $lead->company_name,
             $lead->company_industry,
             $lead->linkedin_address,
-            $lead->source_id,
             $lead->prospect_email,
             $lead->contact_number_1,
             $lead->contact_number_2,
-            $lead->asign_to,
-            $lead->asign_to_manager,
-            $lead->feedback,
-            $lead->status = $status,
             $lead->location,
             $lead->timezone,
-            $lead->prospect_first_name .' '. $lead->prospect_last_name,
-            $lead->designation,
-            $lead->designation_level,
-            $lead->bussiness_function,
-            $lead->date_shared,
-            $lead->created_at,
-            $lead->updated_at,
-            $lead->download_word,
+            $lead->feedback,
+            $date,
+            $time,
+            // $lead->id,
+            // $lead->user_id,
+            // $lead->asign_to,
+            // $lead->asign_to_manager,
+            // $lead->status = $status,
+            // $lead->prospect_first_name .' '. $lead->prospect_last_name,
+            // $lead->designation_level,
+            // $lead->date_shared,
+            // $lead->updated_at,
+            // $lead->download_word,
         ];
 
 
@@ -107,7 +110,6 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
     {
         $date_from_new = date ( 'Y-m-d H:i:s' , strtotime($this->date_from) );
             $date_to_new = date ( 'Y-m-d H:i:s' , strtotime($this->date_to) );
-        $date = date("Y-m-d");
         if($this->id && empty($this->campaign_id) && empty($this->date_from) && empty($this->date_to)){
         $data = Lead::where("asign_to", '=', $this->id)->latest('notes.updated_at', 'desc')->join('notes','notes.lead_id','=','leads.id');
         }
@@ -133,16 +135,41 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
     public function headings(): array
     {
         return [
-            'S.No.',
-            'Lead Added By',
+            // 'S.No.',
+            // 'Lead Added By',
+            'Campaign Name',
+            'Prospect Name',
+            'Designation',
+            'Bussiness Function',
             'Organization',
-            'Name',
+            'Organization Industry',
+            'LinkedIn',
+            'Email ID',
+            'Contact number 1',
+            'Contact number 2',
+            'Location',
+            'Timezone',
+            'Feedback',
+            'Comment Date',
+            'Comment Time',
+
+
+
+
+
+
+
+
+
+
+
+
+            // 'Name',
             // 'prospect_last_name',
             // 'job_title',
             // 'employee_size',
             // 'web_address',
             // 'revenue_size',
-            'Organization Industry',
             // 'physical_address',
             // 'city',
             // 'state',
@@ -150,28 +177,16 @@ class DailyReport implements FromQuery, WithHeadings, WithEvents, ShouldAutoSize
             // 'country',
             // 'lead_name',
             // 'lead_details',
-            'LinkedIn',
-            'Campaign Name',
-            'Email ID',
-            'Contact number 1',
-            'Contact number 2',
-            'Asigned To Employee',
-            'Asign To Manager',
-            'Feedback',
-            'Status',
+            // 'Asigned To Employee',
+            // 'Asign To Manager',
+            // 'Status',
             // 'total_amount',
             // 'no_of_installment',
-            'Location',
-            'Timezone',
-            'Prospect Name',
-            'Designation',
-            'Designation Level',
-            'Bussiness Function',
-            'Date Shared',
-            'Created On',
-            'Updated On',
+            // 'Designation Level',
+            // 'Date Shared',
+            // 'Updated On',
             // 'deleted_at',
-            'Download Word',
+            // 'Download Word',
         ];
     }
     public function registerEvents(): array

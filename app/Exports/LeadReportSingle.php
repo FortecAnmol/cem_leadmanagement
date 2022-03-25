@@ -90,6 +90,11 @@ class LeadReportSingle implements FromQuery, WithHeadings, WithEvents, ShouldAut
             $lead->lead_data = implode(",\n", $lead_data);
             $i++;
         }
+        $created_at = date ( 'd/m/Y h:i a' , strtotime($lead->created_at) );
+        $updated_at = date ( 'd/m/Y h:i a' , strtotime($lead->updated_at) );
+
+
+
         // dd($lead_data);
         $return = [
             $lead->id,
@@ -126,8 +131,8 @@ class LeadReportSingle implements FromQuery, WithHeadings, WithEvents, ShouldAut
             $lead->designation_level,
             $lead->bussiness_function,
             $lead->date_shared,
-            $lead->created_at,
-            $lead->updated_at,
+            $created_at,
+            $updated_at,
             $lead->download_word
             // $lead->deleted_at,
         ];

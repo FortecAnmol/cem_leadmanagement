@@ -90,6 +90,8 @@ class LeadClosedExport implements FromQuery, WithHeadings, WithEvents, ShouldAut
             $lead->download_word =  $lead->prospect_first_name.$lead->prospect_last_name.date("-d-m-Y").'.doc';
             }
         }
+        $created_at = date ( 'd/m/Y h:i a' , strtotime($lead->created_at) );
+        $updated_at = date ( 'd/m/Y h:i a' , strtotime($lead->updated_at) );
         // dd($lead->download_word);
         // dd($lead_data);
         $return = [
@@ -127,8 +129,8 @@ class LeadClosedExport implements FromQuery, WithHeadings, WithEvents, ShouldAut
             $lead->designation_level,
             $lead->bussiness_function,
             $lead->date_shared,
-            $lead->created_at,
-            $lead->updated_at,
+            $created_at,
+            $updated_at,
             $lead->download_word,
             // $lead->deleted_at,
         ];
