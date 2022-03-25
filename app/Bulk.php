@@ -29,6 +29,7 @@ class Bulk extends Model
         'location',
         'timezone',
         'prospect_name',
+        'asign_to_manager',
         'designation',
         'bussiness_function',
         'contact_number_2',

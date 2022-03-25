@@ -23,6 +23,7 @@ class Lead extends Model
         'prospect_name',
         'designation',
         'linkedin_address',
+        'asign_to_manager',
         'bussiness_function',
         'prospect_email',
         'contact_number_1',

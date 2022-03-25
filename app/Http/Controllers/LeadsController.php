@@ -62,13 +62,19 @@ class LeadsController extends Controller
   
     public function create()
     {
-        $sources = Source::where(['user_id'=>auth()->user()->id])->select('id','source_name')->get()->toArray();
+        if(Auth::user()->is_admin == null){
+        $sources = Source::get()->toArray();
+        }else
+        {
+            $sources = Source::where(['assign_to_manager'=>auth()->user()->id])->get()->toArray();
+        }
         return view('leads.add')->with(['sources'=>$sources]);
     }
 
 
     public function store(Request $request)
     {
+        $assign   =  Source::where('id',$request->source_id)->first();
         $data = array(
             'user_id'=>auth()->user()->id,
             'source_id'=>$request->source_id,
@@ -85,6 +91,7 @@ class LeadsController extends Controller
             'bussiness_function'=>$request->bussiness_function,
             'location'=>$request->location,
             'timezone'=>$request->timezone,
+            'asign_to_manager'=>$assign['assign_to_manager'],
             'date_shared'=>$request->date_shared,
             /*'job_title'=>$request->job_title,*/
             /*'web_address'=>$request->web_address,

@@ -42,9 +42,9 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Select Source</label>
+                                                    <label class="control-label">Select Campaign</label>
                                                     <select  name="source_id" class="form-control custom-select" data-placeholder="Select Source" tabindex="1">
-                                                        <option value="">Select Source</option>
+                                                        <option value="">Select Campaign</option>
                                                         @foreach($sources as $sources)
                                                             @if (old('source_id') == $sources['id'])
                                                                 <option value="{{ $sources['id'] }}" selected>{{ $sources['source_name'] }}</option>

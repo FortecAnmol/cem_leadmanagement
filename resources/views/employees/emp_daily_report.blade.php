@@ -7,6 +7,9 @@
 .table-striped tbody tr:nth-of-type(odd) {
     background: #f2f4f859 !important;
 }
+.form-control {
+    padding: 2 !important;
+}
 </style>
 
  
