@@ -1,15 +1,12 @@
 @extends('layouts.admin')
-<style>
-    .progress-bar.bg-progress {
-        background: #108c36;
-    }
-    i.fa.fa-check.text-progress {
-        color: #108c36;
-    }
-</style>
+
+
+   <!-- <link href="{{ asset('public/admin/assets/plugins/morrisjs/morris.css') }}" rel="stylesheet"> -->
+    
+    
 @section('content')
 
-            <div class="row page-titles">
+<div class="row page-titles">
                 <div class="col-md-5 align-self-center">
                     <h3 class="text-themecolor">Dashboard</h3>
                 </div>
@@ -29,16 +26,36 @@
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
                 <!-- Row -->
-                <div class="card-group">
+                @if(auth()->user()->is_admin == null)
+                       <div class="card-group">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <a href="{{ url('notes') }}">
-                                    <div class="col-12">
+                                <a href="{{ url('leads') }}">
+                                <div class="col-12">
+                                    <h2 class="m-b-0"><i class="fa fa-calculator text-warning"></i></h2>
+                                    <h3 class="">{{ $totalLeads }}</h3>
+                                    <h6 class="card-subtitle">Campaign Total Leads</h6></div>
+                                </a>
+                                <div class="col-12">
+                                    <div class="progress">
+                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 100%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Column -->
+                    <!-- Column -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <a href="{{ url('leads/?status=1') }}">
+                                <div class="col-12">
                                     <h2 class="m-b-0"><i class="fa fa-clock-o text-info"></i></h2>
                                     <h3 class="">{{ $totalPendingLeads }}</h3>
-                                    <h6 class="card-subtitle">Campaign Total Pending Leads</h6>
-                                </div></a>
+                                    <h6 class="card-subtitle">Campaign Total Pending Leads</h6></div>
+                                </a>
                                 <div class="col-12">
                                     <div class="progress">
                                         <div class="progress-bar bg-info" role="progressbar" style="width: 100%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
@@ -52,28 +69,11 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <a href="{{ url('leads/closed') }}">
-                                <div class="col-12">
-                                    <h2 class="m-b-0"><i class="fa fa-check text-progress"></i></h2>
-                                    <h3 class="">{{ $totalClosedLeads }}</h3>
-                                    <h6 class="card-subtitle">Campaign Total Closed Leads</h6></div>
-                                </a>
-                                <div class="col-12">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-progress" role="progressbar" style="width: 100%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <a href="{{ url('notes/in_progress') }}">
+                                 <a href="{{ url('leads/?status=3') }}">
                                 <div class="col-12">
                                     <h2 class="m-b-0"><i class="fa fa-check text-success"></i></h2>
-                                    <h3 class="">{{ $totalInprogressLeads }}</h3>
-                                    <h6 class="card-subtitle">Campaign Total Inprogress Leads</h6></div>
+                                    <h3 class="">{{ $totalClosedLeads }}</h3>
+                                    <h6 class="card-subtitle">Campaign Total Closed Leads</h6></div>
                                 </a>
                                 <div class="col-12">
                                     <div class="progress">
@@ -88,7 +88,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                 <a href="{{ url('leads/failed') }}">
+                                 <a href="{{ url('leads/?status=2') }}">
                                 <div class="col-12">
                                     <h2 class="m-b-0"><i class="fa fa-exclamation-triangle text-danger"></i></h2>
                                     <h3 class="">{{ $totalFailedLeads }}</h3>
@@ -102,28 +102,33 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Column -->
-                    <!-- Column -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="row">
-                                <a href="{{ url('reminder/view') }}">
-                                <div class="col-12">
-                                    <h2 class="m-b-0"><i class="fa fa-bell text-warning"></i></h2>
-                                    <h3 class="">{{ $todayReminders }}</h3>
-                                    <h6 class="card-subtitle">Today's Reminder</h6></div>
-                                </a>
-                                <div class="col-12">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 100%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                    </div>
-                                </div>
+                </div>
+                @endif
+
+
+
+                 <div class="row">
+                    <div class="col-lg-6" style="">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Users</h4>
+                                <div id="morris-donut-left"></div>
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-lg-6" >
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Campaign Leads</h4>
+                                <div id="morris-donut-right"></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
-           
-                <!-- Row -->
+
+                @if(auth()->user()->is_admin == 2)
                 <div class="container-fluid">
                     <!-- ============================================================== -->
                     <!-- Start Page Content -->
@@ -194,6 +199,7 @@
                                         <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
                                             <thead>
                                                 <tr>
+                                                    <th>Name</th>
                                                     <th>Campaign</th>
                                                     <th>Leads</th>
                                                     <th>Last Login</th>
@@ -201,17 +207,23 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach($data as $data)
+                                            @foreach($data as $data)
                                             </tr>
-                                            <?php
-                                            $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
-                                            ?>
-                                            <td>{{ $sources_data->source_name }}</td>
+                                                <td>{{$data['name']}}</td>
+                                                @php
+                                                $campaign_assigned = App\Models\Lead::join('users','users.id','=','leads.asign_to')->groupBy('users.id')->get();
+                                                foreach ($campaign_assigned as $campaign_assigned_new) {
+                                                }
+                                                $source_assigned   = App\Models\Source::where('id',$campaign_assigned_new['source_id'])->get();
+                                                foreach ($source_assigned as $source_assigned_new) {
+                                                }
+                                                @endphp
+                                                <td>{{$source_assigned_new['source_name']}}</td>
                                                 <td>{{ $data['totalLeads']}}</td>
                                                 <td>Last Login</td>
-                                                <td>Comments since last session</td>
-                                            </tr>
-                                                @endforeach           
+                                                <td>Comments since last session</td>  
+                                            </tr>         
+                                            @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -222,6 +234,15 @@
                     </div>
                     
         </div>
+    
+        <!-- =========== MODAL POPUP ================ -->
+        @endif
+    
+
+
+  
+         
+         
 
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
@@ -285,3 +306,32 @@
                 <!-- ============================================================== -->
             </div>
 @endsection
+
+
+
+ <!--
+    <script src="{{ asset('public/admin/assets/plugins/jquery/jquery.min.js') }}"></script>
+
+    <script src="{{ asset('public/admin/assets/plugins/bootstrap/js/popper.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+
+    <script src="{{ asset('public/admin/dark/js/jquery.slimscroll.js') }}"></script>
+
+    <script src="{{ asset('public/admin/dark/js/waves.js') }}"></script>
+
+    <script src="{{ asset('public/admin/dark/js/sidebarmenu.js') }}"></script>
+
+    <script src="{{ asset('public/admin/assets/plugins/sticky-kit-master/dist/sticky-kit.min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
+
+    <script src="{{ asset('public/admin/dark/js/custom.min.js') }}"></script>
+
+    <script src="{{ asset('public/admin/assets/plugins/raphael/raphael-min.js') }}"></script>
+    <script src="{{ asset('public/admin/assets/plugins/morrisjs/morris.min.js') }}"></script>
+
+    <script src="{{ asset('public/admin/assets/plugins/sparkline/jquery.sparkline.min.js') }}"></script>
+    <script src="{{ asset('public/admin/dark/js/dashboard4.js') }}"></script>
+
+    <script src="{{ asset('public/admin/assets/plugins/styleswitcher/jQuery.style.switcher.js') }}"></script>
+
+-->

@@ -554,8 +554,6 @@ class EmployeesController extends Controller
             ->where('notes.source_id','=',request()->get('campaign_id'))
             ->join('notes','notes.lead_id','=','leads.id')->latest('notes.updated_at', 'desc')
             ->get();
-
-
           }
           elseif(empty(request()->get('campaign_id')) && empty(request()->get('date_from')) && empty(request()->get('date_to')))
           {
