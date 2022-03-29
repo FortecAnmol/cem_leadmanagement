@@ -446,7 +446,6 @@ class HomeController extends Controller
 
 
     public function allCounts(){
-
         if(auth()->user()->is_admin == 1){
 
             $totalLeads = Lead::count();
@@ -519,7 +518,7 @@ class HomeController extends Controller
 
 
 
-            //return view('adminDashboard')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
+            //return view('AdminDashboardNew')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
 
              return response()->json(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
 
@@ -531,7 +530,7 @@ class HomeController extends Controller
             $totalFailedLeads = Lead::where(['status'=>'2'])->count();
 
 
-            return view('adminDashboard')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);*/
+            return view('AdminDashboardNew')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);*/
 
             
             $admins = User::where(['is_admin'=>null])->count();
@@ -546,7 +545,7 @@ class HomeController extends Controller
             $totalFailedLeads = Lead::where(['status'=>'2'])->count();
 
 
-           // return view('adminDashboard')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
+           // return view('AdminDashboardNew')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
 
             $data = array (
 
@@ -598,7 +597,6 @@ class HomeController extends Controller
     {
 
         //print_R(auth()->user());die;
-        
             
         if(auth()->user()->is_admin == 1){
 
@@ -612,8 +610,10 @@ class HomeController extends Controller
             
             $todayReminders = Note::where(['user_id'=>auth()->user()->id,'reminder_date'=>$today])->count(); 
 
+            $data =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();
+            $lead_count = Lead::where('asign_to',auth()->user()->id)->distinct('source_id')->count();
            
-            return view('employeeDashboard')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'todayReminders'=>$todayReminders,'totalInprogressLeads'=>$totalInprogressLeads]);
+            return view('employeeDashboard')->with(['data'=>$data,'totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'todayReminders'=>$todayReminders,'totalInprogressLeads'=>$totalInprogressLeads]);
 
 
         }elseif(auth()->user()->is_admin == 2){
@@ -623,11 +623,10 @@ class HomeController extends Controller
             $totalClosedLeads = Lead::where(['asign_to_manager'=>auth()->user()->id, 'status'=>'3'])->count();
             $totalFailedLeads = Lead::where(['asign_to_manager'=>auth()->user()->id, 'status'=>'2'])->count();
             $totalInprogressLeads = Lead::where(['asign_to_manager'=>auth()->user()->id, 'status'=>'4'])->count();
-
-            return view('adminDashboard')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
+            $data = User::where(['user_id'=>auth()->user()->id])->get();
+            return view('AdminDashboardNew')->with(['data'=>$data,'totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
 
         }else{
-
             $totalLeads = Lead::count();
             $totalPendingLeads = Lead::where(['status'=>'1'])->count();
             $totalClosedLeads = Lead::where(['status'=>'3'])->count();
@@ -636,7 +635,7 @@ class HomeController extends Controller
 
 
 
-            return view('adminDashboard')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
+            return view('AdminDashboardNew')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
 
             // $totalLeads = Lead::where(['user_id'=>auth()->user()->id])->count();
             // $totalPendingLeads = Lead::where(['user_id'=>auth()->user()->id, 'status'=>'1'])->count();
@@ -644,7 +643,7 @@ class HomeController extends Controller
             // $totalFailedLeads = Lead::where(['user_id'=>auth()->user()->id, 'status'=>'2'])->count();
 
 
-            // return view('adminDashboard')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
+            // return view('AdminDashboardNew')->with(['totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
 
         }
     }

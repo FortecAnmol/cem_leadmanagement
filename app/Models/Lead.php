@@ -50,6 +50,7 @@ class Lead extends Model
     public function source()
     {
         return $this->belongsTo('App\Models\Source');
+        //return $this->hasMany('App\Models\Source', 'lead_id', 'id');
     }
     public function lhsreport()
     {
