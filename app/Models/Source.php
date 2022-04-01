@@ -11,7 +11,7 @@ class Source extends Model
 
     use SoftDeletes;
     protected $fillable = [
-        'user_id','source_name','description','start_date','end_date','assign_to_manager'
+        'user_id','source_name','description','start_date','assign_to','end_date','assign_to_manager'
     ];
 
   /*  public function money()
@@ -23,8 +23,10 @@ class Source extends Model
     return round($this->money()->avg('amount'),1);
 }*/
 
-
-
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User','assign_to');
+    }  
     public function rating(){
 
         return $this->hasMany('App\Models\Money');
