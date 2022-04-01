@@ -140,55 +140,13 @@
                                    {{Session::get('error')}}
                                </div>
                             @endif
-                            
+                            @if(auth()->user()->is_admin == null)
                             <div class="card card-outline-info">
                                 <div class="card-header">
                                     <h4 class="m-b-0 text-white">Campaigns</h4>
     
                                 </div>
                                 
-                                <div id="myModal" class="modal fade in " tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title" id="myModalLabel">Add Lable</h4>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form id="ajaxform">
-    
-                                          <meta name="csrf-token" content="{{ csrf_token() }}" />
-                                                            
-                                                        <div class="alert alert-danger print-error-msg" style="display:none">
-                                                            <ul></ul>
-                                                        </div>
-    
-                                                                <div class="form-group">
-                                                                    <label class="col-md-12">Date</label>
-                                                                    <div class="col-md-12">
-                                                                        <input type="date" class="form-control" placeholder="Date" name="date"> </div>
-                                                                </div>
-                                                                
-                                                                <div class="form-group">
-                                                                    <label class="col-md-12">Amount</label>
-                                                                    <div class="col-md-12">
-                                                                        <input type="text" class="form-control" placeholder="Amount" name="amount"> </div>
-                                                                </div>
-                                                                
-                                                                
-                                                                <input type="hidden" id="source_id" name="source_id">
-                                                            </from>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-info waves-effect save-data" data-dismiss="modal">Save</button>
-                                                            <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Cancel</button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.modal-content -->
-                                                </div>
-                                                <!-- /.modal-dialog -->
-                                            </div>
-    
                                 <div class="card-body">
                                     <div class="table-responsive m-t-40">
                                         <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
@@ -202,14 +160,16 @@
                                             </thead>
                                             <tbody>
                                                 @foreach($data as $data)
-                                            </tr>
+                                            <tr>
                                             <?php
                                             $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
                                             ?>
                                             <td>{{ $sources_data->source_name }}</td>
                                                 <td>{{ $data['totalLeads']}}</td>
-                                                <td>Last Login</td>
-                                                <td>Comments since last session</td>
+                                                <td>{{$user['last_login']}}</td>
+                                                @foreach($comment_count as $newcomment_count)
+                                                <td>{{$newcomment_count['totalnewLeads']}}</td>
+                                                @endforeach
                                             </tr>
                                                 @endforeach           
                                             </tbody>
@@ -217,11 +177,11 @@
                                     </div>
                                 </div>
                             </div>
-    
                         </div>
                     </div>
                     
         </div>
+        @endif
 
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->

@@ -207,22 +207,26 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                              <?php   $count = 0;   ?>
+                                              
                                             @foreach($data as $data)
                                             </tr>
-                                                <td>{{$data['name']}}</td>
-                                                @php
-                                                $campaign_assigned = App\Models\Lead::join('users','users.id','=','leads.asign_to')->groupBy('users.id')->get();
-                                                foreach ($campaign_assigned as $campaign_assigned_new) {
-                                                }
-                                                $source_assigned   = App\Models\Source::where('id',$campaign_assigned_new['source_id'])->get();
-                                                foreach ($source_assigned as $source_assigned_new) {
-                                                }
-                                                @endphp
-                                                <td>{{$source_assigned_new['source_name']}}</td>
-                                                <td>{{ $data['totalLeads']}}</td>
+                                              <?php 
+                                               $user_name = App\Models\User::where(['id'=>$data->assign_to])->first();
+                                                $name = $user_name->name;
+                                                if( $count == 1 ){
+                                                         ?>
+                                                       <td>{{ $name }}</td>
+                                                 <?php   }else{
+                                                        echo "<td> </td>";
+                                                    }
+                                                    ?>
+                                                <td>{{$data->source_name}}</td>
+                                                <td>Leads</td>
                                                 <td>Last Login</td>
                                                 <td>Comments since last session</td>  
-                                            </tr>         
+                                            </tr>       
+                                            <?php  $count++;   ?>
                                             @endforeach
                                             </tbody>
                                         </table>

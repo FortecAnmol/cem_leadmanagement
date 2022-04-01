@@ -89,8 +89,4 @@ class Lead extends Model
     {
         return $this->belongsTo('App\Models\User','asign_to');
     }
-
-
-
-    
 }

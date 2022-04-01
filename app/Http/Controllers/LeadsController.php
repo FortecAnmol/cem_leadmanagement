@@ -508,6 +508,33 @@ class LeadsController extends Controller
         $employee_id = $request->emp_id;
         $assign_leads = $request->assign_leads;
         $campaign_id = $request->cmp_id;
+        $data = array(
+            'assign_to'=>$request->emp_id,
+        );
+        $get_assign =  Source::where('id', $campaign_id)->first();
+        $get =  preg_split("/[\s,]+/", $get_assign['assign_to']);
+        foreach($get as $new)
+        {
+            if($request->emp_id == $new)
+            {
+                $get_bool = true;
+            }
+            else
+            {
+                $get_bool = false;
+            }
+        }
+        if($get_assign['assign_to'] == null){
+        Source::where('id', $campaign_id)  
+       ->update($data);
+        }elseif($request->emp_id != $get_bool){
+        $emp_id =  $get_assign['assign_to'].','.$request->emp_id;
+        $data2 = array(
+            'assign_to'=>$emp_id,
+        );
+        Source::where('id', $campaign_id)  
+        ->update($data2);
+        } 
         $sources_data = Source::where(['id'=>$campaign_id])->first();
        $get_assign_records =  Lead::where('source_id', $campaign_id)->whereNull('asign_to')->take($assign_leads)->get();
        foreach($get_assign_records as $getassigndata){
