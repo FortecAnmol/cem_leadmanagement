@@ -207,24 +207,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                              <?php   $count = 0;   ?>
-                                              
+                                              <?php   $count = 0;
+                                              $data_new2 = App\Models\Relation::where('assign_to_manager', auth()->user()->id)->orderBy('assign_to_employee','desc')->groupBy('assign_to_employee')->get();
+                                                // dd( $data);
+                                                $data_new = [];
+                                            foreach(  $data_new2 as $dnewdata)
+                                            {
+                                                $data_new[] = App\Models\User::where(['id'=>$dnewdata['assign_to_employee']])->first();
+                                            }
+
+                                              ?>
                                             @foreach($data as $data)
                                             </tr>
-                                              <?php 
-                                               $user_name = App\Models\User::where(['id'=>$data->assign_to])->first();
-                                                $name = $user_name->name;
-                                                if( $count == 1 ){
-                                                         ?>
-                                                       <td>{{ $name }}</td>
-                                                 <?php   }else{
-                                                        echo "<td> </td>";
-                                                    }
-                                                    ?>
-                                                <td>{{$data->source_name}}</td>
-                                                <td>Leads</td>
-                                                <td>Last Login</td>
-                                                <td>Comments since last session</td>  
+                                            @php
+                                            $user_name = App\Models\User::where(['id'=>$data['assign_to_employee']])->first();
+                                            $camp_name = App\Models\Source::where(['id'=>$data['assign_to_cam']])->first();
+                                            $latest = "2023-03-30 11:20:59";
+                                            $date = date('Y-m-d h:i:s');
+                                            $count = App\Models\Note::where(['source_id'=>$data['assign_to_cam']])
+                                            ->whereBetween('created_at', [$user_name['last_login'], $latest])->count();
+                                            if($user_name->last_login == null)
+                                            {
+                                            $lastlogin = $user_name->last_login;
+                                            }
+                                            else{
+                                            $lastlogin = $user_name->last_login;
+                                            }
+                                            @endphp
+                                                <td>{{$user_name->name}}</td>
+                                                <td>{{$camp_name->source_name}}</td>
+                                                <td>{{$data['lead_assigned']}}</td>
+                                                <td>{{$lastlogin}}</td>
+                                                <td>{{$count}}</td>  
                                             </tr>       
                                             <?php  $count++;   ?>
                                             @endforeach

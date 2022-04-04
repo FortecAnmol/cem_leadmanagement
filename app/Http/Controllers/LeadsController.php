@@ -12,6 +12,7 @@ use App\Http\Requests\SearchLeadRequest;
 use App\Http\Requests\AssignLeadRequest;
 use App\Http\Requests\AssignLeadEmployeeRequest;
 use App\Models\LhsReport;
+use App\Models\Relation;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -509,33 +510,23 @@ class LeadsController extends Controller
         $assign_leads = $request->assign_leads;
         $campaign_id = $request->cmp_id;
         $data = array(
-            'assign_to'=>$request->emp_id,
+            'assign_to_cam'=>$campaign_id,
+            'assign_to_employee'=>$employee_id,
+            'assign_to_manager'=>auth()->user()->id,
+            'lead_assigned'=>$assign_leads,
         );
-        $get_assign =  Source::where('id', $campaign_id)->first();
-        $get =  preg_split("/[\s,]+/", $get_assign['assign_to']);
-        foreach($get as $new)
+        $relation  = Relation::where('assign_to_employee',$employee_id)->where('assign_to_cam',$campaign_id)->first();
+        if($relation == null){
+        Relation::create($data);
+        }else
         {
-            if($request->emp_id == $new)
-            {
-                $get_bool = true;
-            }
-            else
-            {
-                $get_bool = false;
-            }
+            $total_assign = $assign_leads + $relation['lead_assigned'];
+            $data1 = array(
+                'lead_assigned'=>$total_assign,
+            );
+            Relation::where('id',$relation['id'])->update($data1);
         }
-        if($get_assign['assign_to'] == null){
-        Source::where('id', $campaign_id)  
-       ->update($data);
-        }elseif($request->emp_id != $get_bool){
-        $emp_id =  $get_assign['assign_to'].','.$request->emp_id;
-        $data2 = array(
-            'assign_to'=>$emp_id,
-        );
-        Source::where('id', $campaign_id)  
-        ->update($data2);
-        } 
-        $sources_data = Source::where(['id'=>$campaign_id])->first();
+       $sources_data = Source::where(['id'=>$campaign_id])->first();
        $get_assign_records =  Lead::where('source_id', $campaign_id)->whereNull('asign_to')->take($assign_leads)->get();
        foreach($get_assign_records as $getassigndata){
         Lead::where('source_id', $campaign_id)->where('id', $getassigndata->id)->update(['asign_to'=>$employee_id]);

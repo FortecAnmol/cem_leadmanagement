@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Lead;
 use App\Models\Source;
 use App\Models\Note;
+use App\Models\Relation;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -616,6 +617,17 @@ class HomeController extends Controller
 
 
         }elseif(auth()->user()->is_admin == 2){
+            // $data = Lead::where('asign_to_manager',auth()->user()->id)->where('asign_to',85)->where('source_id',3)->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->first();
+
+            // $data = Lead::where('asign_to',87)->where('source_id',13)->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->first();
+            // $data1 = array(
+            //     'assign_to_cam'=>$data['source_id'],
+            //     'assign_to_employee'=>$data['asign_to'],
+            //     'assign_to_manager'=>auth()->user()->id,
+            //     'lead_assigned'=>$data['totalLeads'],
+            // );
+            // Relation::create($data1);
+            // dd('done');
 
             $totalLeads = Lead::where(['asign_to_manager'=>auth()->user()->id])->orWhere(['asign_to_manager'=>auth()->user()->id])->count();
             $totalPendingLeads = Lead::where(['asign_to_manager'=>auth()->user()->id, 'status'=>'1'])->count();
@@ -623,12 +635,13 @@ class HomeController extends Controller
             $totalFailedLeads = Lead::where(['asign_to_manager'=>auth()->user()->id, 'status'=>'2'])->count();
             $totalInprogressLeads = Lead::where(['asign_to_manager'=>auth()->user()->id, 'status'=>'4'])->count();
 
-
             $data_id =  User::where(['user_id'=>auth()->user()->id])->get();
-            $data = Source::select('assign_to','source_name')->whereIn('assign_to', array(81))->get();
-
-
-
+            $data = Relation::where('assign_to_manager', auth()->user()->id)->orderBy('assign_to_employee','desc')->get();
+            // $data = [];
+            // foreach($data_id as $data_id_new){
+            // $data = Source::select('assign_to','source_name')->whereIn('assign_to', array(81))->get();
+            // }
+            // dd($data);
             return view('AdminDashboardNew')->with(['data'=>$data,'totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'totalLeads'=>$totalLeads]);
 
         }else{
