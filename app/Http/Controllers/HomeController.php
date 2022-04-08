@@ -604,16 +604,13 @@ class HomeController extends Controller
             $totalClosedLeads = Lead::where(['asign_to'=>auth()->user()->id, 'status'=>'3'])->count();
             $totalFailedLeads = Lead::where(['asign_to'=>auth()->user()->id, 'status'=>'2'])->count();
             $totalInprogressLeads = Lead::where(['asign_to'=>auth()->user()->id, 'status'=>'4'])->count();
-
             $today = date('Y-m-d');
             
             $todayReminders = Note::where(['user_id'=>auth()->user()->id,'reminder_date'=>$today])->count(); 
             $data =  Lead::where(['asign_to'=>auth()->user()->id])->with('source')->select('*', DB::raw('COUNT(source_id) as totalLeads'))->groupBy('source_id')->get();
             $user = User::where(['id'=>auth()->user()->id])->first();
             $lead_count = Lead::where('asign_to',auth()->user()->id)->distinct('source_id')->count();
-            $latest = "2023-03-30 11:20:59";
-            $comment_count = Note::where(['user_id'=>auth()->user()->id])->select('*', DB::raw('COUNT(source_id) as totalnewLeads'))->whereBetween('created_at', [$user['last_login'], $latest])->groupBy('source_id')->get();
-            return view('employeeDashboard')->with(['comment_count'=>$comment_count,'user'=>$user,'data'=>$data,'totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'todayReminders'=>$todayReminders,'totalInprogressLeads'=>$totalInprogressLeads]);
+            return view('employeeDashboard')->with(['user'=>$user,'data'=>$data,'totalPendingLeads'=>$totalPendingLeads, 'totalClosedLeads'=>$totalClosedLeads, 'totalFailedLeads'=>$totalFailedLeads, 'todayReminders'=>$todayReminders,'totalInprogressLeads'=>$totalInprogressLeads]);
 
 
         }elseif(auth()->user()->is_admin == 2){

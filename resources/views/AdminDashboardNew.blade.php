@@ -106,7 +106,7 @@
                 @endif
 
 
-
+                @if(auth()->user()->is_admin == null)
                  <div class="row">
                     <div class="col-lg-6" style="">
                         <div class="card">
@@ -127,6 +127,7 @@
                     </div>
 
                 </div>
+                @endif
 
                 @if(auth()->user()->is_admin == 2)
                 <div class="container-fluid">
@@ -222,10 +223,9 @@
                                             @php
                                             $user_name = App\Models\User::where(['id'=>$data['assign_to_employee']])->first();
                                             $camp_name = App\Models\Source::where(['id'=>$data['assign_to_cam']])->first();
-                                            $latest = "2023-03-30 11:20:59";
-                                            $date = date('Y-m-d h:i:s');
+                                            $futureDate=date('Y-m-d h:i:s', strtotime('+1 year'));
                                             $count = App\Models\Note::where(['source_id'=>$data['assign_to_cam']])
-                                            ->whereBetween('created_at', [$user_name['last_login'], $latest])->count();
+                                            ->whereBetween('created_at', [$user_name['last_login'], $futureDate])->count();
                                             if($user_name->last_login == null)
                                             {
                                             $lastlogin = $user_name->last_login;

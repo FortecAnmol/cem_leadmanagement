@@ -8,6 +8,7 @@ use App\Models\Money;
 use App\Models\User;
 use App\Http\Requests\SourceRequest;
 use App\Models\Lead;
+use App\Models\Relation;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -146,6 +147,8 @@ class SourcesController extends Controller
 
         $source = Source::findOrFail($id);
         $lead = Lead::where('source_id',$id);
+        $relation = Relation::where('assign_to_cam',$id);
+        $relation->delete();
         $lead->delete();
         $source->delete();
         return redirect('sources')->with('success', 'Source Deleted Successfully.');

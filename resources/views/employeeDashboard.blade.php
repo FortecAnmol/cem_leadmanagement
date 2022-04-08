@@ -140,7 +140,6 @@
                                    {{Session::get('error')}}
                                </div>
                             @endif
-                            @if(auth()->user()->is_admin == null)
                             <div class="card card-outline-info">
                                 <div class="card-header">
                                     <h4 class="m-b-0 text-white">Campaigns</h4>
@@ -163,13 +162,15 @@
                                             <tr>
                                             <?php
                                             $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
+                                            $futureDate=date('Y-m-d h:i:s', strtotime('+1 year'));
+                                            $user_name = App\Models\User::where(['id'=>auth()->user()->id])->first();
+                                            $count = App\Models\Note::where(['source_id'=>$data['source_id']])
+                                            ->whereBetween('created_at', [$user_name['last_login'], $futureDate])->count();
                                             ?>
                                             <td>{{ $sources_data->source_name }}</td>
                                                 <td>{{ $data['totalLeads']}}</td>
                                                 <td>{{$user['last_login']}}</td>
-                                                @foreach($comment_count as $newcomment_count)
-                                                <td>{{$newcomment_count['totalnewLeads']}}</td>
-                                                @endforeach
+                                                <td>{{$count}}</td> 
                                             </tr>
                                                 @endforeach           
                                             </tbody>
@@ -181,7 +182,6 @@
                     </div>
                     
         </div>
-        @endif
 
                 <!-- ============================================================== -->
                 <!-- End PAge Content -->
