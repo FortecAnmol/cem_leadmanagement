@@ -46,7 +46,7 @@
                         
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Pending Leads </h4>
+                                <h4 class="m-b-0 text-white">Active Campaigns </h4>
                             </div>
 
                             <div class="card-body">

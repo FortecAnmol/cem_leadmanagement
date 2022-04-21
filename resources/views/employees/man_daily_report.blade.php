@@ -96,14 +96,14 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Date From</label>
-                                            <input type="datetime-local" class="form-control" placeholder="Date From" name="date_from" value="{{ $date_from }}" id="date_from_new">
+                                            <input type="datetime-local" class="form-control" placeholder="Date From" name="date_from" value="{{ old($date_from) }}" id="date_from_new">
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="control-label">Date To</label>
-                                        <input type="datetime-local" class="form-control" placeholder="Date To" name="date_to" value="{{ $date_to }}"  id="date_to_new">
+                                        <input type="datetime-local" class="form-control" placeholder="Date To" name="date_to" value="{{ old($date_to) }}"  id="date_to_new">
                                     </div>
                                 </div>
                                 

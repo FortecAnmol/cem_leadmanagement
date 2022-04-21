@@ -71,7 +71,7 @@ This can be useful if you wish to change the format of the data shown on differe
 				<th>Name</th>
 				<th>Position</th>
 				<th>Office</th>
-				<th>Start date</th>
+				{{-- <th>Start Date</th> --}}
 				<th>Salary</th>
 				<th>Extn.</th>
 			</tr>
