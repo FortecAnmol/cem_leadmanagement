@@ -90,20 +90,20 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-6">
+                                            <div style="display: none" class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">Start Date</label>
-                                                    <input type="date" name="start_date" class="form-control" value="{{ old('start_date') }}">
+                                                    <input type="date" name="start_date" class="form-control" value="2022-02-01">
                                                     @if($errors->has('start_date'))
                                                         <div class="alert alert-danger">{{ $errors->first('start_date') }}</div>
                                                     @endif
                                                 </div>
                                             </div>
                                             <!--/span-->
-                                            <div class="col-md-6">
+                                            <div style="display: none" class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="control-label">End Date</label>
-                                                    <input type="date" name="end_date" class="form-control" value="{{ old('end_date') }}" >
+                                                    <input type="date" name="end_date" class="form-control" value="2022-02-28" >
                                                     @if($errors->has('end_date'))
                                                         <div class="alert alert-danger">{{ $errors->first('end_date') }}</div>
                                                     @endif

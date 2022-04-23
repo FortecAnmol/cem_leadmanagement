@@ -106,6 +106,7 @@
                                             <tr>
                                                 <th>Sr. No</th>
                                                 <th>Campaign Name</th>
+                                                <th>Sub-Campaign Name</th>
                                                 <th>Total Assigned Leads</th>
                                                 {{-- <th>Campiagn Start Date</th> --}}
                                                 {{-- <th>Campiagn End Date</th> --}}
@@ -121,6 +122,7 @@
                                                     $sources_data = App\Models\Source::where(['id'=>$data['source_id']])->first();
                                                     ?>
                                                     <td>{{ $sources_data->source_name }}</td>
+                                                    <td>{{ $sources_data->description }}</td>
                                                 <td>{{ $data['totalLeads']}}</td>
                                                 {{-- <td>{{ $data['source']['start_date'] }}</td> --}}
                                                 {{-- <td>{{ $data['source']['end_date'] }}</td> --}}
