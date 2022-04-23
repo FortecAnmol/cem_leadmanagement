@@ -180,6 +180,7 @@
                                         <thead>
                                             <tr>
                                                 <th>Campaign Name</th>
+
                                                 <th>Lead Name</th>
                                                 <th>Lead ID</th>
                                                <!-- <th>Job Title</th>-->

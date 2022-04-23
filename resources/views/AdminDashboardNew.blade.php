@@ -226,12 +226,13 @@
                                             $futureDate=date('Y-m-d h:i:s', strtotime('+1 year'));
                                             $count = App\Models\Note::where(['source_id'=>$data['assign_to_cam']])
                                             ->whereBetween('created_at', [$user_name['last_login'], $futureDate])->count();
-                                            if($user_name->last_login == null)
+                                            $lastlogin_new = date("d-m-Y H:m:s", strtotime($user_name->last_login));
+                                            if($lastlogin_new == '01-01-1970 05:01:00')
                                             {
-                                            $lastlogin = $user_name->last_login;
+                                            $lastlogin = "";
                                             }
                                             else{
-                                            $lastlogin = $user_name->last_login;
+                                            $lastlogin = $lastlogin_new;
                                             }
                                             @endphp
                                                 <td>{{$user_name->name}}</td>

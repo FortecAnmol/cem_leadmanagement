@@ -107,8 +107,8 @@
                                                 <th>Sr. No</th>
                                                 <th>Campaign Name</th>
                                                 <th>Total Assigned Leads</th>
-                                                <th>Campiagn Start Date</th>
-                                                <th>Campiagn End Date</th>
+                                                {{-- <th>Campiagn Start Date</th> --}}
+                                                {{-- <th>Campiagn End Date</th> --}}
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -122,8 +122,8 @@
                                                     ?>
                                                     <td>{{ $sources_data->source_name }}</td>
                                                 <td>{{ $data['totalLeads']}}</td>
-                                                <td>{{ $data['source']['start_date'] }}</td>
-                                                <td>{{ $data['source']['end_date'] }}</td>
+                                                {{-- <td>{{ $data['source']['start_date'] }}</td> --}}
+                                                {{-- <td>{{ $data['source']['end_date'] }}</td> --}}
                                                 <td>
                                                     <a href="{{ route('employe.view_camp', [$data['source_id']]) }}" class="set_camp_id">
                                                     <span

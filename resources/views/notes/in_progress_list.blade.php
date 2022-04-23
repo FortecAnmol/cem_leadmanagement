@@ -21,7 +21,7 @@ span.label.label-info {
                 <div class="col-md-7 align-self-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ url('home') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Pending Leads </li>
+                        <li class="breadcrumb-item active">In-Progress Leads </li>
                     </ol>
                 </div>
                 <div>
@@ -48,7 +48,7 @@ span.label.label-info {
                         
                         <div class="card card-outline-info">
                             <div class="card-header">
-                                <h4 class="m-b-0 text-white">Pending Leads </h4>
+                                <h4 class="m-b-0 text-white">In-Progress Leads </h4>
                             </div>
 
                             <div class="card-body">
@@ -170,6 +170,7 @@ span.label.label-info {
                                             <tr>
                                                 <th>Action</th>
                                                 <th>Campaign Name</th>
+                                      
                                                 <th>Company Name</th>
                                                 <th>Prospect Name</th>
                                                 <th>LinkedIn</th>
@@ -179,7 +180,7 @@ span.label.label-info {
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
                                                 <th>Updated Note Date</th>
-                                                <th>Time</th>
+                                                {{-- <th>Time</th> --}}
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -220,7 +221,7 @@ span.label.label-info {
                                                 @php
                                                 $var = $data['linkedin_address'];
                                                 @endphp
-                                                @if(strpos($var, 'linkedin') == 0)
+                                                @if(strpos($var, 'linkedin') == -1)
                                                 <td><a href="javascript:void(0)" ><i style="color: #000" alt="LinkedIn" title="LinkedIn Address Not Valid" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
                                                 @else
                                                 <td><a href="<?php
@@ -263,16 +264,16 @@ span.label.label-info {
                                                          if($get_date['created_at'] == ''){
                                                             echo  "Null";
                                                          }else{
-                                                          echo  $get_date['created_at']->format('Y/d/m');
+                                                          echo  $get_date['created_at']->format('d-m-Y H:m');
                                                            $time = $get_date['created_at']->format('h:i a');
                                                          }  
                                                      } 
                                                     ?></td>
-                                                    <td>@php 
+                                                    {{-- <td>@php 
                                                     foreach ($sget_dates as $get_date) {
                                                           echo  $get_date['created_at']->format('h:i a');  
                                                         } 
-                                                        @endphp</td>
+                                                        @endphp</td> --}}
                                                 <td>
                                                     {{-- <a href="{{ url('/notes/add', [$data['id']]) }}">
                                                         <span class="label" data-toggle="tooltip" style="display: none" data-placement="top" title="Add Notes" style="color:#000;font-size: 15px;"><i class="fa fa-sticky-note-o" aria-hidden="true"></i></span>

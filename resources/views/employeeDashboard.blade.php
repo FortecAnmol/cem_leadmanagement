@@ -30,7 +30,7 @@
                 <!-- ============================================================== -->
                 <!-- Row -->
                 <div class="card-group">
-                    <div class="card">
+                    {{-- <div class="card">
                         <div class="card-body">
                             <div class="row">
                                 <a href="{{ url('notes') }}">
@@ -46,7 +46,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- Column -->
                     <!-- Column -->
                     <div class="card">
@@ -166,10 +166,11 @@
                                             $user_name = App\Models\User::where(['id'=>auth()->user()->id])->first();
                                             $count = App\Models\Note::where(['source_id'=>$data['source_id']])
                                             ->whereBetween('created_at', [$user_name['last_login'], $futureDate])->count();
+                                            $lastlogin_new = date("d-m-Y H:m:s", strtotime($user['last_login']));
                                             ?>
                                             <td>{{ $sources_data->source_name }}</td>
                                                 <td>{{ $data['totalLeads']}}</td>
-                                                <td>{{$user['last_login']}}</td>
+                                                <td>{{$lastlogin_new}}</td>
                                                 <td>{{$count}}</td> 
                                             </tr>
                                                 @endforeach           

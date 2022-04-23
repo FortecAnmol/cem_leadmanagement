@@ -245,8 +245,8 @@ class EmployeesController extends Controller
                 'last_name' => 'required|min:3|max:20',
                //'email' => 'required|email|unique:users',
                'email' => 'required|email|unique:users,email,'.$id,
-                'phone_no' => 'required|min:10|numeric|unique:users,phone_no,'.$id,
-                'address' => 'required|min:3|max:30',
+                // 'phone_no' => 'required|min:10|numeric|unique:users,phone_no,'.$id,
+                // 'address' => 'required|min:3|max:30',
                 'orignal_password' => 'required|min:3|max:30',
             ],
             $messages = [
@@ -257,11 +257,13 @@ class EmployeesController extends Controller
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
         $input = $request->all(); 
+        
         $password  =  Hash::make($input['orignal_password']);
         $data = User::find($id);
-        
+        if($input['manager'] !== NULL){
+        $data->user_id = $input['manager'];
+        }
         $data->first_name = $input['first_name'];
         $data->last_name = $input['last_name'];
         $data->name = $input['first_name'].' '.$input['last_name'];

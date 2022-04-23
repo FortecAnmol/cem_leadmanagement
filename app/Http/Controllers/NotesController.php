@@ -111,7 +111,7 @@ class NotesController extends Controller
             foreach($notes_data['notes'] as $key=> $table_data){
                 $table .=  '<tr><td class="wraping"> '.$notes_data->prospect_first_name.' '.$notes_data->prospect_last_name.' </td>
                 <td class="wraping notes_comment" ><p style="white-space: initial; max-height: 100px; overflow-y : auto;";> '.$table_data->feedback.'</p> </td>
-                <td class="wraping"> '.$table_data->reminder_date.' </td>
+                <td class="wraping"> '.date("d-m-Y", strtotime($table_data->reminder_date)).' </td>
                 <td class="wraping"> '.$table_data->reminder_for.' </td>
                 </tr>';
             }
