@@ -1,7 +1,1 @@
 /node_modules
-/storage/tobedownloaded
-*.zip
-.env.backup
-.phpunit.result.cache
-Homestead.json
-Homestead.yaml

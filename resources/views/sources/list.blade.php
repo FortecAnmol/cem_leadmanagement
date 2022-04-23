@@ -127,8 +127,8 @@
                                                 {{-- <th>Campaign Id</th> --}}
                                                 <th width="200">Campaign</th>
                                                 <th width="50">Total Leads</th>
-                                                <th>Start Date</th>
-                                                <th>End Date</th>
+                                                {{-- {{-- <th>Start Date</th> --}}
+                                                {{-- <th>End Date</th> --}}
                                                 <th>Manager</th>
                                                 <th>Created On </th>
                                                 <th>Modified On </th>
@@ -151,8 +151,8 @@
                                                 @else
                                                 <td>{{$data_src->totalLeads}}</td>
                                                 @endif
-                                                <td>{{$data['start_date']}}</td>
-                                                <td>{{$data['end_date']}}</td>
+                                                {{-- <td>{{$data['start_date']}}</td> --}}
+                                                {{-- <td>{{$data['end_date']}}</td> --}}
                                                 <?php
                                                 $user_check = Auth::user()->is_admin;
                                                 // if(empty($user_check)){
