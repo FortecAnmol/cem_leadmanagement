@@ -29,8 +29,8 @@ class EmployeeRequest extends FormRequest
            // 'email' => 'required|email|unique:users',
             //'email' => 'required|email',
             'email' => 'required|email|unique:users,email,NULL,id,deleted_at,NULL',
-            'phone_no' => 'required|min:10|numeric|unique:users,phone_no,NULL,id,deleted_at,NULL',
-            'address' => 'required|min:3|max:30',
+            // 'phone_no' => 'required|min:10|numeric|unique:users,phone_no,NULL,id,deleted_at,NULL',
+            // 'address' => 'required|min:3|max:30',
         ];
     }
 }

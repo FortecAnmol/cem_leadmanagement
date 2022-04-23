@@ -166,7 +166,7 @@
                                                 <th>Reminder Type</th>
                                                 <th>Latest Updated Note</th>
                                                 <th>Updated Note Date</th>
-                                                <th>Time</th>
+                                                {{-- <th> Time</th> --}}
                                                 <th>Status</th>
                                                 {{-- <th>Action</th> --}}
                                             </tr>
@@ -216,11 +216,11 @@
                                                  <?php   
                                                  $updated_date =  $data['updated_at'];
                                                  $time = optional($updated_date)->format('h:i a',strtotime($updated_date));
-                                                 $new_updated_date = optional($updated_date)->format('Y/d/m');
+                                                 $new_updated_date   = optional($updated_date)->format('d-m-Y H:m:s');
                                                 //  echo explode(":",$updated_date)[0].":".explode(":",$updated_date)[1]
                                                  ?>
-                                                 <td><?php echo $new_updated_date;   ?></td>
-                                                 <td><?php echo $time;   ?></td>
+                                                 <td>@php echo   $new_updated_date;  @endphp</td>
+                                                 {{-- <td> @php echo // $time; @endphp   ?> </td> --}}
                                                  @php
                                                 //  $status = '';
                                                 //  if ($data['status'] == 1) {

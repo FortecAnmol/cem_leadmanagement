@@ -84,7 +84,7 @@
                                             <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Description</label>
+                                                    <label class="control-label">Sub-campaign</label>
                                                     <input type="text"  readonly class="form-control" placeholder="Enter Campaign" value="{{$source['description']}}">
                                                 </div>
                                             </div>

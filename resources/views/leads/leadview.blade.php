@@ -208,6 +208,7 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
                                             <tr>
                                                 <th>Sr. No</th>
                                                 <th>Campaign Name</th>
+  
                                                 <th>Company Name</th>
                                                 <th>Prospect Name</th>
                                                 <th>LinkedIn</th>
@@ -256,7 +257,7 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
                                                 @php
                                                 $var = $data['linkedin_address'];
                                                 @endphp
-                                                @if(strpos($var, 'linkedin') == 0)
+                                                @if(strpos($var, 'linkedin') == -1)
                                                 <td><a href="javascript:void(0)" ><i style="color: #000" alt="LinkedIn" title="LinkedIn Address Not Valid" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
                                                 @else
                                                 <td><a href="<?php

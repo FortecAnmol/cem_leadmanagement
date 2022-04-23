@@ -54,8 +54,8 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Description</label>
-                                                    <input type="text" id="description" name='description' class="form-control" placeholder="Enter Description" value="{{ $data->description }}">
+                                                    <label class="control-label">Sub-campaign</label>
+                                                    <input type="text" id="description" name='description' class="form-control" placeholder="Enter Sub-campaign" value="{{ $data->description }}">
                                                     @if($errors->has('description'))
                                                         <div class="alert alert-danger">{{ $errors->first('description') }}</div>
                                                     @endif

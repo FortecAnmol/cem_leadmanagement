@@ -170,6 +170,7 @@ date_default_timezone_set('Asia/Kolkata');
                                             <tr>
                                                 <th>Action</th>
                                                 <th>Campaign Name</th>
+
                                                 <th>Company Name</th>
                                                 <th>Prospect Name</th>
                                                 <th>LinkedIn</th>
@@ -179,7 +180,7 @@ date_default_timezone_set('Asia/Kolkata');
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
                                                 <th>Updated Note Date</th>
-                                                <th>Time</th>
+                                                {{-- <th>Time</th> --}}
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -220,7 +221,7 @@ date_default_timezone_set('Asia/Kolkata');
                                                 @php
                                                 $var = $data['linkedin_address'];
                                                 @endphp
-                                                @if(strpos($var, 'linkedin') == 0)
+                                                @if(strpos($var, 'linkedin') == -1)
                                                 <td><a href="javascript:void(0)" ><i style="color: #000" alt="LinkedIn" title="LinkedIn Address Not Valid" class="fa-brands fa-linkedin" aria-hidden="true"></i></a></td>
                                                 @else
                                                 <td><a href="<?php
@@ -265,16 +266,16 @@ date_default_timezone_set('Asia/Kolkata');
                                                          if($get_date['created_at'] == ''){
                                                             echo  "Null";
                                                          }else{
-                                                          echo  $get_date['created_at']->format('Y/d/m');
+                                                          echo  $get_date['created_at']->format('d-m-Y H:m');
                                                            $time = $get_date['created_at']->format('h:i a');
                                                          }  
                                                      } 
                                                     ?></td>
-                                                    <td>@php 
+                                                    {{-- <td>@php 
                                                     foreach ($sget_dates as $get_date) {
                                                           echo  $get_date['created_at']->format('h:i a');  
                                                         } 
-                                                        @endphp</td>
+                                                        @endphp</td> --}}
                                        
                                                 <td>
                                                     {{-- <a href="{{ url('/feedbacks/add', [$data['id']]) }}">

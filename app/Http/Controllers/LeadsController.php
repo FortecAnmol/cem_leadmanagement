@@ -542,6 +542,7 @@ class LeadsController extends Controller
             <thead>
                 <tr>
                 <th>Campaign Name</th>
+                                                <th>Sub-Campaign Name</th>
                 <th>Total Assigned Lead</th>
                 <th>Employee Name</th>
                 <th>Campaign Start Date</th>

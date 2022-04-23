@@ -140,6 +140,7 @@ date_default_timezone_set('Asia/Kolkata');
                                             <tr>
                                                 <th>Action</th>
                                                 <th>Campaign Name</th>
+   
                                                 <th>Company Name</th>
                                                 <th>Prospect Name</th>
                                                 <th>LinkedIn</th>
@@ -149,7 +150,7 @@ date_default_timezone_set('Asia/Kolkata');
                                                 <th>Date</th>
                                                 <th>Last Updated Note</th>
                                                 <th>Updated Note Date</th>
-                                                <th>Time</th>
+                                                {{-- <th>Time</th> --}}
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
@@ -254,16 +255,16 @@ date_default_timezone_set('Asia/Kolkata');
                                                          if($get_date['created_at'] == ''){
                                                             echo  "Null";
                                                          }else{
-                                                           echo  $get_date['created_at']->format('Y/d/m');
+                                                           echo  $get_date['created_at']->format('d-m-Y H:m');
                                                            $time = $get_date['created_at']->format('h:i a');
                                                          }  
                                                      } 
                                                     ?></td>
-                                                    <td>@php 
+                                                    {{-- <td>@php 
                                                     foreach ($sget_dates as $get_date) {
                                                           echo  $get_date['created_at']->format('h:i a');  
                                                         } 
-                                                        @endphp</td>
+                                                        @endphp</td> --}}
                                                     <input type="hidden" id="notes_count_{{ $data['source_id'] }}" name="source_id" value="{{ $data['source_id'] }}">
                   
                                                 <td>

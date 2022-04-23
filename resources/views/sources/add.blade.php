@@ -82,8 +82,8 @@
                                             <!--/span-->
                                             <div class="col-md-6">
                                                 <div class="form-group">
-                                                    <label class="control-label">Description</label>
-                                                    <textarea id="description1" name="description"  maxlength="255" placeholder="Enter Description" rows="5" cols="50">{{ old('description') }}</textarea>
+                                                    <label class="control-label">Sub-campaign</label>
+                                                    <textarea id="description1" name="description"  maxlength="255" placeholder="Enter Sub-campaign" rows="5" cols="50">{{ old('description') }}</textarea>
                                                     @if($errors->has('description'))
                                                         <div class="alert alert-danger">{{ $errors->first('description') }}</div>
                                                     @endif
