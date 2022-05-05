@@ -81,12 +81,12 @@
                                         <div class="form-group">
                                             <label class="control-label">Campaign Name</label>
                                              <select class="form-control"  name="campaign_id" id="campaign_id">
-                                              <option value="">Select Campaign ID</option>
+                                              <option value="">Select Campaign Name</option>
                                                     @foreach($campaigns as $campaigns)
                                                         @if ($campaign_id == $campaigns['id'])
-                                                            <option value="{{ $campaigns['id'] }}" selected>{{ $campaigns['source_name'] }}</option>
+                                                            <option value="{{ $campaigns['id'] }}" selected>{{ $campaigns['source_name'] }}  ({{ $campaigns['description'] }})</option>
                                                         @else
-                                                            <option value="{{ $campaigns['id'] }}">{{ $campaigns['source_name'] }}</option>
+                                                            <option value="{{ $campaigns['id'] }}">{{ $campaigns['source_name'] }} ({{ $campaigns['description'] }})</option>
                                                         @endif
                                                     @endforeach
                                             </select>

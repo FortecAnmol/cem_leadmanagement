@@ -408,14 +408,14 @@ class LeadsController extends Controller
               $employees = User::where(['user_id'=>auth()->user()->id,'is_admin'=>'1'])->get()->toArray();
               $campaigns = Source::where(['assign_to_manager'=>auth()->user()->id])->get()->toArray();
             }
-            $sources = Source::where(['user_id'=>auth()->user()->id])->orWhere(['assign_to_manager'=>auth()->user()->id])->select('id','source_name')->get()->toArray();
+            $sources = Source::where(['user_id'=>auth()->user()->id])->orWhere(['assign_to_manager'=>auth()->user()->id])->get()->toArray();
             $data = Lead::with('source')->where(['asign_to_manager'=>auth()->user()->id,'status'=>'1','asign_to'=>NULL])->orWhere(['user_id'=>auth()->user()->id])->get()->toArray();
             return view('leads.assign_lead')->with(['employees'=>$employees,'data'=>$data,'sources'=>$sources]);
     }
     
     public function campname(Request $request)
     {   
-        //dd($request->camp_id);
+        // dd($request->camp_id);
             $subLaws ="";
             $table ="";
             $sources = Source::where(['id'=>$request->camp_id])->first();
@@ -431,7 +431,7 @@ class LeadsController extends Controller
            <table class="table">
            <tr>
            <td>Campaign Name</td>
-           <td>'.$source_name.'</td>
+           <td>'.$source_name .' ('.$sources->description.')</td>
            <td>Campaign Manager</td>
            <td>'.$User_info->name.'</td>
            </tr>
@@ -480,7 +480,7 @@ class LeadsController extends Controller
         if(!empty($get_table)){
             foreach($get_table as $key=> $table_data){
                 $User_info = User::where(['id'=>$table_data->asign_to])->first();
-                $table .=  '<tr><td class="wraping"> '.$sources->source_name.' </td>
+                $table .=  '<tr><td class="wraping"> '.$sources->source_name .' ('.$sources->description.') </td>
                 <td class="wraping"> '.$table_data->totalLeads.' </td>
                 <td class="wraping"> '.$User_info->name.' </td>
                 <td class="wraping"> '.$sources->start_date.' </td>
@@ -552,7 +552,7 @@ class LeadsController extends Controller
                 <tbody>';
                 foreach($get_table as $key=> $table_data){
                     $User_info = User::where(['id'=>$table_data->asign_to])->first();
-                    $table .=  '<tr><td class="wraping"> '.$sources_data->source_name.' </td>
+                    $table .=  '<tr><td class="wraping"> '.$sources_data->source_name.' ('.$sources_data->description.') </td>
                     <td class="wraping"> '.$table_data->totalLeads.' </td>
                     <td class="wraping"> '.$User_info->name.' </td>
                     <td class="wraping"> '.$sources_data->start_date.' </td>

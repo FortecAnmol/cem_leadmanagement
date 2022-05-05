@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Source;
 use Illuminate\Support\Facades\DB;
+use App\Models\Relation;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 
@@ -112,6 +113,7 @@ class EmployeesController extends Controller
                 
                 return redirect('employees')->with('success', 'Employee Added Successfully.');
             }
+        
 
          $data = array(
             'user_id'=>auth()->user()->id,
@@ -649,7 +651,13 @@ class EmployeesController extends Controller
           $admin = User::where(['is_admin'=>Null,'id'=>auth()->user()->id])->first();
           if(!empty($admin)){
             $employees = User::where(['is_admin'=>1])->get()->toArray();
+            if($employee_id == NULL){
             $campaigns = Source::get()->toArray();
+            }else{
+            $campaigns = Source::join('relations', 'relations.assign_to_cam', '=', 'sources.id')
+                ->where('relations.assign_to_employee', $employee_id)
+                ->get();
+            }
           }else{
             $employees = User::where(['user_id'=>auth()->user()->id,'is_admin'=>'1'])->get()->toArray();
             $campaigns = Source::where(['assign_to_manager'=>auth()->user()->id])->get()->toArray();
