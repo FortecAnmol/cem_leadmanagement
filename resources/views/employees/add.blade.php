@@ -88,7 +88,7 @@ color: #747474;
 
     </style>
 <?php
-$managers = DB::table('users')->where('is_admin', 2)->get();
+$managers = App\Models\User::where('is_admin', 2)->get();
 
 ?>
 <div class="row page-titles">

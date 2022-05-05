@@ -739,7 +739,7 @@ a.clear {
                         </li>
 
                         
-                        <!-- <li> <a  class="has-arrow waves-effect waves-dark" href="{{ url('employees_performance?employee_id=&compaign_id=&date_from=&date_to=') }}" aria-expanded="false"><i class="fa fa-line-chart"></i><span class="hide-menu">Performance</span> </a> <span class="hide-menu">Dashboard <span class="label label-rouded label-themecolor pull-right">4</span></span></a>
+                        <li> <a  class="has-arrow waves-effect waves-dark" href="{{ url('employees_performance?employee_id=&compaign_id=&date_from=&date_to=') }}" aria-expanded="false"><i class="fa fa-line-chart"></i><span class="hide-menu">Performance</span>   </a> <!--<span class="hide-menu">Dashboard <span class="label label-rouded label-themecolor pull-right">4</span></span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="index.html">Minimal </a></li>
                                 <li><a href="index2.html">Analytical</a></li>

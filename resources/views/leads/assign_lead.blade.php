@@ -137,7 +137,7 @@ span.error_msg {
                                                         <select  name="source_id" id="source_id" class="form-control custom-select" data-placeholder="Select Campaign" tabindex="1">
                                                             <option value="">Select Campaign</option>
                                                             @foreach($sources as $sources)
-                                                                    <option value="{{ $sources['id'] }}">{{ $sources['source_name'] }}</option>
+                                                                    <option value="{{ $sources['id'] }}">{{ $sources['source_name'] }} ({{ $sources['description'] }})</option>
                                                             
                                                             @endforeach
                                                         

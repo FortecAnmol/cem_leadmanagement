@@ -202,6 +202,7 @@
                                                 <tr>
                                                     <th>Name</th>
                                                     <th>Campaign</th>
+                                                    <th>Sub-Campaign</th>
                                                     <th>Leads</th>
                                                     <th>Last Login</th>
                                                     <th>Comments since last session</th>
@@ -237,6 +238,7 @@
                                             @endphp
                                                 <td>{{$user_name->name}}</td>
                                                 <td>{{$camp_name->source_name}}</td>
+                                                <td>{{$camp_name->description}}</td>
                                                 <td>{{$data['lead_assigned']}}</td>
                                                 <td>{{$lastlogin}}</td>
                                                 <td>{{$count}}</td>  

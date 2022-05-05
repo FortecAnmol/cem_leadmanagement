@@ -69,9 +69,9 @@
                                             <option value="" selected>Select Campaign</option>
                                                   @foreach($campaigns as $campaigns)
                                                           @if ($campaign_id == $campaigns['source']['id'])
-                                                                      <option value="{{ $campaigns['source']['id'] }}" selected>{{ $campaigns['source']['source_name'] }}</option>
+                                                                      <option value="{{ $campaigns['source']['id'] }}" selected>{{ $campaigns['source']['source_name'] }} ({{ $campaigns['source']['description'] }})</option>
                                                                   @else 
-                                                                      <option value="{{ $campaigns['source']['id'] }}">{{ $campaigns['source']['source_name'] }}</option>
+                                                                      <option value="{{ $campaigns['source']['id'] }}">{{ $campaigns['source']['source_name'] }}  ({{ $campaigns['source']['description'] }})</option>
                                                                    @endif 
                                                   @endforeach
                                           </select>
