@@ -264,7 +264,7 @@
                         <div class="col-md-12">
                            <div class="form-group">
                               <label class="control-label">Company Description</label>
-                              <textarea placeholder="Enter Company Description" id="editor" name='company_desc' class="form-control company_desc">{{ old('opt_in_status') }}</textarea>
+                              <textarea placeholder="Enter Company Description" id="editor" name='company_desc' value="{{ old('company_desc') }}" class="form-control company_desc">{{ old('company_desc') }}</textarea>
                               @if($errors->has('company_desc'))
                               <div class="alert alert-danger">{{ $errors->first('company_desc') }}</div>
                               @endif
@@ -353,7 +353,11 @@
                            <div class="form-group">
                               <label class="control-label"></label>
                               <select id="meeting_teleconference"  name='meeting_teleconference'class="form-control">
+                                 @if(old('meeting_teleconference') !== NULL)
+                                 <option value="{{ old('meeting_teleconference') }}">{{ old('meeting_teleconference') }}</option> 
+                                 @else
                                  <option vlaue="">Select Any Option</option> 
+                                 @endif
                                  <option vlaue="Face to Face meeting">  Face to Face meeting </option> 
                                  <option vlaue="Teleconference">  Teleconference </option> 
                               </select>
@@ -378,7 +382,11 @@
                            <div class="form-group">
                               <label class="control-label"></label>
                               <select id="contact_decision_maker" name='contact_decision_maker'class="form-control">
+                                 @if(old('contact_decision_maker') !== NULL)
+                                 <option value="{{ old('contact_decision_maker') }}">{{ old('contact_decision_maker') }}</option> 
+                                 @else
                                  <option vlaue="">Select Any Option</option> 
+                                 @endif
                                  <option vlaue="Yes">Yes</option> 
                                  <option vlaue="No">No</option> 
                               </select>
@@ -443,7 +451,7 @@
                         <div class="col-md-3">
                            <div class="form-group">
                               <label class="control-label">Time 1:</label>
-                              <input type="time" class="form-control" id="appt"  name="meeting_time1">                          
+                              <input type="time" class="form-control" value="{{ old('meeting_time1') }}" id="appt"  name="meeting_time1">                          
                             </div>
                             @if($errors->has('meeting_time1'))
                            <div class="alert alert-danger">{{ $errors->first('meeting_time1') }}</div>
@@ -456,7 +464,11 @@
                               $tzzlistrr = array_keys($tzlist);
                               ?>
                               <select id="time_zone" required name='timezone_1' class="form-control" >
+                                 @if(old('timezone_1') !== NULL)
+                                 <option value="{{ old('timezone_1') }}">{{ old('timezone_1') }}</option> 
+                                 @else
                                  <option vlaue="">Select An Timezone</option> 
+                                 @endif
                                  <?php $i=0; ?>
                                  @foreach ($tzzlistrr as $tzzlistrrrr)
                                       
@@ -487,7 +499,7 @@
                         <div class="col-md-3">
                            <div class="form-group">
                               <label class="control-label">Time 2:</label>
-                              <input type="time" class="form-control" id="appt" name="meeting_time2">                           
+                              <input type="time" class="form-control" value="{{ old('meeting_time2') }}" id="appt" name="meeting_time2">                           
                               @if($errors->has('meeting_time2'))
                               <div class="alert alert-danger">{{ $errors->first('meeting_time2') }}</div>
                               @endif
@@ -500,7 +512,11 @@
                            $tzzlistrr = array_keys($tzlist);
                            ?>
                            <select id="time_zone" required name='timezone_2'class="form-control">
+                              @if(old('timezone_2') !== NULL)
+                              <option value="{{ old('timezone_2') }}">{{ old('timezone_2') }}</option> 
+                              @else
                               <option vlaue="">Select An Timezone</option> 
+                              @endif
                               <?php $i=0; ?>
                               @foreach ($tzzlistrr as $tzzlistrrrr)
                                    

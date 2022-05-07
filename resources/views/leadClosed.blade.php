@@ -22,7 +22,8 @@
 
     <section class="Prospect_sec">
         <div class="container">
-            <div class="logo" style="text-align: center; padding: 20px 0; border-top: 10px solid #d3e215;">
+            <div class="logo" style="text-align:  center;height: 10px;
+            width: 10px; padding: 20px 0; border-top: 10px solid #d3e215;">
                 <img src="{{ asset('public/admin/assets/images/logo.png') }}">
 
 

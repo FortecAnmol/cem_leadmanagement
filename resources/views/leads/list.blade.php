@@ -291,18 +291,23 @@ if(isset($_GET['status']) && '1' == $_GET['status']) {
                                                     </a>
                                                  <a href="{{ url('/leads', [$data['id']]) }}"><span class="label" data-toggle="tooltip" data-placement="top" title="View" style="color:#000;font-size: 15px;"><i class="fa fa-eye" aria-hidden="true"></i></span></a></span></a>   
                                                  @if($data['status'] == 3)
+                                                 <a href="{{ url('/employee/export/' . $data['id']. '/word_single_down'.'?employee_id=&campaign_id=14&date_from=&date_to=') }}"><span class="label" data-toggle="tooltip" data-placement="top" title="Word Download" style="color:#55ce63;font-size: 15px;">
+                                                    <i class="ti-download"> </i>
+                                                </a>
+                                                @endif
+                                                 @if($data['status'] == 3)
                                                  <a href="{{ url('/employee/lhs_report/view_lhs', [$data['id']]) }}">
-                                                    <span class="label" data-toggle="tooltip" data-placement="top" title="Download Report" style="color:#000;font-size: 15px;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span></a></span>
+                                                    <span class="label" data-toggle="tooltip" data-placement="top" title="View LHS Report" style="color:#000;font-size: 15px;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span></a></span>
                                                 </a>
                                                 @else
                                                 <a href="javascript:void(0)">
-                                                    <span class="label" data-toggle="tooltip" data-placement="top" title="Download Report" style="color:#000;font-size: 15px;"><i class="fa fa-ban" aria-hidden="true"></i></span></a></span>
+                                                    <span class="label" data-toggle="tooltip" data-placement="top" title="View LHS Report" style="color:#000;font-size: 15px;"><i class="fa fa-ban" aria-hidden="true"></i></span></a></span>
                                                 </a>
                                                 @endif
                                                 <a href="{{ url('/leads/' . $data['id'] . '/edit') }}"><span class="label" data-toggle="tooltip" data-placement="top" title="Edit" style="color:#000;font-size: 15px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></span></a>
                                                 
                                                 <a href="{{ url('leads/delete', ['id' => $data['id']]) }}"  ><span class="label" data-toggle="tooltip" data-placement="top" title="Delete" style="color:red;font-size: 15px;" onclick="return confirm('Are you sure you want to delete this lead ?')"><i class="fa fa-trash" aria-hidden="true"></i></span></a> 
-
+                                                
                                                 </td>
                       
                                             </tr>

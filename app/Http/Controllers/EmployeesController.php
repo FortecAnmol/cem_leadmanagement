@@ -414,8 +414,8 @@ class EmployeesController extends Controller
                 'timezone_2'=>                  'required',
                 'ext_if_any'=>                  'required',
                 'ea_name'=>                     'required',
-                'ea_email'=>                    'required|email',
-                'ea_phone_no'=>                 'required|numeric',
+                // 'ea_email'=>                    'required|email',
+                // 'ea_phone_no'=>                 'required|numeric',
                 'meeting_teleconference'=>      'required|in:Face to Face meeting,Teleconference',
                 'contact_decision_maker'=>      'required|in:Yes,No',
                 'influencers_decision_making_process'=>        'required',
@@ -650,17 +650,23 @@ class EmployeesController extends Controller
           
           $admin = User::where(['is_admin'=>Null,'id'=>auth()->user()->id])->first();
           if(!empty($admin)){
-            $employees = User::where(['is_admin'=>1])->get()->toArray();
-            if($employee_id == NULL){
-            $campaigns = Source::get()->toArray();
-            }else{
-            $campaigns = Source::join('relations', 'relations.assign_to_cam', '=', 'sources.id')
-                ->where('relations.assign_to_employee', $employee_id)
-                ->get();
+            $employees = User::where(['is_admin' => 1])->get()->toArray();
+            if ($employee_id == NULL) {
+                $campaigns = Source::get()->toArray();
+            } else {
+                $campaigns = Source::join('relations', 'relations.assign_to_cam', '=', 'sources.id')
+                    ->where('relations.assign_to_employee', $employee_id)
+                    ->get();
             }
-          }else{
-            $employees = User::where(['user_id'=>auth()->user()->id,'is_admin'=>'1'])->get()->toArray();
-            $campaigns = Source::where(['assign_to_manager'=>auth()->user()->id])->get()->toArray();
+        } else {
+            $employees = User::where(['user_id' => auth()->user()->id, 'is_admin' => '1'])->get()->toArray();
+            if ($employee_id == NULL) {
+                $campaigns = Source::get()->toArray();
+            } else {
+                $campaigns = Source::join('relations', 'relations.assign_to_cam', '=', 'sources.id')
+                    ->where('relations.assign_to_employee', $employee_id)
+                    ->get();
+            }
           }
         // $data = Lead::where(['asign_to'=>auth()->user()->id])->where('status','!=','1')->groupBy(DB::raw('source_id'))->groupBy(DB::raw('DATE(updated_at)'))->orderBy('updated_at', 'desc')->with('source')->get();
         return view('employees.man_daily_report')->with(['employees'=>$employees,'data'=>$data,'employee_id'=>$employee_id,'campaigns'=> $campaigns,'campaign_id'=> $campaign_id,'date_from'=>$date_from,'date_to'=>$date_to]);

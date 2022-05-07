@@ -1,0 +1,363 @@
+        <html xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:o="urn:schemas-microsoft-com:office:office"
+        xmlns:w="urn:schemas-microsoft-com:office:word"
+        xmlns="http://www.w3.org/TR/REC-html40">
+
+        <head>
+        <meta http-equiv=Content-Type content="text/html; charset=utf-8">
+        <meta name=ProgId content=Word.Document>
+        <meta name=Generator content="Microsoft Word 9">
+        <meta name=Originator content="Microsoft Word 9">
+        <!--[if !mso]>
+        <style>
+        v\:* {behavior:url(#default#VML);}
+        o\:* {behavior:url(#default#VML);}
+        w\:* {behavior:url(#default#VML);}
+        .shape {behavior:url(#default#VML);}
+        </style>
+        <![endif]-->
+        <title>Table</title>
+        <!--[if gte mso 9]><xml>
+         <w:WordDocument>
+          <w:View>Print</w:View>
+          <w:DoNotHyphenateCaps/>
+          <w:PunctuationKerning/>
+          <w:DrawingGridHorizontalSpacing>9.35 pt</w:DrawingGridHorizontalSpacing>
+          <w:DrawingGridVerticalSpacing>9.35 pt</w:DrawingGridVerticalSpacing>
+         </w:WordDocument>
+        </xml><![endif]-->
+        <style>
+        <!--
+         /* Font Definitions */
+        @font-face
+            {font-family:Verdana;
+            panose-1:2 11 6 4 3 5 4 4 2 4;
+            mso-font-charset:0;
+            mso-generic-font-family:swiss;
+            mso-font-pitch:variable;
+            mso-font-signature:536871559 0 0 0 415 0;}
+         /* Style Definitions */
+        p.MsoNormal, li.MsoNormal, div.MsoNormal
+            {mso-style-parent:"";
+            margin:0in;
+            margin-bottom:.0001pt;
+            mso-pagination:widow-orphan;
+            font-size:7.5pt;
+                mso-bidi-font-size:8.0pt;
+            font-family:"Verdana";
+            mso-fareast-font-family:"Verdana";}
+        p.small
+            {mso-style-parent:"";
+            margin:0in;
+            margin-bottom:.0001pt;
+            mso-pagination:widow-orphan;
+            font-size:1.0pt;
+                mso-bidi-font-size:1.0pt;
+            font-family:"Verdana";
+            mso-fareast-font-family:"Verdana";}
+        @page Section1
+            {size:8.5in 11.0in;
+            margin:1.0in 1.25in 1.0in 1.25in;
+            mso-header-margin:.5in;
+            mso-footer-margin:.5in;
+            mso-paper-source:0;}
+        div.Section1
+            {page:Section1;}
+        -->
+        </style>
+        <!--[if gte mso 9]><xml>
+         <o:shapedefaults v:ext="edit" spidmax="1032">
+          <o:colormenu v:ext="edit" strokecolor="none"/>
+         </o:shapedefaults></xml><![endif]--><!--[if gte mso 9]><xml>
+         <o:shapelayout v:ext="edit">
+          <o:idmap v:ext="edit" data="1"/>
+         </o:shapelayout></xml><![endif]-->
+         
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    
+
+
+
+        </head>
+        <body>
+<html lang="en">
+
+
+
+
+    
+    <section class="Prospect_sec">
+        <div class="container">
+            <div class="logo" style="text-align: center;height: 10px;
+            width: 10px; padding: 20px 0; border-top: 10px solid #d3e215;">
+                <img src="http://localhost/cem_leadmanagement/public/admin/assets/images/logo.png">
+
+
+            </div>
+            <div class="Prospect_heading" style="background-color: #404040; color: #fff; padding: 10px 10px;">
+                <h5 style="margin: 0;">Prospect Information</h5>
+            </div>
+
+            <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
+                <tr>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Contact's Name:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        twelve1 lead
+                    </td>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Board Number:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        7498464
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Contact's Designation:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;     background-color: #c9d8fe;">
+                        Head of Marketing &amp; Communications
+                    </td>
+                    <th style="width:15%; background-color: #ebebeb; font-size: 13px; border: 1px solid black; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Direct Number:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        5654564
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Company:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        VW Credit
+                    </td>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Ext (if any):</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        56156154654
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Industry:</th>
+                    <td style="width:35%; font-size: 12px; border: 1p   x solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Financial Services2
+                    </td>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Cell Number:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        2824561236
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Employees:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        mployees:
+                    </td>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Email:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        twelve@gmail.com1
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Revenue:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Revenue:
+                    </td>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        EA Name:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        A Name:
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Address:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        sector-56 A, CHANDIGARH
+                    </td>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        EA Phone Number:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        9780377166
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        LinkedIn Profile:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        linkedin.com/in/manvir
+                    </td>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        EA Email:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        vermamohan825@gmail.com
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #fff; font-size: 13px; border: 1px solid black; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Prospect Level:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        spect Le
+                    </td>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Website:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Websit
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Prospect Vertical:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Prospect Vertical:
+                    </td>
+                    <th style="width:15%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Opt-in Status:</th>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        dassda
+                    </td>
+                </tr>
+
+            </table>
+            <div class="Prospect_heading" style="background-color: #404040; color: #fff; padding: 10px 10px;">
+                <h5 style="margin: 0;">Company Description</h5>
+            </div>
+            <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
+                <tr>
+                    <td style="width:35%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        <p>dassda</p>
+                    </td>
+                </tr>
+            </table>
+            <div class="Prospect_heading" style="background-color: #404040; color: #fff; padding: 10px 10px;">
+                <h5 style="margin: 0;">and</h5>
+            </div>
+            <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
+                <tr>
+                    <th style="width:20%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Responsibilities:</th>
+                    <td style="width:80%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        asddas
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:20%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Team Size:</th>
+                    <td style="width:80%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;     background-color: #c9d8fe;">
+                        asdsda
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:20%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Pain Areas:</th>
+                    <td style="width:80%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        sda
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:20%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Interest/New Initiatives:</th>
+                    <td style="width:80%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;     background-color: #c9d8fe;">
+                        sdasdadas
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:20%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Budget:</th>
+                    <td style="width:80%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        sdasdadassda
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:20%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Defined Agenda:</th>
+                    <td style="width:80%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;     background-color: #c9d8fe;">
+                        asddas
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:20%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Call Notes:</th>
+                    <td style="width:80%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        <p>dassdasda</p>
+                    </td>
+                </tr>
+            </table>
+            <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
+                <tr>
+                    <td style="width:60%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Does the prospect wish to have a Face to Face meeting or teleconference?</td>
+                    <td style="width:60%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Face to Face meeting
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:60%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Is the contact the decision maker? If No, then who is?</td>
+                    <td style="width:60%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Yes
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:60%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Who else would be the influencers in the decision making process?</td>
+                    <td style="width:60%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        dsaasd
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width:60%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Is the Company already affiliated with any other similar services? If Yes, Name?</td>
+                    <td style="width:60%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        dassda
+                    </td>
+                </tr>
+            </table>
+            <div class="Prospect_heading" style="background-color: #404040; color: #fff; padding: 10px 10px;">
+                <h5 style="margin: 0;">Meeting Information</h5>
+            </div>
+            <table style="width:100%; border: 1px solid black; border-collapse: collapse;">
+                <tr>
+                    <th style="width:20%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Date 1:</th>
+                    <td style="width:30%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        2022-05-06
+                    </td>
+                    <th style="width:20%; background-color: #fff; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Time 1:(24 Hours format)</th>
+                    <td style="width:30%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        21:28 ADDT
+                    </td>
+                </tr>
+                <tr>
+                    <th style="width:20%; background-color: #c9d8fe; font-size: 13px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;">
+                        Date 2:</th>
+                    <td style="width:30%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left;     background-color: #c9d8fe;">
+                        2022-05-27
+                    </td>
+                    <th style="width:20%; background-color: #ebebeb; font-size: 13px; border: 1px solid black; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        Time 2:(24 Hours format)</th>
+                    <td style="width:30%; font-size: 12px; border: 1px solid black; border-collapse: collapse; padding: 10px; text-align: left; background-color: #c9d8fe;">
+                        14:33 BDST
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+
+
+
+
+
+
+</html>
+</body></html>

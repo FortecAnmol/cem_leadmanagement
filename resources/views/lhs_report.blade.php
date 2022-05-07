@@ -22,9 +22,9 @@
     <section class="Prospect_sec">
         <div class="container">
             <div class="logo" style="text-align: center; padding: 20px 0; border-top: 10px solid #d3e215;">
-                <img src="{{ asset('public/admin/assets/images/logo.png') }}">
-
-
+                <img style="height: 1px;width: 1px;"  src="{{ asset('public/admin/assets/images/logo_small.png') }}">
+            
+            
             </div>
             <div class="Prospect_heading" style="background-color: #404040; color: #fff; padding: 10px 10px;">
                 <h5 style="margin: 0;">Prospect Information</h5>
